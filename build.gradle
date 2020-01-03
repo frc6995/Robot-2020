@@ -70,5 +70,5 @@ jar {
 //Modiy the javadoc command so that 1. it creates html5 web page and 2. so that it generates in a custom directory.
 javadoc {
     options.addBooleanOption('html5', true)
-    destinationDir = file("${projectDir}/javadoc")
+    destinationDir = file("${projectDir}/docs")
 }

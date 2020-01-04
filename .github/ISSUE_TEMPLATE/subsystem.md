@@ -22,5 +22,5 @@ All actions of the subsystem (move motor forward, activate light, etc)
 **Constraints**
 A list of constraints on the subsystem such as a limit to motors, or sensors.
 
-**Design**
+**Design (Algorithm)**
 The design of the subsystem.

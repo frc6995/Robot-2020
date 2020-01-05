@@ -18,7 +18,7 @@ import frc.wrappers.NomadTalonSRX;
 public class DrivebaseS implements Subsystem {
   private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(Constants.CAN_ID_DRIVE_LEFT_MASTER);
   private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(Constants.CAN_ID_DRIVE_RIGHT_MASTER);
-  private DifferentialDrive differentialDrive = new DifferentialDrive(leftMasterTalon, rightMasterTalon)
+  private DifferentialDrive differentialDrive = new DifferentialDrive(leftMasterTalon, rightMasterTalon);
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 }

@@ -22,20 +22,3 @@ One navX-MXP gyro connected to the expansion port on the RoboRIO. (Required for 
 One Limelight v2, pointing forward. (Required for vision only)
 
 Additional electronics as required by FIRST (roboRIO, Power Distribution Panel, etc)
-
-On Timing-Critical Programming (for Dummies)
- 
-FRC robots, especially those with more advanced programs
-are systems where accurate timing is important.
-The roboRIO by default runs its code on loops of 20 milliseconds, or 50 times a second.
-However, this timing cannot be depended on for several reasons.
-
-First, the 20 ms is a minimum. The code will take as long as it takes, though overrunning the loop time will prompt a console message. 
-Second and potentially more annoying, Java is not designed for timing-critical systems, especially those with limited memory (roboRIO). 
-Most Java programs regularly create new objects and then stop using them. 
-However, these objects still take up memory, and continuing this can lead to the memory becoming full and the system crashing.
-To solve this, Java semi-randomly runs a “garbage collector” to reclaim memory from unused objects.
-Unfortunately for FRC, this completely freezes the program for up to two seconds, unpredictably and unpreventably.
-
-The best way to stop this is to essentially carve out memory for everything that will be needed at the beginning, and keep reusing them until it is safe to run the garbage collection (usually the end of the match).
-This is the design behind this project. By using static objects for commands, we avoid creating new objects with every command started, and instead reuse the same command whenever it needs to run.

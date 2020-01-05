@@ -66,3 +66,9 @@ jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
+
+//Modiy the javadoc task so that 1. it creates html5 web page and 2. so that it generates in a custom directory.
+javadoc {
+    options.addBooleanOption('html5', true)
+    destinationDir = file("${projectDir}/docs")
+}

@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
-import frc.wrappers.NomadTalonSRX;
-import frc.wrappers.NomadVictorSPX;
+import frc.wrappers.MotorControllers.*;
+
 
 /**
  * Add your docs here.

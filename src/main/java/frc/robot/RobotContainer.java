@@ -8,12 +8,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.BasicAutoCG;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DrivebaseS;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -23,8 +23,11 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DrivebaseS m_drivebaseS = new DrivebaseS();
-  private final BasicAutoCG m_basicAutoCG = new BasicAutoCG();
+  
+  private final DrivebaseS drivebaseS = new DrivebaseS();
+  private final BasicAutoCG basicAutoCG = new BasicAutoCG();
+  private final Joystick stick = new Joystick(Constants.OI_STICK);
+  private final Command driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(stick.getY(), stick.getX()), drivebaseS);
   
 
 
@@ -35,6 +38,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    drivebaseS.setDefaultCommand(driveStickC);
   }
 
   /**
@@ -54,6 +58,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_basicAutoCG;
+    return basicAutoCG;
   }
 }

@@ -26,6 +26,10 @@ public final class Constants {
      */
     public final static int CAN_ID_DRIVE_RIGHT_MASTER = 2;
 
+    public static final int OI_STICK = 0;
+    public static final int STICK_DRIVE_FWD_BACK = 0;
+    public static final int STICK_DRIVE_TURN = 0;
+
     /**
      * An array of slave controller IDs for the left drivebase side.
      */

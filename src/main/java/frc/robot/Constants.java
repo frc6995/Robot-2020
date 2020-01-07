@@ -16,6 +16,11 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    //TODO Adjust these constants for an actual robot.
+    /**
+     * Defines the types of GenericHID controller.
+     */
+    enum CONTROLLER_TYPE {Joystick, Xbox};
     /**
      * The CAN ID for the left master motor controller.
      */
@@ -26,9 +31,25 @@ public final class Constants {
      */
     public final static int CAN_ID_DRIVE_RIGHT_MASTER = 2;
 
-    public static final int OI_STICK = 0;
-    public static final int STICK_DRIVE_FWD_BACK = 0;
-    public static final int STICK_DRIVE_TURN = 0;
+    /**
+     * The GenericHID implementation being used for the driver controller. Can be either Joystick or Xbox
+     */
+    public static final CONTROLLER_TYPE DRIVE_CONTROLLER_TYPE = CONTROLLER_TYPE.Joystick;
+
+    /**
+     * The USB device ID for the drive controller.
+     */
+    public static final int OI_DRIVE_CONTROLLER = 0;
+
+    /**
+     * The axis on the drive controller for driving forward and backward.
+     */
+    public static final int AXIS_DRIVE_FWD_BACK = 0;
+
+    /**
+     * The axis on the drive controller for turning.
+     */
+    public static final int AXIS_DRIVE_TURN = 1;
 
     /**
      * An array of slave controller IDs for the left drivebase side.

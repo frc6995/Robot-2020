@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
 import frc.robot.subsystems.DrivebaseS;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,18 +27,25 @@ public class RobotContainer {
   
   private final DrivebaseS drivebaseS = new DrivebaseS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
-  private final Joystick stick = new Joystick(Constants.OI_STICK);
-  private final Command driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(stick.getY(), stick.getX()), drivebaseS);
-  
-
-
+  private final GenericHID driveController;
+  private final Command driveStickC;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    //Initializes driveController as either a Joystick or Xbox depending on Constants.DRIVE_CONTROLLER_TYPE.
+    if (Constants.DRIVE_CONTROLLER_TYPE == CONTROLLER_TYPE.Joystick) {
+      driveController = new Joystick(Constants.OI_DRIVE_CONTROLLER);
+    }
+    else {
+      driveController = new XboxController(Constants.OI_DRIVE_CONTROLLER);
+    }
+    //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     // Configure the button bindings
     configureButtonBindings();
+
     drivebaseS.setDefaultCommand(driveStickC);
   }
 
@@ -50,7 +58,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
   }
 
-
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

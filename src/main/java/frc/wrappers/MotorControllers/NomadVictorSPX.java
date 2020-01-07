@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 public class NomadVictorSPX extends WPI_VictorSPX{
     /**
      * Constructs a VictorSPX, reverts it to factory default, and sets brake mode.
-     * @param port The CAN ID of this Talon
+     * @param port The CAN ID of this Victor
      */
     public NomadVictorSPX(int port){
         super(port);
@@ -19,7 +19,7 @@ public class NomadVictorSPX extends WPI_VictorSPX{
 
     /**
      * Constructs a VictorSPX, reverts it to factory default, and sets brake mode and inversion status.
-     * @param port The CAN ID of this Talon.
+     * @param port The CAN ID of this Victor.
      * @param inverted True for inverted, false if not.
      */
     public NomadVictorSPX(int port, boolean inverted) {
@@ -28,11 +28,21 @@ public class NomadVictorSPX extends WPI_VictorSPX{
     }
     /**
      * Constructs a VictorSPX, reverts it to factory default, sets brake mode and inversion status, and slaves it to a specified NomadVictorSPX.
-     * @param port The CAN ID of this Talon.
+     * @param port The CAN ID of this Victor.
      * @param inverted True for inverted, false if not.
      * @param master The NomadTalonSRX to follow.
      */    
     public NomadVictorSPX(int port, boolean inverted, NomadTalonSRX master){
+        this(port, inverted);
+        this.follow(master);
+    }
+    /**
+     * Constructs a VictorSPX, reverts it to factory default, sets brake mode and inversion status, and slaves it to a specified NomadVictorSPX.
+     * @param port The CAN ID of this Victor.
+     * @param inverted True for inverted, false if not.
+     * @param master The NomadTalonSRX to follow.
+     */    
+    public NomadVictorSPX(int port, boolean inverted, NomadVictorSPX master){
         this(port, inverted);
         this.follow(master);
     }

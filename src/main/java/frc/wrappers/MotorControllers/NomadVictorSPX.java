@@ -15,6 +15,7 @@ public class NomadVictorSPX extends WPI_VictorSPX{
         super(port);
         this.configFactoryDefault();
         this.setNeutralMode(NeutralMode.Brake);
+        this.setSafetyEnabled(false);
     }
 
     /**

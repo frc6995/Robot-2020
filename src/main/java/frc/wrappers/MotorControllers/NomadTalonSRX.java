@@ -15,6 +15,7 @@ public class NomadTalonSRX extends WPI_TalonSRX{
         super(port);
         this.configFactoryDefault();
         this.setNeutralMode(NeutralMode.Brake);
+        this.setSafetyEnabled(false);
     }
 
     /**

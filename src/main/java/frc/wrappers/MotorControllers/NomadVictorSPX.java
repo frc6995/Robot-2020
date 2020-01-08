@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 /**
- * Add your docs here.
+ * This class is an encapsulation of WPI_VictorSPX that add a couple constructors for forcing common settings.
  */
 public class NomadVictorSPX extends WPI_VictorSPX{
     /**

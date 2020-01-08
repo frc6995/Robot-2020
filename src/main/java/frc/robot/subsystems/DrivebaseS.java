@@ -16,7 +16,7 @@ import frc.wrappers.MotorControllers.*;
 
 
 /**
- * Add your docs here.
+ * This subsystem is for the drivetrain, which is made up of two master Talons and two sets of Victors, each on a side of the drivetrain.
  */
 public class DrivebaseS implements Subsystem {
   /**

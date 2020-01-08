@@ -41,7 +41,7 @@ public class NomadVictorSPX extends WPI_VictorSPX{
      * Constructs a VictorSPX, reverts it to factory default, sets brake mode and inversion status, and slaves it to a specified NomadVictorSPX.
      * @param port The CAN ID of this Victor.
      * @param inverted True for inverted, false if not.
-     * @param master The NomadTalonSRX to follow.
+     * @param master The NomadVictorSPX to follow.
      */    
     public NomadVictorSPX(int port, boolean inverted, NomadVictorSPX master){
         this(port, inverted);

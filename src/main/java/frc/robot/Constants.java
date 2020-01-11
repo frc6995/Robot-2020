@@ -17,12 +17,12 @@ public final class Constants {
     /**
      * The CAN ID for the left master motor controller.
      */
-    public final static int CAN_ID_DRIVE_LEFT_MASTER = 1;
+    public final static int CAN_ID_DRIVE_LEFT_MASTER = 10;
 
     /**
      * The CAN ID for the right master motor controller.
      */
-    public final static int CAN_ID_DRIVE_RIGHT_MASTER = 2;
+    public final static int CAN_ID_DRIVE_RIGHT_MASTER = 11;
 
     /**
      * The GenericHID implementation being used for the driver controller. Can be either Joystick or Xbox
@@ -47,11 +47,11 @@ public final class Constants {
     /**
      * An array of slave controller IDs for the left drivebase side.
      */
-    public static int[] ARRAY_CAN_ID_DRIVE_LEFT = {3};
+    public static int[] ARRAY_CAN_ID_DRIVE_LEFT = {13};
 
     /**
      * An array of slave controller IDs for the right drivebase side.
      */
-    public static int[] ARRAY_CAN_ID_DRIVE_RIGHT = {4};
+    public static int[] ARRAY_CAN_ID_DRIVE_RIGHT = {12};
 
 }

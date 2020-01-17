@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import com.kauailabs.navx.frc.AHRS;
-import com.kauailabs.navx.frc.SerialPort;
+import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.Constants;
 import frc.wrappers.MotorControllers.*;
 
@@ -68,7 +68,7 @@ public class DrivebaseS implements Subsystem {
       rightSlaveVictors.add(new NomadVictorSPX(i, true, rightMasterTalon));
     }
 
-    gyro = new AHRS(SerialPort.kMXP);
+    gyro = new AHRS(SerialPort.Port.kMXP);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
   /**

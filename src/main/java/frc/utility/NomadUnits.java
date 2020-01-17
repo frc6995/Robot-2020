@@ -7,8 +7,14 @@
 
 package frc.utility;
 
+import frc.robot.Constants;
+
 /**
  * Add your docs here.
  */
-public class Units {
+public class NomadUnits {
+
+    public static double DBTicksToMeters (double ticks) {
+        return 28.2735 * ticks / Constants.ENCODER_CNTS_PER_WHEEL_REV;
+    }
 }

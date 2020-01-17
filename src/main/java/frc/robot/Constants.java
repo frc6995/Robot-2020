@@ -44,6 +44,7 @@ public final class Constants {
      */
     public static final int AXIS_DRIVE_TURN = 1;
 
+    //Drivebase Constants
     /**
      * An array of slave controller IDs for the left drivebase side.
      */
@@ -54,4 +55,27 @@ public final class Constants {
      */
     public static int[] ARRAY_CAN_ID_DRIVE_RIGHT = {12};
 
+    /**
+     * Whether or not the gyro is reversed
+     */
+    public static final boolean GYRO_REVERSED = true;
+
+    /**
+     * The number of encoder counts per wheel revolution.
+     */
+    public static final double ENCODER_CNTS_PER_WHEEL_REV = 597.33;
+
+    //Drive characterization constants
+    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
+    // These characterization values MUST be determined either experimentally or theoretically
+    // for *your* robot's drive.
+    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
+    // values for your robot.
+    public static final double ksVolts = 0.22;
+    public static final double kvVoltSecondsPerMeter = 1.98;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+
+    // Example value only - as above, this must be tuned for your drive!
+    public static final double kPDriveVel = 8.5;
+    public static final double kTrackWidthMeters = 0.597;
 }

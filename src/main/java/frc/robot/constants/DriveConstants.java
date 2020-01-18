@@ -1,19 +1,21 @@
-package frc.robot;
+package frc.robot.constants;
+
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants.  This class should not be used for any other purpose.  All constants should be
+ * The DriveConstants class provides a convenient place for teams to hold robot-wide numerical or boolean
+ * DriveConstants.  This class should not be used for any other purpose.  All DriveConstants should be
  * declared globally (i.e. public static).  Do not put anything functional in this class.
  *
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * DriveConstants are needed, to reduce verbosity.
  */
-public final class Constants {
-    //TODO Adjust these constants for an actual robot.
+public final class DriveConstants {
+    //TODO Adjust these DriveConstants for an actual robot.
     /**
      * Defines the types of GenericHID controller.
      */
-    enum CONTROLLER_TYPE {Joystick, Xbox};
+    public enum CONTROLLER_TYPE {Joystick, Xbox};
     /**
      * The CAN ID for the left master motor controller.
      */
@@ -44,7 +46,7 @@ public final class Constants {
      */
     public static final int AXIS_DRIVE_TURN = 1;
 
-    //Drivebase Constants
+    //Drivebase DriveConstants
     /**
      * An array of slave controller IDs for the left drivebase side.
      */
@@ -65,7 +67,7 @@ public final class Constants {
      */
     public static final double ENCODER_CNTS_PER_WHEEL_REV = 597.33;
 
-    //Drive characterization constants
+    //Drive characterization DriveConstants
     // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
     // These characterization values MUST be determined either experimentally or theoretically
     // for *your* robot's drive.
@@ -78,4 +80,5 @@ public final class Constants {
     // Example value only - as above, this must be tuned for your drive!
     public static final double kPDriveVel = 0.0201;
     public static final double kTrackWidthMeters = 0.6032;
+    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
 }

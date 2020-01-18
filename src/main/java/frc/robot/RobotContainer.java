@@ -11,11 +11,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import frc.robot.Constants.CONTROLLER_TYPE;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
+import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.subsystems.DrivebaseS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -28,6 +31,8 @@ public class RobotContainer {
   
   private final DrivebaseS drivebaseS = new DrivebaseS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
+  private final SequentialCommandGroup quarterTurnAutoCG 
+    = new NomadPathFollowerCommandBuilder("Unnamed", drivebaseS).buildPathFollowerCommandGroup();
   private final GenericHID driveController;
   private final Command driveStickC;
 
@@ -35,15 +40,15 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    //Initializes driveController as either a Joystick or Xbox depending on Constants.DRIVE_CONTROLLER_TYPE.
-    if (Constants.DRIVE_CONTROLLER_TYPE == CONTROLLER_TYPE.Joystick) {
-      driveController = new Joystick(Constants.OI_DRIVE_CONTROLLER);
+    //Initializes driveController as either a Joystick or Xbox depending on DriveConstants.DRIVE_CONTROLLER_TYPE.
+    if (DriveConstants.DRIVE_CONTROLLER_TYPE == CONTROLLER_TYPE.Joystick) {
+      driveController = new Joystick(DriveConstants.OI_DRIVE_CONTROLLER);
     }
     else {
-      driveController = new XboxController(Constants.OI_DRIVE_CONTROLLER);
+      driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings
@@ -69,6 +74,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return basicAutoCG;
+    return quarterTurnAutoCG;
   }
 }

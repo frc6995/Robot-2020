@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
-import frc.robot.Constants;
+import frc.robot.constants.DriveConstants;
 import frc.utility.NomadUnits;
 import frc.wrappers.MotorControllers.*;
 
@@ -31,11 +31,11 @@ public class DrivebaseS implements Subsystem {
   /**
    * The left master NomadTalonSRX
    */
-  private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(Constants.CAN_ID_DRIVE_LEFT_MASTER);
+  private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_LEFT_MASTER);
   /**
    * the right master NomadTalonSRX
    */
-  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(Constants.CAN_ID_DRIVE_RIGHT_MASTER, true);
+  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_RIGHT_MASTER, true);
   /**
    * An ArrayList of NomadVictorSPXs for the left side of the drivebase.
    */
@@ -64,10 +64,10 @@ public class DrivebaseS implements Subsystem {
    * Creates a new DrivebaseS.
    */
   public DrivebaseS() {
-    for (int i : Constants.ARRAY_CAN_ID_DRIVE_LEFT) { //assume the slaves are Victor SPXs
+    for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_LEFT) { //assume the slaves are Victor SPXs
       leftSlaveVictors.add(new NomadVictorSPX(i, false, leftMasterTalon));
     }
-    for (int i : Constants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
+    for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
       rightSlaveVictors.add(new NomadVictorSPX(i, true, rightMasterTalon));
     }
 
@@ -186,7 +186,7 @@ public class DrivebaseS implements Subsystem {
    * @return the robot's heading in degrees, from 180 to 180
    */
   public double getHeading() {
-    return Math.IEEEremainder(gyro.getAngle(), 360) * (Constants.GYRO_REVERSED ? -1.0 : 1.0);
+    return Math.IEEEremainder(gyro.getAngle(), 360) * (DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
   }
 
   /**
@@ -195,7 +195,7 @@ public class DrivebaseS implements Subsystem {
    * @return The turn rate of the robot, in degrees per second
    */
   public double getTurnRate() {
-    return gyro.getRate() * (Constants.GYRO_REVERSED ? -1.0 : 1.0);
+    return gyro.getRate() * (DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
   }
 
   /**
@@ -204,7 +204,7 @@ public class DrivebaseS implements Subsystem {
    * @return the left encoder rate in meters per second.
    */
   public double getLeftEncoderRate() {
-    return NomadUnits.DBTicksToMeters((leftMasterTalon.getSelectedSensorVelocity() * Constants.ENCODER_CNTS_PER_WHEEL_REV * 10)); /*because Talon reports per 100ms*/
+    return NomadUnits.DBTicksToMeters((leftMasterTalon.getSelectedSensorVelocity() * DriveConstants.ENCODER_CNTS_PER_WHEEL_REV * 10)); /*because Talon reports per 100ms*/
   }
 
     /**
@@ -213,6 +213,6 @@ public class DrivebaseS implements Subsystem {
    * @return the right encoder rate in meters per second.
    */
   public double getRightEncoderRate() {
-    return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorVelocity() * Constants.ENCODER_CNTS_PER_WHEEL_REV * 10); /* because Talon reports per 100ms */
+    return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorVelocity() * DriveConstants.ENCODER_CNTS_PER_WHEEL_REV * 10); /* because Talon reports per 100ms */
   }
 }

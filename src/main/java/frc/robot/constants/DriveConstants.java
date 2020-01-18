@@ -84,7 +84,7 @@ public final class DriveConstants {
 
     // Example value only - as above, this must be tuned for your drive!
     public static final double kPDriveVel = 0.0201;
-    public static final double kPDriveVelLeft = 0.1001;
+    public static final double kPDriveVelLeft = 0.0201;
     public static final double kPDriveVelRight = 0.0201; 
     public static final double kTrackWidthMeters = 0.6032;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);

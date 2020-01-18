@@ -65,10 +65,10 @@ public class NomadPathFollowerCommandBuilder {
     // An example trajectory to follow.  All units in meters.
     try{
       if(RobotBase.isReal()){
-          trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/" + filename + ".wpilib.json"));
+          trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + filename + ".wpilib.json"));
       } 
       else {
-        trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("src/main/deploy/" + filename + ".wpilib.json"));
+        trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("src/main/deploy/output/" + filename + ".wpilib.json"));
       }    
     } catch (IOException e) {
       System.out.println("Cannot load trajectory file " + filename + ":" + e.getStackTrace());
@@ -84,8 +84,8 @@ public class NomadPathFollowerCommandBuilder {
                                    DriveConstants.kaVoltSecondsSquaredPerMeter),
         DriveConstants.kDriveKinematics,
         drivetrain::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
+        new PIDController(DriveConstants.kPDriveVelLeft, 0, 0),
+        new PIDController(DriveConstants.kPDriveVelRight, 0, 0),
         // RamseteCommand passes volts to the callback
         drivetrain::tankDriveVolts,
         drivetrain

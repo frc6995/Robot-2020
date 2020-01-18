@@ -29,10 +29,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
-  private final DrivebaseS drivebaseS = new DrivebaseS();
+  //changed to public\/
+  public final DrivebaseS drivebaseS = new DrivebaseS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
   private final SequentialCommandGroup quarterTurnAutoCG 
     = new NomadPathFollowerCommandBuilder("Unnamed", drivebaseS).buildPathFollowerCommandGroup();
+    private final SequentialCommandGroup straight2mAutoCG 
+    = new NomadPathFollowerCommandBuilder("Unnamed_0", drivebaseS).buildPathFollowerCommandGroup();  
   private final GenericHID driveController;
   private final Command driveStickC;
 
@@ -48,7 +51,7 @@ public class RobotContainer {
       driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings
@@ -74,6 +77,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return quarterTurnAutoCG;
+    return straight2mAutoCG;
   }
 }

@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
@@ -31,11 +33,11 @@ public class DrivebaseS implements Subsystem {
   /**
    * The left master NomadTalonSRX
    */
-  private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_LEFT_MASTER);
+  private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_LEFT_MASTER, true);
   /**
    * the right master NomadTalonSRX
    */
-  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_RIGHT_MASTER, true);
+  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_RIGHT_MASTER);
   /**
    * An ArrayList of NomadVictorSPXs for the left side of the drivebase.
    */
@@ -65,10 +67,10 @@ public class DrivebaseS implements Subsystem {
    */
   public DrivebaseS() {
     for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_LEFT) { //assume the slaves are Victor SPXs
-      leftSlaveVictors.add(new NomadVictorSPX(i, false, leftMasterTalon));
+      leftSlaveVictors.add(new NomadVictorSPX(i, true, leftMasterTalon));
     }
     for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
-      rightSlaveVictors.add(new NomadVictorSPX(i, true, rightMasterTalon));
+      rightSlaveVictors.add(new NomadVictorSPX(i, false, rightMasterTalon));
     }
 
     gyro = new AHRS(SerialPort.Port.kMXP);
@@ -86,8 +88,13 @@ public class DrivebaseS implements Subsystem {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoder(),
-                      getRightEncoder());
+    odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderMeters(),
+                      getRightEncoderMeters());
+    SmartDashboard.putNumber("leftEncoderMeters", getLeftEncoderMeters());
+    SmartDashboard.putNumber("rightEncoderMeters", getRightEncoderMeters());
+    SmartDashboard.putNumber("leftEncoderRate", getLeftEncoderRate());
+    SmartDashboard.putNumber("rightEncoderRate", getRightEncoderRate());
+    SmartDashboard.putNumber("gyro heading", getHeading());
   }
 
   /**
@@ -143,7 +150,7 @@ public class DrivebaseS implements Subsystem {
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (getLeftEncoder() + getRightEncoder()) / 2.0;
+    return (getLeftEncoderMeters() + getRightEncoderMeters()) / 2.0;
   }
 
   /**
@@ -151,8 +158,8 @@ public class DrivebaseS implements Subsystem {
    *
    * @return the left drive encoder
    */
-  public double getLeftEncoder() {
-    return leftMasterTalon.getSelectedSensorPosition();
+  public double getLeftEncoderMeters() {
+    return NomadUnits.DBTicksToMeters(leftMasterTalon.getSelectedSensorPosition());
   }
 
   /**
@@ -160,8 +167,8 @@ public class DrivebaseS implements Subsystem {
    *
    * @return the right drive encoder
    */
-  public double getRightEncoder() {
-    return rightMasterTalon.getSelectedSensorPosition();
+  public double getRightEncoderMeters() {
+    return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorPosition());
   }
 
   /**
@@ -204,7 +211,7 @@ public class DrivebaseS implements Subsystem {
    * @return the left encoder rate in meters per second.
    */
   public double getLeftEncoderRate() {
-    return NomadUnits.DBTicksToMeters((leftMasterTalon.getSelectedSensorVelocity() * DriveConstants.ENCODER_CNTS_PER_WHEEL_REV * 10)); /*because Talon reports per 100ms*/
+    return NomadUnits.DBTicksToMeters((leftMasterTalon.getSelectedSensorVelocity() * 10)); /*because Talon reports per 100ms*/
   }
 
     /**
@@ -213,6 +220,7 @@ public class DrivebaseS implements Subsystem {
    * @return the right encoder rate in meters per second.
    */
   public double getRightEncoderRate() {
-    return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorVelocity() * DriveConstants.ENCODER_CNTS_PER_WHEEL_REV * 10); /* because Talon reports per 100ms */
+    return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorVelocity() * 10); /* because Talon reports per 100ms */
   }
+
 }

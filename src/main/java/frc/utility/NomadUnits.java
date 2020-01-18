@@ -15,6 +15,6 @@ import frc.robot.constants.DriveConstants;
 public class NomadUnits {
 
     public static double DBTicksToMeters (double ticks) {
-        return 28.2735 * ticks / DriveConstants.ENCODER_CNTS_PER_WHEEL_REV;
+        return Math.PI * DriveConstants.kWheelDiameter * ticks / DriveConstants.ENCODER_CNTS_PER_WHEEL_REV;
     }
 }

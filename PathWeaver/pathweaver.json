@@ -1,8 +1,8 @@
 {
   "lengthUnit": "Meter",
-  "maxVelocity": 4.0,
-  "maxAcceleration": 4.0,
+  "maxVelocity": 1.0,
+  "maxAcceleration": 0.5,
   "wheelBase": 0.6032,
   "gameName": "Destination: Deep Space",
-  "outputDir": "../../Robot-2020/src/main/deploy"
+  "outputDir": "../src/main/deploy"
 }

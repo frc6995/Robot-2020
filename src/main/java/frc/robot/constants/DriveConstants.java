@@ -63,9 +63,13 @@ public final class DriveConstants {
     public static final boolean GYRO_REVERSED = false;
 
     /**
-     * The number of encoder counts per wheel revolution.
+     * The number of encoder counts per encoder revolution.
      */
-    public static final double ENCODER_CNTS_PER_WHEEL_REV = 597.33;
+    public static final double ENCODER_CNTS_PER_REV = 1024;
+    /**
+     * The number of encoder counts per wheel revolution (7 encoder revolutions per 3 wheel revolutions).
+     */
+    public static final double ENCODER_CNTS_PER_WHEEL_REV = ENCODER_CNTS_PER_REV * 7.0 / 3.0;
 
     //Drive characterization DriveConstants
     // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
@@ -76,9 +80,12 @@ public final class DriveConstants {
     public static final double ksVolts = 0.938;
     public static final double kvVoltSecondsPerMeter = 0.565;
     public static final double kaVoltSecondsSquaredPerMeter = 0.129;
+    public static final double kWheelDiameter = 0.1524;
 
     // Example value only - as above, this must be tuned for your drive!
     public static final double kPDriveVel = 0.0201;
+    public static final double kPDriveVelLeft = 0.1001;
+    public static final double kPDriveVelRight = 0.0201; 
     public static final double kTrackWidthMeters = 0.6032;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
 }

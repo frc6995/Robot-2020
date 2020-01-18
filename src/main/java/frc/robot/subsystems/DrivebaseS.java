@@ -15,9 +15,12 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.Constants;
+import frc.utility.NomadUnits;
 import frc.wrappers.MotorControllers.*;
 
 
@@ -201,7 +204,7 @@ public class DrivebaseS implements Subsystem {
    * @return the left encoder rate in meters per second.
    */
   public double getLeftEncoderRate() {
-    return leftMasterTalon.getSelectedSensorVelocity() * Constants.ENCODER_CNTS_PER_WHEEL_REV * 10 /*because Talon reports per 100ms*/;
+    return NomadUnits.DBTicksToMeters((leftMasterTalon.getSelectedSensorVelocity() * Constants.ENCODER_CNTS_PER_WHEEL_REV * 10)); /*because Talon reports per 100ms*/
   }
 
     /**
@@ -210,6 +213,6 @@ public class DrivebaseS implements Subsystem {
    * @return the right encoder rate in meters per second.
    */
   public double getRightEncoderRate() {
-    return rightMasterTalon.getSelectedSensorVelocity() * Constants.ENCODER_CNTS_PER_WHEEL_REV * 10 /*because Talon reports per 100ms*/;
+    return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorVelocity() * Constants.ENCODER_CNTS_PER_WHEEL_REV * 10); /* because Talon reports per 100ms */
   }
 }

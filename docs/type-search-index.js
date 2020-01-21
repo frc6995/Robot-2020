@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"frc.robot","l":"Constants"},{"p":"frc.robot.commands","l":"ExampleCommand"},{"p":"frc.robot.subsystems","l":"ExampleSubsystem"},{"p":"frc.robot","l":"Main"},{"p":"frc.robot","l":"Robot"},{"p":"frc.robot","l":"RobotContainer"}]

@@ -13,7 +13,7 @@ public class NomadBooleanPreference extends NomadPreference {
      * Create a boolean preference with a name and default value
      * and add it to preferences if it doesn't already exist
      * @param name
-     * @param default
+     * @param defaultVal
     */
     public NomadBooleanPreference(String name, boolean defaultVal) {
         defaultValue = defaultVal;

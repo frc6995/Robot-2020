@@ -13,7 +13,7 @@ public class NomadDoublePreference extends NomadPreference {
      * Create a double preference with a name and default value
      * and add it to preferences if it doesn't already exist
      * @param name
-     * @param default
+     * @param defaultVal
     */
     public NomadDoublePreference(String name, double defaultVal) {
         defaultValue = defaultVal;

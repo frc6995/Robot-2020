@@ -13,7 +13,7 @@ public class NomadIntPreference extends NomadPreference {
      * Create an int preference with a name and default value
      * and add it to preferences if it doesn't already exist
      * @param name
-     * @param default
+     * @param defaultVal
     */
     public NomadIntPreference(String name, int defaultVal) {
         defaultValue = defaultVal;

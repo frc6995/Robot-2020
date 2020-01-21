@@ -1,25 +1,25 @@
-package frc.utility;
+package frc.utility.preferences;
 
 import edu.wpi.first.wpilibj.Preferences;
 
 /**
- * A class to create a double type preference.
+ * A class to create a boolean type preference.
  */
-public class NomadDoublePreference extends NomadPreference {
-    public double defaultValue;
+public class NomadBooleanPreference extends NomadPreference {
+    public boolean defaultValue;
     protected String prefName;
 
     /**
-     * Create a double preference with a name and default value
+     * Create a boolean preference with a name and default value
      * and add it to preferences if it doesn't already exist
      * @param name
      * @param default
     */
-    public NomadDoublePreference(String name, double defaultVal) {
+    public NomadBooleanPreference(String name, boolean defaultVal) {
         defaultValue = defaultVal;
         prefName = name;
         if (!Preferences.getInstance().containsKey(prefName)) {
-            Preferences.getInstance().putDouble(prefName, defaultValue);
+            Preferences.getInstance().putBoolean(prefName, defaultValue);
         }
     }
 
@@ -28,12 +28,12 @@ public class NomadDoublePreference extends NomadPreference {
      * whether its using defaults
      * @return value
      */
-    public double getValue() {
+    public boolean getValue() {
         if (isUsingDefaults()) {
             return defaultValue;
         }
         else {
-            return Preferences.getInstance().getDouble(prefName, defaultValue);
+            return Preferences.getInstance().getBoolean(prefName, defaultValue);
         }
     }
 }

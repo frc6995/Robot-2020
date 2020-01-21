@@ -1,4 +1,4 @@
-package frc.utility;
+package frc.utility.preferences;
 
 import edu.wpi.first.wpilibj.Preferences;
 

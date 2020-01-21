@@ -1,4 +1,4 @@
-package frc.utility;
+package frc.utility.preferences;
 
 /**
  * A base class to provide a getter and setter for

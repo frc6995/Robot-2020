@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
 import frc.robot.subsystems.DrivebaseS;
+import frc.robot.subsystems.SparkMaxS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
@@ -27,9 +28,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   private final DrivebaseS drivebaseS = new DrivebaseS();
+  private final SparkMaxS sparkmaxS = new SparkMaxS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
   private final GenericHID driveController;
-  private final Command driveStickC;
+  private final Command driveStickC, sparkVelC, sparkStickC;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -44,6 +46,9 @@ public class RobotContainer {
     }
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
+    
+    sparkStickC = new RunCommand(() -> sparkmaxS.setSpeed(driveController.getRawAxis(2)), sparkmaxS);
+    sparkVelC = new RunCommand(() -> sparkmaxS.setVelocityPID(driveController.getRawAxis(3)), sparkmaxS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings

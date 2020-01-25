@@ -90,4 +90,8 @@ public class NomadPathFollowerCommandBuilder {
 
     return (ramseteCommand.andThen(() -> drivetrain.trajectoryDrive(0, 0)));
   }
+
+  /*public Pose2d getTargetTrajectoryPose(){
+    ;
+  }*/
 }

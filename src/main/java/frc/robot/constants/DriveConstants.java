@@ -60,7 +60,7 @@ public final class DriveConstants {
     /**
      * Whether or not the gyro is reversed
      */
-    public static final boolean GYRO_REVERSED = false;
+    public static final boolean GYRO_REVERSED = true;
 
     /**
      * The number of encoder counts per encoder revolution.

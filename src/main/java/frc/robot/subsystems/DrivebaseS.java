@@ -21,17 +21,19 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frc.robot.Preferences;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.utility.NomadUnits;
 import frc.wrappers.MotorControllers.*;
 
-
 /**
- * This subsystem is for the drivetrain, which is made up of two master Talons and two sets of Victors, each on a side of the drivetrain.
+ * This subsystem is for the drivetrain, which is made up of two master Talons
+ * and two sets of Victors, each on a side of the drivetrain.
  */
 public class DrivebaseS implements Subsystem {
   /**
@@ -42,6 +44,10 @@ public class DrivebaseS implements Subsystem {
    * the right master NomadTalonSRX
    */
   private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_RIGHT_MASTER);
+  /**
+   * The configuration for the Talons.
+   */
+  private TalonSRXConfiguration talonConfig = new TalonSRXConfiguration();
   /**
    * An ArrayList of NomadVictorSPXs for the left side of the drivebase.
    */
@@ -79,6 +85,9 @@ public class DrivebaseS implements Subsystem {
     for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
       rightSlaveVictors.add(new NomadVictorSPX(i, false, rightMasterTalon));
     }
+    talonConfig.slot0.kP = Preferences.drivekP.getValue();
+    leftMasterTalon.config_kP(0, talonConfig.slot0.kP);
+    rightMasterTalon.config_kP(0, talonConfig.slot0.kP);
 
     gyro = new AHRS(SerialPort.Port.kMXP);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
@@ -97,6 +106,7 @@ public class DrivebaseS implements Subsystem {
     // Update the odometry in the periodic block
     odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderMeters(),
                       getRightEncoderMeters());
+    updateTelemetry();
 
   }
 
@@ -247,5 +257,6 @@ public class DrivebaseS implements Subsystem {
     SmartDashboard.putNumber("leftEncoderRate", getLeftEncoderRate());
     SmartDashboard.putNumber("rightEncoderRate", getRightEncoderRate());
     SmartDashboard.putNumber("gyro heading", getHeading());
+    
   }
 }

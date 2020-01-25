@@ -15,7 +15,7 @@ public class SparkMaxS extends SubsystemBase {
   
   private CANPIDController m_pidController;
   private CANEncoder m_encoder;
-  public NomadDoublePreference kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+  public NomadDoublePreference kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, RPM;
   /**
    * Creates a new sparkMaxS.
    */
@@ -36,6 +36,7 @@ public class SparkMaxS extends SubsystemBase {
     kMaxOutput = new NomadDoublePreference("maxOutput", 1); 
     kMinOutput = new NomadDoublePreference("minOutput", -1);
     maxRPM = new NomadDoublePreference("MaxRPM", 5600); //5700 max
+    RPM = new NomadDoublePreference("RPM", 1000); //5700 max
 
     // set PID coefficients
     m_pidController.setP(kP.getValue());
@@ -61,6 +62,12 @@ public class SparkMaxS extends SubsystemBase {
 
   public void setVelocityPID(double setPtJstick) {
     double setPoint = setPtJstick * maxRPM.getValue();
+    m_pidController.setReference(setPoint, ControlType.kVelocity);
+    SmartDashboard.putNumber("SetPoint", setPoint);
+  }
+
+  public void runVelocityPIDrpm() {
+    var setPoint = Math.max(-maxRPM.getValue(), Math.min(maxRPM.getValue(), RPM.getValue())); //make sure rpm is within max rpm
     m_pidController.setReference(setPoint, ControlType.kVelocity);
     SmartDashboard.putNumber("SetPoint", setPoint);
   }

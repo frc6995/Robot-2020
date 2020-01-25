@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import static edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
@@ -17,6 +18,7 @@ import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.SparkMaxS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -30,24 +32,25 @@ public class RobotContainer {
   private final DrivebaseS drivebaseS = new DrivebaseS();
   private final SparkMaxS sparkmaxS = new SparkMaxS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
-  private final GenericHID driveController;
-  private final Command driveStickC, sparkVelC, sparkStickC;
+  private final XboxController driveController;
+  private final Command driveStickC, sparkVelC, sparkStickC, sparkShuffleC;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     //Initializes driveController as either a Joystick or Xbox depending on Constants.DRIVE_CONTROLLER_TYPE.
-    if (Constants.DRIVE_CONTROLLER_TYPE == CONTROLLER_TYPE.Joystick) {
-      driveController = new Joystick(Constants.OI_DRIVE_CONTROLLER);
-    }
-    else {
+    //if (Constants.DRIVE_CONTROLLER_TYPE == CONTROLLER_TYPE.Joystick) {
+    //  driveController = new Joystick(Constants.OI_DRIVE_CONTROLLER);
+    //}
+    //else {
       driveController = new XboxController(Constants.OI_DRIVE_CONTROLLER);
-    }
+    //}
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     
     sparkStickC = new RunCommand(() -> sparkmaxS.setSpeed(driveController.getRawAxis(2)), sparkmaxS);
+    sparkShuffleC = new RunCommand(() -> sparkmaxS.runVelocityPIDrpm(), sparkmaxS);
     sparkVelC = new RunCommand(() -> sparkmaxS.setVelocityPID(driveController.getRawAxis(3)), sparkmaxS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
@@ -55,6 +58,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     drivebaseS.setDefaultCommand(driveStickC);
+    sparkmaxS.setDefaultCommand(sparkVelC);
   }
 
   /**
@@ -64,6 +68,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(driveController, Button.kBumperLeft.value)
+      .whenHeld(sparkStickC, false);
+    
+    new JoystickButton(driveController, Button.kBumperRight.value)
+      .whenHeld(sparkShuffleC, false);
   }
 
   

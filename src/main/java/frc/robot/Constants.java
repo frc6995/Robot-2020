@@ -27,7 +27,7 @@ public final class Constants {
     /**
      * The GenericHID implementation being used for the driver controller. Can be either Joystick or Xbox
      */
-    public static final CONTROLLER_TYPE DRIVE_CONTROLLER_TYPE = CONTROLLER_TYPE.Joystick;
+    public static final CONTROLLER_TYPE DRIVE_CONTROLLER_TYPE = CONTROLLER_TYPE.Xbox;
 
     /**
      * The USB device ID for the drive controller.

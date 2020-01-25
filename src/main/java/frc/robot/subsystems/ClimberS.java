@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotPreferences;
+import frc.utility.preferences.NomadDoublePreference;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 
@@ -19,6 +20,12 @@ public class ClimberS extends SubsystemBase {
   private Solenoid brakeSolenoid = new Solenoid(Constants.PCM_ID_CLIMB_BRAKE);
 
   private DigitalInput magneticLimitSwitch = new DigitalInput(Constants.DIO_CLIMB_MAGNETIC_LIMIT_SWITCH);
+
+  private double countWithinSetPoint = 0;
+
+  public static enum climberLevel {
+    AboveBar, Pullup, Home, reset;
+  }
 
   /**
    * Creates a new ClimberS. This is the elevator 
@@ -43,6 +50,7 @@ public class ClimberS extends SubsystemBase {
     climbMaster.configForwardSoftLimitThreshold(Constants.CLIMB_SOFT_LIMIT);
     climbMaster.configForwardSoftLimitEnable(true);
 
+    //set PID values
     climbMaster.config_kP(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
@@ -83,8 +91,8 @@ public class ClimberS extends SubsystemBase {
 
   /**
    * Sets the elevator power from -1 to 1 but adds Feed Forward
-   * so it will apply enough power to hold in place with an 
-   * input of 0.
+   * to the input so it will apply enough power to hold its 
+   * position with an input of 0.
    * 
    * @param power The power to add Feed Forward to and apply
    */
@@ -121,6 +129,65 @@ public class ClimberS extends SubsystemBase {
     climbMaster.config_IntegralZone(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneDown.getValue());
 
     climbMaster.set(ControlMode.Position, RobotPreferences.pullHeight.getValue());
+  }
+
+  /**
+   * Checks whether the climber is at a given set point.
+   * This must be called continuously to check accurately,
+   * as it measures whether it has been in roughly the 
+   * same spot for 15 loops.<br><br>
+   * Note: Don't forget to call isAtSetPoint({@link climberLevel}.reset)
+   * before checking to make sure the loop count is at 0. (this
+   * returns false)
+   * @param setPoint what {@link climberLevel} to check.
+   * @return whether the climber is at the given set point
+   */
+  public boolean isAtSetPoint(climberLevel setPoint) {
+    double target;
+    switch (setPoint) {
+    case AboveBar:
+      target = RobotPreferences.liftHeight.getValue();
+      break;
+    case Pullup:
+      target = RobotPreferences.pullHeight.getValue();
+      break;
+    case Home:
+      target = 0;
+      break;
+    case reset:
+      target = 0.6995;
+      countWithinSetPoint = 0;
+      break;
+    default:
+      target = 0;
+    }
+
+    if (target != 0.6995) { // target of 0.6995 tells it to automatically return false
+      //increment countWithinSetPoint if its within allowable error.
+      if (Math.abs(target - getError()) < RobotPreferences.climberAllowableError.getValue()) {
+        countWithinSetPoint++;
+      }
+
+      //check if countWithinSetPoint is greater than 15, meaning it is at the set point.
+      if (countWithinSetPoint > 15) {
+        countWithinSetPoint = 0;
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+
+  /**
+   * Returns the error in encoder counts.
+   * @return Error in encoder counts
+   */
+  public int getError() {
+    return climbMaster.getClosedLoopError();
   }
 
   /**

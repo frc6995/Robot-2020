@@ -27,4 +27,6 @@ public final class RobotPreferences {
 
     public static final NomadIntPreference climberIZoneUp = new NomadIntPreference("Climber I zone up", 300);
     public static final NomadIntPreference climberIZoneDown = new NomadIntPreference("Climber I zone down", 300);
+
+    public static final NomadIntPreference climberAllowableError = new NomadIntPreference("Climber Allowable Error", 15);
 }

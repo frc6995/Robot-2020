@@ -10,6 +10,7 @@ package frc.robot.commands.auto;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -72,25 +73,21 @@ public class NomadPathFollowerCommandBuilder {
       }    
     } catch (IOException e) {
       System.out.println("Cannot load trajectory file " + filename + ":" + e.getStackTrace());
-          trajectory = TrajectoryGenerator.generateTrajectory(drivetrain.getPose(), List.of(drivetrain.getPose().getTranslation()), drivetrain.getPose(), config);
+          trajectory = TrajectoryGenerator.generateTrajectory(drivetrain.getPose(), List.of(drivetrain.getPose().getTranslation()), drivetrain.getPose(), config); //trajectory = hold still.
     }      
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         trajectory,
         drivetrain::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
-        new SimpleMotorFeedforward(DriveConstants.ksVolts,
-                                   DriveConstants.kvVoltSecondsPerMeter,
-                                   DriveConstants.kaVoltSecondsSquaredPerMeter),
+        
         DriveConstants.kDriveKinematics,
-        drivetrain::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVelLeft, 0, 0),
-        new PIDController(DriveConstants.kPDriveVelRight, 0, 0),
-        // RamseteCommand passes volts to the callback
-        drivetrain::tankDriveVolts,
+        (BiConsumer<Double,Double>) (Double leftSpeed, Double rightSpeed) -> drivetrain.trajectoryDrive(leftSpeed, rightSpeed),
+        // RamseteCommand passes speed to the callback
+
         drivetrain
     );
 
-    return (ramseteCommand.andThen(() -> drivetrain.tankDriveVolts(0, 0)));
+    return (ramseteCommand.andThen(() -> drivetrain.trajectoryDrive(0, 0)));
   }
 }

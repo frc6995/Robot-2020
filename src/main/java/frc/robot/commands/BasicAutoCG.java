@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class BasicAutoCG extends SequentialCommandGroup {
   /**
-   * Creates a new BasicAutoCG.
+   * Creates a new BasicAutoCG. Placeholder autonomous command 
    */
   public BasicAutoCG() {
     // Add your commands in the super() call, e.g.

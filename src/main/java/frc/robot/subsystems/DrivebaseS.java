@@ -18,9 +18,13 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.utility.NomadUnits;
 import frc.wrappers.MotorControllers.*;
@@ -50,7 +54,6 @@ public class DrivebaseS implements Subsystem {
    * The DifferentialDrive object containing the master Talons.
    */
   private DifferentialDrive differentialDrive = new DifferentialDrive(leftMasterTalon, rightMasterTalon);
-  
   /**
    * Our NavX gyro.
    */
@@ -60,6 +63,10 @@ public class DrivebaseS implements Subsystem {
    * The Odometry object for tracking our position;
    */
   private DifferentialDriveOdometry odometry;
+
+  /**
+   * The NetworkTableEntry for the current gyro heading;
+   */
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   /**
@@ -90,11 +97,7 @@ public class DrivebaseS implements Subsystem {
     // Update the odometry in the periodic block
     odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderMeters(),
                       getRightEncoderMeters());
-    SmartDashboard.putNumber("leftEncoderMeters", getLeftEncoderMeters());
-    SmartDashboard.putNumber("rightEncoderMeters", getRightEncoderMeters());
-    SmartDashboard.putNumber("leftEncoderRate", getLeftEncoderRate());
-    SmartDashboard.putNumber("rightEncoderRate", getRightEncoderRate());
-    SmartDashboard.putNumber("gyro heading", getHeading());
+
   }
 
   /**
@@ -222,5 +225,27 @@ public class DrivebaseS implements Subsystem {
   public double getRightEncoderRate() {
     return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorVelocity() * 10); /* because Talon reports per 100ms */
   }
+  /**
+   * Uses Talon Velocity Control to drive the robot with arbitrary feed forward. Used for auto.
+   * @param leftSpeed Left side speed in meters per second.
+   * @param rightSpeed Right side speed in meters per second.
+   */
+  public void trajectoryDrive(double leftSpeed, double rightSpeed){
+    leftMasterTalon.set(ControlMode.Velocity,
+      NomadUnits.DBMetersToTicks(leftSpeed) / 10,
+      DemandType.ArbitraryFeedForward,
+      AutoConstants.trajectoryFeedForward.calculate(leftSpeed) / 12);
+    rightMasterTalon.set(ControlMode.Velocity,
+      NomadUnits.DBMetersToTicks(rightSpeed) / 10,
+      DemandType.ArbitraryFeedForward,
+      AutoConstants.trajectoryFeedForward.calculate(rightSpeed) / 12);
+  }
 
+  public void updateTelemetry(){
+    SmartDashboard.putNumber("leftEncoderMeters", getLeftEncoderMeters());
+    SmartDashboard.putNumber("rightEncoderMeters", getRightEncoderMeters());
+    SmartDashboard.putNumber("leftEncoderRate", getLeftEncoderRate());
+    SmartDashboard.putNumber("rightEncoderRate", getRightEncoderRate());
+    SmartDashboard.putNumber("gyro heading", getHeading());
+  }
 }

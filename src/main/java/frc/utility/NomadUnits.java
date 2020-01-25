@@ -17,4 +17,8 @@ public class NomadUnits {
     public static double DBTicksToMeters (double ticks) {
         return Math.PI * DriveConstants.kWheelDiameter * ticks / DriveConstants.ENCODER_CNTS_PER_WHEEL_REV;
     }
+
+    public static double DBMetersToTicks (double meters) {
+        return (meters / (DriveConstants.kWheelDiameter * Math.PI) * DriveConstants.ENCODER_CNTS_PER_WHEEL_REV); 
+    }
 }

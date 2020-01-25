@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utility.preferences.NomadDoublePreference;
 
 public class SparkMaxS extends SubsystemBase {
-  CANSparkMax spark = new CANSparkMax(23, MotorType.kBrushless);
+  CANSparkMax spark = new CANSparkMax(25, MotorType.kBrushless);
   
   private CANPIDController m_pidController;
   private CANEncoder m_encoder;

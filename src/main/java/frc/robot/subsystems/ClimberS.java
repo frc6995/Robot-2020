@@ -5,10 +5,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotPreferences;
-import frc.utility.preferences.NomadDoublePreference;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 
@@ -22,6 +22,8 @@ public class ClimberS extends SubsystemBase {
   private DigitalInput magneticLimitSwitch = new DigitalInput(Constants.DIO_CLIMB_MAGNETIC_LIMIT_SWITCH);
 
   private double countWithinSetPoint = 0;
+
+  private SimpleMotorFeedforward dynamicFeedForward;
 
   public static enum climberLevel {
     AboveBar, Pullup, Home, reset;
@@ -60,6 +62,8 @@ public class ClimberS extends SubsystemBase {
  
     climbMaster.configClosedloopRamp(0.7);
     climbMaster.configClosedLoopPeakOutput(Constants.CLIMBER_PID_UP_SLOT, 0.5); //tune me pls
+
+    dynamicFeedForward = new SimpleMotorFeedforward(Constants.CLIMBER_KS, Constants.CLIMBER_KV, Constants.CLIMBER_KA);
   }
 
 
@@ -97,8 +101,10 @@ public class ClimberS extends SubsystemBase {
    * @param power The power to add Feed Forward to and apply
    */
   public void setClimberPowerFeedForward(double power) {
-    setClimberPower(power + RobotPreferences.climberKf.getValue());
+    setClimberPower(power + dynamicFeedForward.calculate(getVelocity()));
   }
+
+
 
   /**
    * This method runs the Elevator PID up to the upper set point in RobotPreferences.
@@ -108,7 +114,8 @@ public class ClimberS extends SubsystemBase {
     climbMaster.config_kP(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
-    climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKf.getValue());
+    climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, dynamicFeedForward.calculate(getVelocity())); //does this work?
+    //climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKf.getValue());
 
     climbMaster.config_IntegralZone(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
@@ -180,6 +187,10 @@ public class ClimberS extends SubsystemBase {
     else {
       return false;
     }
+  }
+
+  public double getVelocity() {
+    return climbMaster.getSelectedSensorVelocity();
   }
 
   /**

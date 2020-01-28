@@ -28,6 +28,9 @@ public class ClimberS extends SubsystemBase {
   public static enum climberLevel {
     AboveBar, Pullup, Home, reset;
   }
+  public static enum brakePosition {
+    Brake, Unbrake;
+  }
 
   /**
    * Creates a new ClimberS. This is the elevator 

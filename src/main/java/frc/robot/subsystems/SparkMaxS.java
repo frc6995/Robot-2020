@@ -36,7 +36,7 @@ public class SparkMaxS extends SubsystemBase {
     kMaxOutput = new NomadDoublePreference("maxOutput", 1); 
     kMinOutput = new NomadDoublePreference("minOutput", -1);
     maxRPM = new NomadDoublePreference("MaxRPM", 5600); //5700 max
-    RPM = new NomadDoublePreference("RPM", 1000); //5700 max
+    RPM = new NomadDoublePreference("RPM", 3000); //5700 max
 
     // set PID coefficients
     m_pidController.setP(kP.getValue());

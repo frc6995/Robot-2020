@@ -196,6 +196,10 @@ public class ClimberS extends SubsystemBase {
     return climbMaster.getSelectedSensorVelocity();
   }
 
+  public double getPosition() {
+    return climbMaster.getSelectedSensorPosition();
+  }
+
   /**
    * Returns the error in encoder counts.
    * @return Error in encoder counts

@@ -12,10 +12,14 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberS.climberLevel;
 
 public class ClimberUpPIDC extends CommandBase {
+  private boolean endAtTarget;
   /**
    * Creates a new ClimberUpPIDC.
+   * @param finishAtSetPoint if true, it ends the command 
+   * at the set point, if false it runs until interrupted
    */
-  public ClimberUpPIDC() {
+  public ClimberUpPIDC(boolean finishAtSetPoint) {
+    this.endAtTarget = finishAtSetPoint;
     addRequirements(RobotContainer.climberS);
   }
 
@@ -40,6 +44,11 @@ public class ClimberUpPIDC extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.climberS.isAtSetPoint(climberLevel.AboveBar);
+    if (this.endAtTarget) {
+      return RobotContainer.climberS.isAtSetPoint(climberLevel.AboveBar);
+    }
+    else {
+      return false;
+    }
   }
 }

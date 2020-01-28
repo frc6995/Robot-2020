@@ -61,6 +61,10 @@ public class ClimberS extends SubsystemBase {
     climbMaster.config_kD(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
     climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKf.getValue());
 
+    climbMaster.configNeutralDeadband(0.001);
+    climbMaster.configMotionCruiseVelocity(533); //I think this will take 15 seconds at cruise velocity to hit the top
+    climbMaster.configMotionAcceleration(533);   //I think this means it takes 1s to get to cruise velocity
+
     climbMaster.config_IntegralZone(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
  
     climbMaster.configClosedloopRamp(0.7);

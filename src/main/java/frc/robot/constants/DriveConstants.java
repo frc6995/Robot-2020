@@ -39,12 +39,12 @@ public final class DriveConstants {
     /**
      * The axis on the drive controller for driving forward and backward.
      */
-    public static final int AXIS_DRIVE_FWD_BACK = 0;
+    public static final int AXIS_DRIVE_FWD_BACK = 1;
 
     /**
      * The axis on the drive controller for turning.
      */
-    public static final int AXIS_DRIVE_TURN = 1;
+    public static final int AXIS_DRIVE_TURN = 0;
 
     //Drivebase DriveConstants
     /**
@@ -72,20 +72,16 @@ public final class DriveConstants {
     public static final double ENCODER_CNTS_PER_WHEEL_REV = ENCODER_CNTS_PER_REV * 7.0 / 3.0;
 
     //Drive characterization DriveConstants
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
-    // for *your* robot's drive.
-    // The Robot Characterization Toolsuite provides a convenient tool for obtaining these
-    // values for your robot.
+
     public static final double ksVolts = 0.938;
     public static final double kvVoltSecondsPerMeter = 0.565;
     public static final double kaVoltSecondsSquaredPerMeter = 0.129;
     public static final double kWheelDiameter = 0.1524;
 
     // Example value only - as above, this must be tuned for your drive!
-    public static final double kPDriveVel = 0.0201;
-    public static final double kPDriveVelLeft = 0.0201;
-    public static final double kPDriveVelRight = 0.0201; 
+    public static final double kPDriveVel = 0.0209;
+    public static final double kPDriveVelLeft = 0.0309;
+    public static final double kPDriveVelRight = 0.0209; 
     public static final double kTrackWidthMeters = 0.6032;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
 }

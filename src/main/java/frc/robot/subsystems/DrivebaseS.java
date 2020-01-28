@@ -9,27 +9,25 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.Preferences;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.utility.NomadUnits;
-import frc.wrappers.MotorControllers.*;
+import frc.wrappers.MotorControllers.NomadTalonSRX;
+import frc.wrappers.MotorControllers.NomadVictorSPX;
 
 /**
  * This subsystem is for the drivetrain, which is made up of two master Talons
@@ -39,7 +37,7 @@ public class DrivebaseS implements Subsystem {
   /**
    * The left master NomadTalonSRX
    */
-  private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_LEFT_MASTER, true);
+  private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_LEFT_MASTER);
   /**
    * the right master NomadTalonSRX
    */
@@ -80,13 +78,14 @@ public class DrivebaseS implements Subsystem {
    */
   public DrivebaseS() {
     for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_LEFT) { //assume the slaves are Victor SPXs
-      leftSlaveVictors.add(new NomadVictorSPX(i, true, leftMasterTalon));
+      leftSlaveVictors.add(new NomadVictorSPX(i, false, leftMasterTalon));
     }
     for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
       rightSlaveVictors.add(new NomadVictorSPX(i, false, rightMasterTalon));
     }
     talonConfig.slot0.kP = Preferences.drivekP.getValue();
     leftMasterTalon.config_kP(0, talonConfig.slot0.kP);
+    leftMasterTalon.setSensorPhase(true);
     rightMasterTalon.config_kP(0, talonConfig.slot0.kP);
 
     gyro = new AHRS(SerialPort.Port.kMXP);
@@ -146,7 +145,7 @@ public class DrivebaseS implements Subsystem {
    */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMasterTalon.setVoltage(leftVolts);
-    rightMasterTalon.setVoltage(rightVolts);
+    rightMasterTalon.setVoltage(-1 * rightVolts); //Inverted to match what diffy drive does
   }
 
   /**
@@ -257,6 +256,8 @@ public class DrivebaseS implements Subsystem {
     SmartDashboard.putNumber("leftEncoderRate", getLeftEncoderRate());
     SmartDashboard.putNumber("rightEncoderRate", getRightEncoderRate());
     SmartDashboard.putNumber("gyro heading", getHeading());
+    leftMasterTalon.config_kP(0, Preferences.drivekP.getValue());
+    rightMasterTalon.config_kP(0, Preferences.drivekP.getValue());
     
   }
 }

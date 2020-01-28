@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.Trajectories;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
@@ -35,7 +36,7 @@ public class RobotContainer {
   private final SequentialCommandGroup quarterTurnAutoCG 
     = new NomadPathFollowerCommandBuilder("Unnamed", drivebaseS).buildPathFollowerCommandGroup();
     private final SequentialCommandGroup straight2mAutoCG 
-    = new NomadPathFollowerCommandBuilder("Unnamed_0", drivebaseS).buildPathFollowerCommandGroup();  
+    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
   private final GenericHID driveController;
   private final Command driveStickC;
 

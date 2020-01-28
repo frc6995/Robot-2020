@@ -13,24 +13,16 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DrivebaseS;
-import frc.robot.constants.AutoConstants;
 
 public class NomadPathFollowerCommandBuilder {
   private DrivebaseS drivetrain;
@@ -46,43 +38,32 @@ public class NomadPathFollowerCommandBuilder {
   }
   
   public SequentialCommandGroup buildPathFollowerCommandGroup() {
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(DriveConstants.ksVolts,
-                                       DriveConstants.kvVoltSecondsPerMeter,
-                                       DriveConstants.kaVoltSecondsSquaredPerMeter),
-            DriveConstants.kDriveKinematics,
-            10);
-
-    // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
-                             AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(DriveConstants.kDriveKinematics)
-            // Apply the voltage constraint
-            .addConstraint(autoVoltageConstraint);
 
     // An example trajectory to follow.  All units in meters.
-    try{
-      if(RobotBase.isReal()){
-          trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + filename + ".wpilib.json"));
-      } 
-      else {
-        trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("src/main/deploy/output/" + filename + ".wpilib.json"));
-      }    
-    } catch (IOException e) {
-      System.out.println("Cannot load trajectory file " + filename + ":" + e.getStackTrace());
-          trajectory = TrajectoryGenerator.generateTrajectory(drivetrain.getPose(), List.of(drivetrain.getPose().getTranslation()), drivetrain.getPose(), config); //trajectory = hold still.
-    }      
-
+    if(filename != null) {
+      try{
+        if(RobotBase.isReal()){
+            trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + filename + ".wpilib.json"));
+        } 
+        else {
+          trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("src/main/deploy/output/" + filename + ".wpilib.json"));
+        }    
+      } catch (IOException e) {
+        System.out.println("Cannot load trajectory file " + filename + ":" + e.getStackTrace());
+            trajectory = TrajectoryGenerator.generateTrajectory(drivetrain.getPose(), List.of(drivetrain.getPose().getTranslation()), drivetrain.getPose(), AutoConstants.trajectoryConfig); //trajectory = hold still.
+      }      
+    }
     RamseteCommand ramseteCommand = new RamseteCommand(
         trajectory,
         drivetrain::getPose,
-        new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+        AutoConstants.ramseteController,
         
         DriveConstants.kDriveKinematics,
-        (BiConsumer<Double,Double>) (Double leftSpeed, Double rightSpeed) -> drivetrain.trajectoryDrive(leftSpeed, rightSpeed),
+        (BiConsumer<Double,Double>) (Double leftSpeed, Double rightSpeed) -> {
+          drivetrain.trajectoryDrive(leftSpeed, -rightSpeed);
+          SmartDashboard.putNumber("leftSpeedSetpoint", leftSpeed);
+          SmartDashboard.putNumber("rightSpeedSetpoint",rightSpeed);
+          },
         // RamseteCommand passes speed to the callback
 
         drivetrain
@@ -91,7 +72,15 @@ public class NomadPathFollowerCommandBuilder {
     return (ramseteCommand.andThen(() -> drivetrain.trajectoryDrive(0, 0)));
   }
 
-  /*public Pose2d getTargetTrajectoryPose(){
-    ;
-  }*/
+
+  /**
+   * Creates a new NomadPathFollowerC.
+   */
+  public NomadPathFollowerCommandBuilder(Trajectory trajectory, DrivebaseS drivebaseS) {
+    drivetrain = drivebaseS;
+    this.trajectory = trajectory;
+    // Create a voltage constraint to ensure we don't accelerate too fast
+  }
+  
+  
 }

@@ -25,14 +25,6 @@ import frc.robot.subsystems.DrivebaseS;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-
-  /**
-   * TODO: 
-   * @author Ari
-   * 
-   * Question:
-   * should these Subsystems be public static instead of private
-   */
   
   public static final DrivebaseS drivebaseS = new DrivebaseS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();

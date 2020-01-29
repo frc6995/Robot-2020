@@ -8,6 +8,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
+/**
+ * VisionAlignC
+ * 
+ * Processes data from Network tables using a Proportional controller
+ * in order to Aim the shooter at the top power port
+ * 
+ * @author Ari Shashivkopanazak
+ */
 public class DrivebaseVisonC extends CommandBase {
 
   /**
@@ -40,8 +48,8 @@ public class DrivebaseVisonC extends CommandBase {
   /**
    * The Target Position
    */
-  private double targetHorizontal = 0.0;
-  private double targetVertical = 0.0;
+  private double horizontalTarget = 0.0;
+  private double verticalTarget = 0.0;
 
   /**
    * Ramps our PID to full over the period of ramp time
@@ -49,19 +57,19 @@ public class DrivebaseVisonC extends CommandBase {
   private double clampValue = 0.0;
 
   /**
-   * adjustment values
+   * Adjustment values
    */
   private double horizontalAdjust = 0.0;
   private double verticalAdjust = 0.0;
 
   /**
-   * the valid range in +/- degrees to call the aiming valid
+   * The valid range in +/- degrees to call the aiming valid
    */
   private double horizontalRange = 1;
   private double verticalRange = 1;
 
   /**
-   * determines if this is the first loop in the target Range
+   * Determines if this is the first loop in the target Range
    */
   private boolean firstLoop = true;
 
@@ -81,8 +89,10 @@ public class DrivebaseVisonC extends CommandBase {
   private Timer rampTimer = new Timer();
 
   /**
-   * Set Pipeline to Vision Align
-   * Turn off LEDs
+   * Allows the Robot to Aim the shooter at the top power port
+   * Default state:
+   * Sets Pipeline to Vision Align
+   * Turns off LEDs
    */
   public DrivebaseVisonC() {
     pipelineEntry.setDouble(Constants.VISION_PIPELINE);
@@ -99,15 +109,15 @@ public class DrivebaseVisonC extends CommandBase {
   }
 
   /**
-   * start the timer
-   * after the first loop, first loop returns false
-   * set the pipline to the vision mode
-   * turns on LED
-   * get horizontal position offset and assign it to a double
-   * get vertical position offset and assign it to a double
-   * the horizontal point we need to adjust to is defined as our horizontal error times our horizontal P Value
-   * the Vertical point we need to adjust to is defined as our vertical error times our vertical P Value
-   * input these values into the drivebases arcadeDrive
+   * Start the timer
+   * After the first loop, first loop returns false
+   * Set the pipline to the vision mode
+   * Turns on LED
+   * Get horizontal position offset and assign it to a double
+   * Get vertical position offset and assign it to a double
+   * The horizontal point we need to adjust to is defined as our horizontal error times our horizontal P Value
+   * The Vertical point we need to adjust to is defined as our vertical error times our vertical P Value
+   * Input these values into the drivebases arcadeDrive
    */
   @Override
   public void execute() {
@@ -121,11 +131,11 @@ public class DrivebaseVisonC extends CommandBase {
     pipelineEntry.setDouble(Constants.VISION_PIPELINE);
     ledModeEntry.setDouble(2);
 
-    targetHorizontal = txEntry.getDouble(0);
-    targetVertical = tyEntry.getDouble(0);
+    horizontalTarget = txEntry.getDouble(0);
+    verticalTarget = tyEntry.getDouble(0);
 
-    horizontalError = -targetHorizontal;
-    verticalError = -targetVertical;
+    horizontalError = -horizontalTarget;
+    verticalError = -verticalTarget;
 
     horizontalAdjust = horizontalError * Constants.VISION_KP_HORIZONTAL;
     verticalAdjust = verticalError * Constants.VISION_KP_VERTICAL;
@@ -157,7 +167,7 @@ public class DrivebaseVisonC extends CommandBase {
    */
   @Override
   public boolean isFinished() {
-    if (Math.abs(targetHorizontal) <= horizontalRange && Math.abs(targetVertical) <= verticalRange) {
+    if (horizontalTarget <= horizontalRange && verticalTarget <= verticalRange) {
       sumInRange++;
     }
     else {
@@ -173,7 +183,7 @@ public class DrivebaseVisonC extends CommandBase {
   }
 
   /**
-   * if within max range and min range, return number
+   * If within max range and min range, return number,
    * else return max range or min range value
    * @param val Min Num
    * @param mag Max Num

@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import frc.robot.Constants.CONTROLLER_TYPE;
-import frc.robot.commands.BasicAutoCG;
-import frc.robot.subsystems.DrivebaseS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.Constants.CONTROLLER_TYPE;
+import frc.robot.commands.Drivebase.BasicAutoCG;
+import frc.robot.subsystems.DrivebaseS;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,8 +25,16 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+
+  /**
+   * TODO: 
+   * @author Ari
+   * 
+   * Question:
+   * should these Subsystems be public static instead of private
+   */
   
-  private final DrivebaseS drivebaseS = new DrivebaseS();
+  public static final DrivebaseS drivebaseS = new DrivebaseS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
   private final GenericHID driveController;
   private final Command driveStickC;

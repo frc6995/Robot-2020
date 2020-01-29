@@ -11,8 +11,10 @@ import frc.robot.Constants;
 import frc.robot.RobotPreferences;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class ClimberS extends SubsystemBase {
+public class ClimberS extends SubsystemBase implements Loggable {
   private NomadTalonSRX climbMaster = new NomadTalonSRX(Constants.CAN_ID_CLIMB_TALON);
   private NomadVictorSPX climbSlave = new NomadVictorSPX(Constants.CAN_ID_CLIMB_VICTOR, false, climbMaster);
 
@@ -21,6 +23,7 @@ public class ClimberS extends SubsystemBase {
 
   private DigitalInput magneticLimitSwitch = new DigitalInput(Constants.DIO_CLIMB_MAGNETIC_LIMIT_SWITCH);
 
+  //@Log.Graph(name = "Climber Count Set Point", columnIndex = 5, rowIndex = 3, height = 3, width = 3)
   private double countWithinSetPoint = 0;
 
   private SimpleMotorFeedforward dynamicFeedForward;
@@ -196,10 +199,12 @@ public class ClimberS extends SubsystemBase {
     }
   }
 
+  @Log.Graph(name="Climber Rate (ticks100ms)", columnIndex = 0, rowIndex = 0, height = 3, width = 5)
   public double getVelocity() {
     return climbMaster.getSelectedSensorVelocity();
   }
 
+  @Log.Graph(name="Climber Position (ticks)", columnIndex = 0, rowIndex = 3, height = 3, width = 5)
   public double getPosition() {
     return climbMaster.getSelectedSensorPosition();
   }
@@ -208,6 +213,7 @@ public class ClimberS extends SubsystemBase {
    * Returns the error in encoder counts.
    * @return Error in encoder counts
    */
+  @Log.Graph(name="Climber Error (ticks)", columnIndex = 5, rowIndex = 3, height = 3, width = 3)
   public int getError() {
     return climbMaster.getClosedLoopError();
   }
@@ -217,6 +223,7 @@ public class ClimberS extends SubsystemBase {
    * so that true is on and false is off.
    * @return the switch flipped status as a boolean.
    */
+  @Log.BooleanBox(name = "Climber Mag Limit", columnIndex = 5, rowIndex = 1, height = 2, width = 2, tabName = "ClimberS")
   public boolean isHomed() {
     return magneticLimitSwitch.get(); //invert? add a not
   }

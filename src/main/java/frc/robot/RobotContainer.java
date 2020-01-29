@@ -15,6 +15,7 @@ import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
 import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.DrivebaseS;
+import io.github.oblarg.oblog.annotations.Log;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
@@ -27,7 +28,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
+  @Log(name="DrivebaseS")
   private final DrivebaseS drivebaseS = new DrivebaseS();
+  @Log(name="ClimberS")
   public static final ClimberS climberS = new ClimberS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
   private final GenericHID driveController;

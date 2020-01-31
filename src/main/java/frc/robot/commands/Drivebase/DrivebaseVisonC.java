@@ -3,6 +3,7 @@ package frc.robot.commands.Drivebase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -19,6 +20,7 @@ import frc.robot.RobotPreferences;
  */
 public class DrivebaseVisonC extends CommandBase {
 
+  PIDController turnPid = new PIDController(RobotPreferences.VISION_KP_HORIZONTAL.getValue(), 0, 0)
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
   /**

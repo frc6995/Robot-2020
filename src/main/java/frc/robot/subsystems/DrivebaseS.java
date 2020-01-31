@@ -60,4 +60,8 @@ public class DrivebaseS implements Subsystem {
   public void arcadeDrive(double driveSpeed, double turnSpeed) {
     differentialDrive.arcadeDrive(driveSpeed, turnSpeed);
   }
+  public void visionDrive(double left, double right) {
+    leftMasterTalon.set(left);
+    rightMasterTalon.set(right);
+  }
 }

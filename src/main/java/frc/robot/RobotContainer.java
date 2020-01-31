@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.Drivebase.BasicAutoCG;
+import frc.robot.commands.Drivebase.DrivebaseVisonC;
 import frc.robot.subsystems.DrivebaseS;
 
 /**
@@ -30,6 +32,7 @@ public class RobotContainer {
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
   private final GenericHID driveController;
   private final Command driveStickC;
+  private final Command visionAlignC = new DrivebaseVisonC();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -43,7 +46,7 @@ public class RobotContainer {
       driveController = new XboxController(Constants.OI_DRIVE_CONTROLLER);
     }
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings
@@ -59,6 +62,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(driveController, 4).whileHeld(visionAlignC);
   }
 
   

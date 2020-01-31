@@ -29,4 +29,12 @@ public final class RobotPreferences {
     public static final NomadIntPreference climberIZoneDown = new NomadIntPreference("Climber I zone down", 300);
 
     public static final NomadIntPreference climberAllowableError = new NomadIntPreference("Climber Allowable Error", 15);
+
+    //Vision Constants
+
+    /**
+     * Horizontal and Vertical Proportional terms
+     */
+    public static final NomadDoublePreference VISION_KP_HORIZONTAL = new NomadDoublePreference("Vision Horizontal kP", 0.04f);
+    public static final NomadDoublePreference VISION_KP_VERTICAL = new NomadDoublePreference("Vision Vertical kP", 0.04f);
 }

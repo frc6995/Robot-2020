@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.RobotPreferences;
 
 /**
  * VisionAlignC
@@ -134,8 +135,8 @@ public class DrivebaseVisonC extends CommandBase {
     horizontalError = -horizontalTarget;
     verticalError = -verticalTarget;
 
-    horizontalAdjust = horizontalError * Constants.VISION_KP_HORIZONTAL;
-    verticalAdjust = verticalError * Constants.VISION_KP_VERTICAL;
+    horizontalAdjust = horizontalError * RobotPreferences.VISION_KP_HORIZONTAL.getValue();
+    verticalAdjust = verticalError * RobotPreferences.VISION_KP_VERTICAL.getValue(); 
 
     clampValue = clamp(rampTimer.get() / Constants.VISION_RAMP_TIME, 1);
 

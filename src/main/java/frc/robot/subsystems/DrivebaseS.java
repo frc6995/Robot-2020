@@ -26,7 +26,7 @@ public class DrivebaseS implements Subsystem {
   /**
    * the right master NomadTalonSRX
    */
-  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(Constants.CAN_ID_DRIVE_RIGHT_MASTER, true);
+  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(Constants.CAN_ID_DRIVE_RIGHT_MASTER);
   /**
    * An ArrayList of NomadVictorSPXs for the left side of the drivebase.
    */
@@ -49,7 +49,7 @@ public class DrivebaseS implements Subsystem {
       leftSlaveVictors.add(new NomadVictorSPX(i, false, leftMasterTalon));
     }
     for (int i : Constants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
-      rightSlaveVictors.add(new NomadVictorSPX(i, true, rightMasterTalon));
+      rightSlaveVictors.add(new NomadVictorSPX(i, false, rightMasterTalon));
     }
   }
   /**

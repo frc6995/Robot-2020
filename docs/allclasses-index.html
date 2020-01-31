@@ -27,6 +27,12 @@
     catch(err) {
     }
 //-->
+var data = {"i0":2,"i1":2,"i2":4,"i3":2,"i4":2,"i5":2,"i6":2,"i7":2,"i8":2,"i9":2,"i10":2};
+var tabs = {65535:["t0","All Classes"],2:["t2","Class Summary"],4:["t3","Enum Summary"]};
+var altColor = "altColor";
+var rowColor = "rowColor";
+var tableTab = "tableTab";
+var activeTableTab = "activeTableTab";
 var pathtoroot = "./";
 var useModuleDirectories = true;
 loadScripts(document, 'script');</script>
@@ -99,7 +105,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <table class="typeSummary">
-<caption><span>Class Summary</span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Classes</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Class Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Enum Summary</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Class</th>
 <th class="colLast" scope="col">Description</th>
@@ -116,12 +122,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </th>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><a href="frc/robot/Constants.CONTROLLER_TYPE.html" title="enum in frc.robot">Constants.CONTROLLER_TYPE</a></td>
+<th class="colLast" scope="row">
+<div class="block">Defines the types of GenericHID controller.</div>
+</th>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><a href="frc/robot/subsystems/DrivebaseS.html" title="class in frc.robot.subsystems">DrivebaseS</a></td>
 <th class="colLast" scope="row">
 <div class="block">This subsystem is for the drivetrain, which is made up of two master Talons and two sets of Victors, each on a side of the drivetrain.</div>
 </th>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><a href="frc/robot/commands/Drivebase/DrivebaseVisonC.html" title="class in frc.robot.commands.Drivebase">DrivebaseVisonC</a></td>
 <th class="colLast" scope="row">
 <div class="block">VisionAlignC
@@ -130,38 +142,38 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
  in order to Aim the shooter at the top power port</div>
 </th>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><a href="frc/robot/Main.html" title="class in frc.robot">Main</a></td>
 <th class="colLast" scope="row">
 <div class="block">Do NOT add any static variables to this class, or any initialization at all.</div>
 </th>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><a href="frc/wrappers/Preferences/NomadPreferences.html" title="class in frc.wrappers.Preferences">NomadPreferences</a></td>
 <th class="colLast" scope="row">
 <div class="block">SuperNURDs encapsulation of RobotPreferences</div>
 </th>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><a href="frc/wrappers/MotorControllers/NomadTalonSRX.html" title="class in frc.wrappers.MotorControllers">NomadTalonSRX</a></td>
 <th class="colLast" scope="row">
 <div class="block">This class is an encapsulation of WPI_TalonSRX that add a couple constructors for forcing common settings.</div>
 </th>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><a href="frc/wrappers/MotorControllers/NomadVictorSPX.html" title="class in frc.wrappers.MotorControllers">NomadVictorSPX</a></td>
 <th class="colLast" scope="row">
 <div class="block">This class is an encapsulation of WPI_VictorSPX that add a couple constructors for forcing common settings.</div>
 </th>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><a href="frc/robot/Robot.html" title="class in frc.robot">Robot</a></td>
 <th class="colLast" scope="row">
 <div class="block">The VM is configured to automatically run this class, and to call the functions corresponding to
  each mode, as described in the TimedRobot documentation.</div>
 </th>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><a href="frc/robot/RobotContainer.html" title="class in frc.robot">RobotContainer</a></td>
 <th class="colLast" scope="row">
 <div class="block">This class is where the bulk of the robot should be declared.</div>

@@ -18,9 +18,6 @@ import frc.robot.RobotContainer;
  */
 public class DrivebaseVisonC extends CommandBase {
 
-  /**
-   * Network Table Values
-   */
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
   /**
@@ -52,9 +49,10 @@ public class DrivebaseVisonC extends CommandBase {
   private double verticalTarget = 0.0;
 
   /**
-   * Ramps our PID to full over the period of ramp time
+   * The valid range in +/- degrees to call the aiming valid
    */
-  private double clampValue = 0.0;
+  private double horizontalRange = 1;
+  private double verticalRange = 1;
 
   /**
    * Adjustment values
@@ -63,10 +61,9 @@ public class DrivebaseVisonC extends CommandBase {
   private double verticalAdjust = 0.0;
 
   /**
-   * The valid range in +/- degrees to call the aiming valid
+   * Ramps our PID to full over the period of ramp time
    */
-  private double horizontalRange = 1;
-  private double verticalRange = 1;
+  private double clampValue = 0.0;
 
   /**
    * Determines if this is the first loop in the target Range

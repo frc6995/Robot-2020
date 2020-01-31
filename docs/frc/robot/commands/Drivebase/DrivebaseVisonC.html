@@ -27,8 +27,8 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10,"i2":10,"i3":10};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var data = {"i0":9,"i1":10,"i2":10,"i3":10,"i4":10};
+var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
 var tableTab = "tableTab";
@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -159,6 +159,128 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
 <!--   -->
 </a>
 <h3>Field Summary</h3>
+<table class="memberSummary">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Field</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clampValue">clampValue</a></span></code></th>
+<td class="colLast">
+<div class="block">Ramps our PID to full over the period of ramp time</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private boolean</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#firstLoop">firstLoop</a></span></code></th>
+<td class="colLast">
+<div class="block">Determines if this is the first loop in the target Range</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#horizontalAdjust">horizontalAdjust</a></span></code></th>
+<td class="colLast">
+<div class="block">Adjustment values</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#horizontalError">horizontalError</a></span></code></th>
+<td class="colLast">
+<div class="block">Error of our offsets</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#horizontalRange">horizontalRange</a></span></code></th>
+<td class="colLast">
+<div class="block">The valid range in +/- degrees to call the aiming valid</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#horizontalTarget">horizontalTarget</a></span></code></th>
+<td class="colLast">
+<div class="block">The Target Position</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>(package private) edu.wpi.first.networktables.NetworkTableEntry</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#ledModeEntry">ledModeEntry</a></span></code></th>
+<td class="colLast">
+<div class="block">Get the current LED mode</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>(package private) edu.wpi.first.networktables.NetworkTableEntry</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pipelineEntry">pipelineEntry</a></span></code></th>
+<td class="colLast">
+<div class="block">Get the current Pipeline, may not need</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private edu.wpi.first.wpilibj.Timer</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#rampTimer">rampTimer</a></span></code></th>
+<td class="colLast">
+<div class="block">General WPILIB Timer</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#sumInRange">sumInRange</a></span></code></th>
+<td class="colLast">
+<div class="block">Increments if we are in the target zone</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>(package private) edu.wpi.first.networktables.NetworkTable</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#table">table</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>(package private) edu.wpi.first.networktables.NetworkTableEntry</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#txEntry">txEntry</a></span></code></th>
+<td class="colLast">
+<div class="block">Get the offset values from network table</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>(package private) edu.wpi.first.networktables.NetworkTableEntry</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tyEntry">tyEntry</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verticalAdjust">verticalAdjust</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verticalError">verticalError</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verticalRange">verticalRange</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>private double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#verticalTarget">verticalTarget</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>private int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#waitInRange">waitInRange</a></span></code></th>
+<td class="colLast">
+<div class="block">Increment limit to be called a successful aim</div>
+</td>
+</tr>
+</table>
 <ul class="blockList">
 <li class="blockList"><a id="fields.inherited.from.class.edu.wpi.first.wpilibj2.command.CommandBase">
 <!--   -->
@@ -203,13 +325,22 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
 </a>
 <h3>Method Summary</h3>
 <table class="memberSummary">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t1" class="tableTab"><span><a href="javascript:show(1);">Static Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th class="colSecond" scope="col">Method</th>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>private static double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clamp(double,double)">clamp</a></span>&#8203;(double&nbsp;val,
+     double&nbsp;mag)</code></th>
+<td class="colLast">
+<div class="block">If within max range and min range, return number,
+ else return max range or min range value</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#end(boolean)">end</a></span>&#8203;(boolean&nbsp;interrupted)</code></th>
 <td class="colLast">
@@ -218,7 +349,7 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
  turn off the leds</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#execute()">execute</a></span>()</code></th>
 <td class="colLast">
@@ -233,14 +364,14 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
  Input these values into the drivebases arcadeDrive</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#initialize()">initialize</a></span>()</code></th>
 <td class="colLast">
 <div class="block">Determine that this is the first loop</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>boolean</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#isFinished()">isFinished</a></span>()</code></th>
 <td class="colLast">
@@ -285,6 +416,190 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="field.detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a id="table">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>table</h4>
+<pre>edu.wpi.first.networktables.NetworkTable table</pre>
+</li>
+</ul>
+<a id="txEntry">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>txEntry</h4>
+<pre>edu.wpi.first.networktables.NetworkTableEntry txEntry</pre>
+<div class="block">Get the offset values from network table</div>
+</li>
+</ul>
+<a id="tyEntry">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>tyEntry</h4>
+<pre>edu.wpi.first.networktables.NetworkTableEntry tyEntry</pre>
+</li>
+</ul>
+<a id="ledModeEntry">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>ledModeEntry</h4>
+<pre>edu.wpi.first.networktables.NetworkTableEntry ledModeEntry</pre>
+<div class="block">Get the current LED mode</div>
+</li>
+</ul>
+<a id="pipelineEntry">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>pipelineEntry</h4>
+<pre>edu.wpi.first.networktables.NetworkTableEntry pipelineEntry</pre>
+<div class="block">Get the current Pipeline, may not need</div>
+</li>
+</ul>
+<a id="horizontalError">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>horizontalError</h4>
+<pre>private&nbsp;double horizontalError</pre>
+<div class="block">Error of our offsets</div>
+</li>
+</ul>
+<a id="verticalError">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>verticalError</h4>
+<pre>private&nbsp;double verticalError</pre>
+</li>
+</ul>
+<a id="horizontalTarget">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>horizontalTarget</h4>
+<pre>private&nbsp;double horizontalTarget</pre>
+<div class="block">The Target Position</div>
+</li>
+</ul>
+<a id="verticalTarget">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>verticalTarget</h4>
+<pre>private&nbsp;double verticalTarget</pre>
+</li>
+</ul>
+<a id="horizontalRange">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>horizontalRange</h4>
+<pre>private&nbsp;double horizontalRange</pre>
+<div class="block">The valid range in +/- degrees to call the aiming valid</div>
+</li>
+</ul>
+<a id="verticalRange">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>verticalRange</h4>
+<pre>private&nbsp;double verticalRange</pre>
+</li>
+</ul>
+<a id="horizontalAdjust">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>horizontalAdjust</h4>
+<pre>private&nbsp;double horizontalAdjust</pre>
+<div class="block">Adjustment values</div>
+</li>
+</ul>
+<a id="verticalAdjust">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>verticalAdjust</h4>
+<pre>private&nbsp;double verticalAdjust</pre>
+</li>
+</ul>
+<a id="clampValue">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>clampValue</h4>
+<pre>private&nbsp;double clampValue</pre>
+<div class="block">Ramps our PID to full over the period of ramp time</div>
+</li>
+</ul>
+<a id="firstLoop">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>firstLoop</h4>
+<pre>private&nbsp;boolean firstLoop</pre>
+<div class="block">Determines if this is the first loop in the target Range</div>
+</li>
+</ul>
+<a id="sumInRange">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>sumInRange</h4>
+<pre>private&nbsp;int sumInRange</pre>
+<div class="block">Increments if we are in the target zone</div>
+</li>
+</ul>
+<a id="waitInRange">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>waitInRange</h4>
+<pre>private&nbsp;int waitInRange</pre>
+<div class="block">Increment limit to be called a successful aim</div>
+</li>
+</ul>
+<a id="rampTimer">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>rampTimer</h4>
+<pre>private&nbsp;edu.wpi.first.wpilibj.Timer rampTimer</pre>
+<div class="block">General WPILIB Timer</div>
+</li>
+</ul>
+</li>
+</ul>
+</section>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <section role="region">
 <ul class="blockList">
@@ -358,7 +673,7 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
 <a id="isFinished()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>isFinished</h4>
 <pre class="methodSignature">public&nbsp;boolean&nbsp;isFinished()</pre>
@@ -366,6 +681,25 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the count to the amount needed to end the command</dd>
+</dl>
+</li>
+</ul>
+<a id="clamp(double,double)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>clamp</h4>
+<pre class="methodSignature">private static&nbsp;double&nbsp;clamp&#8203;(double&nbsp;val,
+                            double&nbsp;mag)</pre>
+<div class="block">If within max range and min range, return number,
+ else return max range or min range value</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>val</code> - Min Num</dd>
+<dd><code>mag</code> - Max Num</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Value between max and min</dd>
 </dl>
 </li>
 </ul>
@@ -427,7 +761,7 @@ extends edu.wpi.first.wpilibj2.command.CommandBase</pre>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>

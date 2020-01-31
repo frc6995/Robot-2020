@@ -45,6 +45,11 @@ public final class Constants {
     public static final int AXIS_DRIVE_TURN = 1;
 
     /**
+     * The axis on the slider controller
+     */    
+     public static final int SLIDER_CONTROLLER = 3;
+
+    /**
      * An array of slave controller IDs for the left drivebase side.
      */
     public static int[] ARRAY_CAN_ID_DRIVE_LEFT = {13};

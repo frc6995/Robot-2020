@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
+import frc.robot.commands.ManualTranslateC;
 import frc.robot.subsystems.DrivebaseS;
+import frc.robot.subsystems.SliderS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 
@@ -28,6 +30,8 @@ public class RobotContainer {
   
   private final DrivebaseS drivebaseS = new DrivebaseS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
+  public static final SliderS sliderS = new SliderS();
+  private final ManualTranslateC manualTranslateC = new ManualTranslateC(sliderS);
   private final GenericHID driveController;
   private final Command driveStickC;
 
@@ -49,7 +53,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    drivebaseS.setDefaultCommand(driveStickC);
+    drivebaseS.setDefaultCommand(driveStickC);  
   }
 
   /**

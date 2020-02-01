@@ -13,7 +13,11 @@ import frc.utility.preferences.NomadPreference;
  */
 public final class Preferences {
     public static NomadDoublePreference drivekP = new NomadDoublePreference("drivekP", 0.1);
-    
+    /**
+     * Horizontal and Vertical Proportional terms
+     */
+    public static final NomadDoublePreference VISION_KP_HORIZONTAL = new NomadDoublePreference("Vision Horizontal kP", 0.04f);
+    public static final NomadDoublePreference VISION_KP_VERTICAL = new NomadDoublePreference("Vision Vertical kP", 0.04f);
     public Preferences(){
         NomadPreference.usePreferences();
     }

@@ -16,4 +16,11 @@ public class Trajectories {
         new Pose2d(
         new Translation2d(2.0, 0.0), new Rotation2d(0)), 
         AutoConstants.trajectoryConfig);
+    public static Trajectory sCurveRight = TrajectoryGenerator.generateTrajectory(
+        new Pose2d(
+        new Translation2d(0.0, 0.0), new Rotation2d(0)),
+        List.of(new Translation2d(1.0, -0.5)), 
+        new Pose2d(
+        new Translation2d(2.0, -1.0), new Rotation2d(0)), 
+        AutoConstants.trajectoryConfig);
 }

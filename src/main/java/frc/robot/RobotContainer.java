@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -16,10 +18,12 @@ import frc.robot.constants.Trajectories;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
+import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.subsystems.DrivebaseS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -33,12 +37,14 @@ public class RobotContainer {
   //changed to public\/
   public final DrivebaseS drivebaseS = new DrivebaseS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
-  private final SequentialCommandGroup quarterTurnAutoCG 
-    = new NomadPathFollowerCommandBuilder("Unnamed", drivebaseS).buildPathFollowerCommandGroup();
+  private final SequentialCommandGroup sCurveRightAutoCG 
+    = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
     private final SequentialCommandGroup straight2mAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
-  private final GenericHID driveController;
+  public final GenericHID driveController;
   private final Command driveStickC;
+  private DoubleSupplier fwdBackAxis;
+  private final DrivebaseVisionC visionAlignC; 
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -51,8 +57,10 @@ public class RobotContainer {
     else {
       driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
+    fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
+    visionAlignC = new DrivebaseVisionC(drivebaseS, fwdBackAxis);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings
@@ -68,6 +76,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(driveController, 4).whileHeld(visionAlignC);
+    
   }
 
   
@@ -78,6 +88,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return straight2mAutoCG;
+    return sCurveRightAutoCG;
   }
 }

@@ -60,7 +60,7 @@ public class NomadPathFollowerCommandBuilder {
         
         DriveConstants.kDriveKinematics,
         (BiConsumer<Double,Double>) (Double leftSpeed, Double rightSpeed) -> {
-          drivetrain.trajectoryDrive(leftSpeed, -rightSpeed);
+          drivetrain.trajectoryDrive(leftSpeed, rightSpeed);
           SmartDashboard.putNumber("leftSpeedSetpoint", leftSpeed);
           SmartDashboard.putNumber("rightSpeedSetpoint",rightSpeed);
           },

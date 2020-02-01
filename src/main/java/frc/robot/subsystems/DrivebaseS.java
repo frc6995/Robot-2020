@@ -41,7 +41,7 @@ public class DrivebaseS implements Subsystem {
   /**
    * the right master NomadTalonSRX
    */
-  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_RIGHT_MASTER);
+  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(DriveConstants.CAN_ID_DRIVE_RIGHT_MASTER, true);
   /**
    * The configuration for the Talons.
    */
@@ -81,13 +81,13 @@ public class DrivebaseS implements Subsystem {
       leftSlaveVictors.add(new NomadVictorSPX(i, false, leftMasterTalon));
     }
     for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
-      rightSlaveVictors.add(new NomadVictorSPX(i, false, rightMasterTalon));
+      rightSlaveVictors.add(new NomadVictorSPX(i, true, rightMasterTalon));
     }
     talonConfig.slot0.kP = Preferences.drivekP.getValue();
-    leftMasterTalon.config_kP(0, talonConfig.slot0.kP);
+    leftMasterTalon.config_kP(0, 0.0309);
     leftMasterTalon.setSensorPhase(true);
-    rightMasterTalon.config_kP(0, talonConfig.slot0.kP);
-
+    rightMasterTalon.config_kP(0, 0.0209);
+    differentialDrive.setRightSideInverted(false);
     gyro = new AHRS(SerialPort.Port.kMXP);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }

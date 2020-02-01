@@ -6,20 +6,19 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 
 public class SliderS extends SubsystemBase {
 
   private NomadVictorSPX sliderVictor= new NomadVictorSPX(Constants.SLIDER_CONTROLLER);
-  private CameraServer server = CameraServer.getInstance();
-  private UsbCamera camera = new UsbCamera("cam0", 0);
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 
-  public SliderS() {        
-    server.startAutomaticCapture(camera);
+  public SliderS() {
+    
   }
 
-  public void Translate(double speed){
+  public void translate(double speed){
     if (speed == 0) sliderVictor.stopMotor();
     else sliderVictor.set(speed);
   }  

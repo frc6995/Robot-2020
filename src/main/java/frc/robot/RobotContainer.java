@@ -50,6 +50,9 @@ public class RobotContainer {
 
     DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
     manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
+
+    DoubleSupplier manualClimbPower = () -> driveController.getRawAxis(5);
+    manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
@@ -62,7 +65,7 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
+   * Use this method to define your button command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.

@@ -82,7 +82,7 @@ loadScripts(document, 'script');</script>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -139,6 +139,31 @@ extends java.lang.Object</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<section role="region">
+<ul class="blockList">
+<li class="blockList"><a id="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="memberSummary">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colSecond" scope="col">Class</th>
+<th class="colLast" scope="col">Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>(package private) static class&nbsp;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="Constants.CONTROLLER_TYPE.html" title="enum in frc.robot">Constants.CONTROLLER_TYPE</a></span></code></th>
+<td class="colLast">
+<div class="block">Defines the types of GenericHID controller.</div>
+</td>
+</tr>
+</table>
+</li>
+</ul>
+</section>
 <!-- =========== FIELD SUMMARY =========== -->
 <section role="region">
 <ul class="blockList">
@@ -183,6 +208,16 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CAN_ID_CLIMB_TALON">CAN_ID_CLIMB_TALON</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CAN_ID_CLIMB_VICTOR">CAN_ID_CLIMB_VICTOR</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CAN_ID_DRIVE_LEFT_MASTER">CAN_ID_DRIVE_LEFT_MASTER</a></span></code></th>
 <td class="colLast">
 <div class="block">The CAN ID for the left master motor controller.</div>
@@ -196,7 +231,37 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static frc.robot.Constants.CONTROLLER_TYPE</code></td>
+<td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CLIMB_SOFT_LIMIT">CLIMB_SOFT_LIMIT</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CLIMBER_KA">CLIMBER_KA</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CLIMBER_KS">CLIMBER_KS</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CLIMBER_KV">CLIMBER_KV</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#CLIMBER_PID_UP_SLOT">CLIMBER_PID_UP_SLOT</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#DIO_CLIMB_MAGNETIC_LIMIT_SWITCH">DIO_CLIMB_MAGNETIC_LIMIT_SWITCH</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static <a href="Constants.CONTROLLER_TYPE.html" title="enum in frc.robot">Constants.CONTROLLER_TYPE</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#DRIVE_CONTROLLER_TYPE">DRIVE_CONTROLLER_TYPE</a></span></code></th>
 <td class="colLast">
 <div class="block">The GenericHID implementation being used for the driver controller.</div>
@@ -207,6 +272,18 @@ extends java.lang.Object</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#OI_DRIVE_CONTROLLER">OI_DRIVE_CONTROLLER</a></span></code></th>
 <td class="colLast">
 <div class="block">The USB device ID for the drive controller.</div>
+</td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#PCM_ID_CLIMB_BRAKE">PCM_ID_CLIMB_BRAKE</a></span></code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static int</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#SLIDER_CONTROLLER">SLIDER_CONTROLLER</a></span></code></th>
+<td class="colLast">
+<div class="block">The axis on the slider controller</div>
 </td>
 </tr>
 </table>
@@ -298,7 +375,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>DRIVE_CONTROLLER_TYPE</h4>
-<pre>public static final&nbsp;frc.robot.Constants.CONTROLLER_TYPE DRIVE_CONTROLLER_TYPE</pre>
+<pre>public static final&nbsp;<a href="Constants.CONTROLLER_TYPE.html" title="enum in frc.robot">Constants.CONTROLLER_TYPE</a> DRIVE_CONTROLLER_TYPE</pre>
 <div class="block">The GenericHID implementation being used for the driver controller. Can be either Joystick or Xbox</div>
 </li>
 </ul>
@@ -344,6 +421,20 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
+<a id="SLIDER_CONTROLLER">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SLIDER_CONTROLLER</h4>
+<pre>public static final&nbsp;int SLIDER_CONTROLLER</pre>
+<div class="block">The axis on the slider controller</div>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.SLIDER_CONTROLLER">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
 <a id="ARRAY_CAN_ID_DRIVE_LEFT">
 <!--   -->
 </a>
@@ -357,11 +448,128 @@ extends java.lang.Object</pre>
 <a id="ARRAY_CAN_ID_DRIVE_RIGHT">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>ARRAY_CAN_ID_DRIVE_RIGHT</h4>
 <pre>public static&nbsp;int[] ARRAY_CAN_ID_DRIVE_RIGHT</pre>
 <div class="block">An array of slave controller IDs for the right drivebase side.</div>
+</li>
+</ul>
+<a id="CAN_ID_CLIMB_TALON">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CAN_ID_CLIMB_TALON</h4>
+<pre>public static final&nbsp;int CAN_ID_CLIMB_TALON</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.CAN_ID_CLIMB_TALON">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="CAN_ID_CLIMB_VICTOR">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CAN_ID_CLIMB_VICTOR</h4>
+<pre>public static final&nbsp;int CAN_ID_CLIMB_VICTOR</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.CAN_ID_CLIMB_VICTOR">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="PCM_ID_CLIMB_BRAKE">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>PCM_ID_CLIMB_BRAKE</h4>
+<pre>public static final&nbsp;int PCM_ID_CLIMB_BRAKE</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.PCM_ID_CLIMB_BRAKE">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="DIO_CLIMB_MAGNETIC_LIMIT_SWITCH">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DIO_CLIMB_MAGNETIC_LIMIT_SWITCH</h4>
+<pre>public static final&nbsp;int DIO_CLIMB_MAGNETIC_LIMIT_SWITCH</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.DIO_CLIMB_MAGNETIC_LIMIT_SWITCH">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="CLIMB_SOFT_LIMIT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CLIMB_SOFT_LIMIT</h4>
+<pre>public static final&nbsp;int CLIMB_SOFT_LIMIT</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.CLIMB_SOFT_LIMIT">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="CLIMBER_PID_UP_SLOT">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CLIMBER_PID_UP_SLOT</h4>
+<pre>public static final&nbsp;int CLIMBER_PID_UP_SLOT</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.CLIMBER_PID_UP_SLOT">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="CLIMBER_KS">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CLIMBER_KS</h4>
+<pre>public static final&nbsp;double CLIMBER_KS</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.CLIMBER_KS">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="CLIMBER_KV">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>CLIMBER_KV</h4>
+<pre>public static final&nbsp;double CLIMBER_KV</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.CLIMBER_KV">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a id="CLIMBER_KA">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>CLIMBER_KA</h4>
+<pre>public static final&nbsp;double CLIMBER_KA</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../constant-values.html#frc.robot.Constants.CLIMBER_KA">Constant Field Values</a></dd>
+</dl>
 </li>
 </ul>
 </li>
@@ -434,7 +642,7 @@ extends java.lang.Object</pre>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>

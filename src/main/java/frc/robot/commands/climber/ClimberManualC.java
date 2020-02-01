@@ -1,52 +1,41 @@
 package frc.robot.commands.climber;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class ClimberHomeC extends CommandBase {
-  private double timeUp;
-  private double count;
-  private boolean finished;
+public class ClimberManualC extends CommandBase {
+  private DoubleSupplier power;
   /**
-   * Creates a new ClimberHomeC.
+   * Creates a new ClimberManualC.
    */
-  public ClimberHomeC() {
+  public ClimberManualC(DoubleSupplier Power) {
     addRequirements(RobotContainer.climberS);
+    power = Power;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timeUp = 0.25;
-    count = 0;
-    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (count < timeUp * 50) {
-      count++;
-      RobotContainer.climberS.setClimberPower(0.3);
-    }
-    else if (!RobotContainer.climberS.isHomed()) {
-      RobotContainer.climberS.setClimberPower(0);
-    }
-    else {
-      
-      finished = true;
-    }
+    double speed = Math.abs(this.power.getAsDouble()) > 0.15 ? this.power.getAsDouble() : 0;
+    RobotContainer.climberS.setClimberPower(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.climberS.resetEncoders();
+    RobotContainer.climberS.setClimberPower(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    return false;
   }
 }

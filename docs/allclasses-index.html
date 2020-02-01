@@ -27,6 +27,12 @@
     catch(err) {
     }
 //-->
+var data = {"i0":2,"i1":2,"i2":2,"i3":2,"i4":2,"i5":4,"i6":4,"i7":2,"i8":2,"i9":4,"i10":2,"i11":2,"i12":2,"i13":2,"i14":2,"i15":2,"i16":2,"i17":2,"i18":2,"i19":2,"i20":2,"i21":2,"i22":2,"i23":2};
+var tabs = {65535:["t0","All Classes"],2:["t2","Class Summary"],4:["t3","Enum Summary"]};
+var altColor = "altColor";
+var rowColor = "rowColor";
+var tableTab = "tableTab";
+var activeTableTab = "activeTableTab";
 var pathtoroot = "./";
 var useModuleDirectories = true;
 loadScripts(document, 'script');</script>
@@ -99,7 +105,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="blockList">
 <li class="blockList">
 <table class="typeSummary">
-<caption><span>Class Summary</span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span id="t0" class="activeTableTab"><span>All Classes</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Class Summary</a></span><span class="tabEnd">&nbsp;</span></span><span id="t3" class="tableTab"><span><a href="javascript:show(4);">Enum Summary</a></span><span class="tabEnd">&nbsp;</span></span></caption>
 <tr>
 <th class="colFirst" scope="col">Class</th>
 <th class="colLast" scope="col">Description</th>
@@ -109,79 +115,129 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <th class="colLast" scope="row">&nbsp;</th>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><a href="frc/robot/commands/climber/ClimberDownPIDC.html" title="class in frc.robot.commands.climber">ClimberDownPIDC</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><a href="frc/robot/commands/climber/ClimberHomeC.html" title="class in frc.robot.commands.climber">ClimberHomeC</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><a href="frc/robot/commands/climber/ClimberPullupCG.html" title="class in frc.robot.commands.climber">ClimberPullupCG</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><a href="frc/robot/subsystems/ClimberS.html" title="class in frc.robot.subsystems">ClimberS</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><a href="frc/robot/subsystems/ClimberS.brakePosition.html" title="enum in frc.robot.subsystems">ClimberS.brakePosition</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><a href="frc/robot/subsystems/ClimberS.climberLevel.html" title="enum in frc.robot.subsystems">ClimberS.climberLevel</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><a href="frc/robot/commands/climber/ClimberUpPIDC.html" title="class in frc.robot.commands.climber">ClimberUpPIDC</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><a href="frc/robot/Constants.html" title="class in frc.robot">Constants</a></td>
 <th class="colLast" scope="row">
 <div class="block">The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  constants.</div>
 </th>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i9" class="rowColor">
+<td class="colFirst"><a href="frc/robot/Constants.CONTROLLER_TYPE.html" title="enum in frc.robot">Constants.CONTROLLER_TYPE</a></td>
+<th class="colLast" scope="row">
+<div class="block">Defines the types of GenericHID controller.</div>
+</th>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><a href="frc/robot/subsystems/DrivebaseS.html" title="class in frc.robot.subsystems">DrivebaseS</a></td>
 <th class="colLast" scope="row">
 <div class="block">This subsystem is for the drivetrain, which is made up of two master Talons and two sets of Victors, each on a side of the drivetrain.</div>
 </th>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><a href="frc/robot/Main.html" title="class in frc.robot">Main</a></td>
 <th class="colLast" scope="row">
 <div class="block">Do NOT add any static variables to this class, or any initialization at all.</div>
 </th>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i12" class="altColor">
+<td class="colFirst"><a href="frc/robot/commands/ManualTranslateC.html" title="class in frc.robot.commands">ManualTranslateC</a></td>
+<th class="colLast" scope="row">
+<div class="block">The command that allows the robot to manually translate on the switch in response to user input.</div>
+</th>
+</tr>
+<tr id="i13" class="rowColor">
 <td class="colFirst"><a href="frc/utility/preferences/NomadBooleanPreference.html" title="class in frc.utility.preferences">NomadBooleanPreference</a></td>
 <th class="colLast" scope="row">
 <div class="block">A class to create a boolean type preference.</div>
 </th>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><a href="frc/utility/preferences/NomadDoublePreference.html" title="class in frc.utility.preferences">NomadDoublePreference</a></td>
 <th class="colLast" scope="row">
 <div class="block">A class to create a double type preference.</div>
 </th>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><a href="frc/utility/preferences/NomadIntPreference.html" title="class in frc.utility.preferences">NomadIntPreference</a></td>
 <th class="colLast" scope="row">
 <div class="block">A class to create an int type preference.</div>
 </th>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><a href="frc/utility/preferences/NomadPreference.html" title="class in frc.utility.preferences">NomadPreference</a></td>
 <th class="colLast" scope="row">
 <div class="block">A base class to provide a getter and setter for
  the useDefaults variable.</div>
 </th>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><a href="frc/wrappers/MotorControllers/NomadTalonSRX.html" title="class in frc.wrappers.MotorControllers">NomadTalonSRX</a></td>
 <th class="colLast" scope="row">
 <div class="block">This class is an encapsulation of WPI_TalonSRX that add a couple constructors for forcing common settings.</div>
 </th>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><a href="frc/wrappers/MotorControllers/NomadVictorSPX.html" title="class in frc.wrappers.MotorControllers">NomadVictorSPX</a></td>
 <th class="colLast" scope="row">
 <div class="block">This class is an encapsulation of WPI_VictorSPX that add a couple constructors for forcing common settings.</div>
 </th>
 </tr>
-<tr id="i10" class="altColor">
-<td class="colFirst"><a href="frc/robot/Preferences.html" title="class in frc.robot">Preferences</a></td>
-<th class="colLast" scope="row">
-<div class="block">The Preferences class provides a convenient place for us to hold robot-wide numerical or boolean
- preferences.</div>
-</th>
-</tr>
-<tr id="i11" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><a href="frc/robot/Robot.html" title="class in frc.robot">Robot</a></td>
 <th class="colLast" scope="row">
 <div class="block">The VM is configured to automatically run this class, and to call the functions corresponding to
  each mode, as described in the TimedRobot documentation.</div>
 </th>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><a href="frc/robot/RobotContainer.html" title="class in frc.robot">RobotContainer</a></td>
 <th class="colLast" scope="row">
 <div class="block">This class is where the bulk of the robot should be declared.</div>
+</th>
+</tr>
+<tr id="i21" class="rowColor">
+<td class="colFirst"><a href="frc/robot/RobotPreferences.html" title="class in frc.robot">RobotPreferences</a></td>
+<th class="colLast" scope="row">
+<div class="block">The Preferences class provides a convenient place for us to hold robot-wide numerical or boolean
+ preferences.</div>
+</th>
+</tr>
+<tr id="i22" class="altColor">
+<td class="colFirst"><a href="frc/robot/commands/climber/SetBrakeC.html" title="class in frc.robot.commands.climber">SetBrakeC</a></td>
+<th class="colLast" scope="row">&nbsp;</th>
+</tr>
+<tr id="i23" class="rowColor">
+<td class="colFirst"><a href="frc/robot/subsystems/SliderS.html" title="class in frc.robot.subsystems">SliderS</a></td>
+<th class="colLast" scope="row">
+<div class="block">The Slider subsystem that enables the robot to translate on the switch.</div>
 </th>
 </tr>
 </table>

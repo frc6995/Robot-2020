@@ -98,6 +98,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul class="horizontal">
 <li><a href="frc/robot/package-tree.html">frc.robot</a>, </li>
 <li><a href="frc/robot/commands/package-tree.html">frc.robot.commands</a>, </li>
+<li><a href="frc/robot/commands/climber/package-tree.html">frc.robot.commands.climber</a>, </li>
 <li><a href="frc/robot/subsystems/package-tree.html">frc.robot.subsystems</a>, </li>
 <li><a href="frc/utility/preferences/package-tree.html">frc.utility.preferences</a>, </li>
 <li><a href="frc/wrappers/MotorControllers/package-tree.html">frc.wrappers.MotorControllers</a></li>
@@ -137,15 +138,21 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </li>
 <li class="circle">edu.wpi.first.wpilibj2.command.CommandBase (implements edu.wpi.first.wpilibj2.command.Command, edu.wpi.first.wpilibj.Sendable)
 <ul>
+<li class="circle">frc.robot.commands.climber.<a href="frc/robot/commands/climber/ClimberDownPIDC.html" title="class in frc.robot.commands.climber"><span class="typeNameLink">ClimberDownPIDC</span></a></li>
+<li class="circle">frc.robot.commands.climber.<a href="frc/robot/commands/climber/ClimberHomeC.html" title="class in frc.robot.commands.climber"><span class="typeNameLink">ClimberHomeC</span></a></li>
+<li class="circle">frc.robot.commands.climber.<a href="frc/robot/commands/climber/ClimberUpPIDC.html" title="class in frc.robot.commands.climber"><span class="typeNameLink">ClimberUpPIDC</span></a></li>
 <li class="circle">edu.wpi.first.wpilibj2.command.CommandGroupBase (implements edu.wpi.first.wpilibj2.command.Command)
 <ul>
 <li class="circle">edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 <ul>
 <li class="circle">frc.robot.commands.<a href="frc/robot/commands/BasicAutoCG.html" title="class in frc.robot.commands"><span class="typeNameLink">BasicAutoCG</span></a></li>
+<li class="circle">frc.robot.commands.climber.<a href="frc/robot/commands/climber/ClimberPullupCG.html" title="class in frc.robot.commands.climber"><span class="typeNameLink">ClimberPullupCG</span></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="circle">frc.robot.commands.<a href="frc/robot/commands/ManualTranslateC.html" title="class in frc.robot.commands"><span class="typeNameLink">ManualTranslateC</span></a></li>
+<li class="circle">frc.robot.commands.climber.<a href="frc/robot/commands/climber/SetBrakeC.html" title="class in frc.robot.commands.climber"><span class="typeNameLink">SetBrakeC</span></a></li>
 </ul>
 </li>
 <li class="circle">frc.robot.<a href="frc/robot/Constants.html" title="class in frc.robot"><span class="typeNameLink">Constants</span></a></li>
@@ -158,7 +165,6 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">frc.utility.preferences.<a href="frc/utility/preferences/NomadIntPreference.html" title="class in frc.utility.preferences"><span class="typeNameLink">NomadIntPreference</span></a></li>
 </ul>
 </li>
-<li class="circle">frc.robot.<a href="frc/robot/Preferences.html" title="class in frc.robot"><span class="typeNameLink">Preferences</span></a></li>
 <li class="circle">edu.wpi.first.wpilibj.RobotBase (implements java.lang.AutoCloseable)
 <ul>
 <li class="circle">edu.wpi.first.wpilibj.IterativeRobotBase
@@ -173,6 +179,29 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </li>
 <li class="circle">frc.robot.<a href="frc/robot/RobotContainer.html" title="class in frc.robot"><span class="typeNameLink">RobotContainer</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/RobotPreferences.html" title="class in frc.robot"><span class="typeNameLink">RobotPreferences</span></a></li>
+<li class="circle">edu.wpi.first.wpilibj2.command.SubsystemBase (implements edu.wpi.first.wpilibj.Sendable, edu.wpi.first.wpilibj2.command.Subsystem)
+<ul>
+<li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/ClimberS.html" title="class in frc.robot.subsystems"><span class="typeNameLink">ClimberS</span></a></li>
+<li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/SliderS.html" title="class in frc.robot.subsystems"><span class="typeNameLink">SliderS</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section role="region">
+<h2 title="Enum Hierarchy">Enum Hierarchy</h2>
+<ul>
+<li class="circle">java.lang.Object
+<ul>
+<li class="circle">java.lang.Enum&lt;E&gt; (implements java.lang.Comparable&lt;T&gt;, java.io.Serializable)
+<ul>
+<li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/ClimberS.brakePosition.html" title="enum in frc.robot.subsystems"><span class="typeNameLink">ClimberS.brakePosition</span></a></li>
+<li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/ClimberS.climberLevel.html" title="enum in frc.robot.subsystems"><span class="typeNameLink">ClimberS.climberLevel</span></a></li>
+<li class="circle">frc.robot.<a href="frc/robot/Constants.CONTROLLER_TYPE.html" title="enum in frc.robot"><span class="typeNameLink">Constants.CONTROLLER_TYPE</span></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

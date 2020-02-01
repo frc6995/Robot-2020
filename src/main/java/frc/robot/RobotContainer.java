@@ -64,6 +64,7 @@ public class RobotContainer {
 
     drivebaseS.setDefaultCommand(driveStickC);
     sliderS.setDefaultCommand(manualTranslateC);
+    climberS.setDefaultCommand(manualClimbC);
   }
 
   /**

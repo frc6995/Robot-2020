@@ -10,6 +10,7 @@ import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
 import frc.robot.subsystems.ClimberS;
 import frc.robot.commands.ManualTranslateC;
+import frc.robot.commands.climber.ClimberManualC;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.SliderS;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -34,6 +35,7 @@ public class RobotContainer {
   private UsbCamera camera = new UsbCamera("cam0", 0);
   private final Command driveStickC;
   private final ManualTranslateC manualTranslateC;
+  private final ClimberManualC manualClimbC;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -52,7 +54,7 @@ public class RobotContainer {
     manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
 
     DoubleSupplier manualClimbPower = () -> driveController.getRawAxis(5);
-    manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
+    manualClimbC = new ClimberManualC(manualClimbPower);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.

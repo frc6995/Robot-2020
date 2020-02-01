@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,6 +14,7 @@ import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.SliderS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import java.util.function.DoubleSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -27,8 +30,10 @@ public class RobotContainer {
   public static final ClimberS climberS = new ClimberS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
   public static final SliderS sliderS = new SliderS();
-  private final ManualTranslateC manualTranslateC = new ManualTranslateC(sliderS, driveController);
+  private CameraServer server = CameraServer.getInstance();
+  private UsbCamera camera = new UsbCamera("cam0", 0);
   private final Command driveStickC;
+  private final ManualTranslateC manualTranslateC;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -41,6 +46,10 @@ public class RobotContainer {
     else {
       driveController = new XboxController(Constants.OI_DRIVE_CONTROLLER);
     }
+    server.startAutomaticCapture(camera);
+
+    DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
+    manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
@@ -48,7 +57,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    drivebaseS.setDefaultCommand(driveStickC);  
+    drivebaseS.setDefaultCommand(driveStickC);
+    sliderS.setDefaultCommand(manualTranslateC);
   }
 
   /**

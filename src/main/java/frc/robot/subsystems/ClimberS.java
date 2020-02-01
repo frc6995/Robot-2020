@@ -192,6 +192,11 @@ public class ClimberS extends SubsystemBase {
     }
   }
 
+  /**
+   * Check the velocity of the encoder connected
+   * to the climber talon. Units are ticks/100ms
+   * @return the velocity of the climber encoder
+   */
   public double getVelocity() {
     return climbMaster.getSelectedSensorVelocity();
   }
@@ -206,6 +211,13 @@ public class ClimberS extends SubsystemBase {
    */
   public int getError() {
     return climbMaster.getClosedLoopError();
+  }
+
+  /**
+   * Set the encoder position to 0
+   */
+  public void resetEncoders() {
+    climbMaster.setSelectedSensorPosition(0);
   }
 
   /**

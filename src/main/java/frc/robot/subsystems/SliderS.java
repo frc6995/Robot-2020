@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 
+/**
+ * The Slider subsystem that enables the robot to translate on the switch.
+ */
 public class SliderS extends SubsystemBase {
-
   private NomadVictorSPX sliderVictor= new NomadVictorSPX(Constants.SLIDER_CONTROLLER);
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 
@@ -18,16 +20,25 @@ public class SliderS extends SubsystemBase {
     CameraServer server = CameraServer.getInstance();
     server.startAutomaticCapture(camera);
   }
-
+/**
+ * Function to translate the robot: positve forward, negative backward.
+ * @param speed how fast the robot should translate
+ */
   public void translate(double speed){
     if (speed == 0) sliderVictor.stopMotor();
     else sliderVictor.set(speed);
   }  
-
+/**
+ * function to get the gyro's angle.
+ * @return returns the angle of the gyro.
+ */
   public double GetGyroAngle(){
     return gyro.getAngle();      
   }
-
+/**
+ * function to get the gyro's rate.
+ * @return returns the rate of the gyro.
+ */
   public double GetGyroRate(){
     return gyro.getRate();
   }

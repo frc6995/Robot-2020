@@ -13,6 +13,8 @@ import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.climber.ClimberManualC;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.SliderS;
+import io.github.oblarg.oblog.Logger;
+import io.github.oblarg.oblog.annotations.Log;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import java.util.function.DoubleSupplier;
@@ -27,10 +29,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   private final GenericHID driveController;
-  private final DrivebaseS drivebaseS = new DrivebaseS();
+  
+  @Log(name="DrivebaseS")
+  public static final DrivebaseS drivebaseS = new DrivebaseS();
+  @Log(name="ClimberS")
   public static final ClimberS climberS = new ClimberS();
-  private final BasicAutoCG basicAutoCG = new BasicAutoCG();
+  @Log(name="SliderS")
   public static final SliderS sliderS = new SliderS();
+
+  private final BasicAutoCG basicAutoCG = new BasicAutoCG();
   private CameraServer server = CameraServer.getInstance();
   private UsbCamera camera = new UsbCamera("cam0", 0);
   private final Command driveStickC;
@@ -64,6 +71,7 @@ public class RobotContainer {
 
     drivebaseS.setDefaultCommand(driveStickC);
     sliderS.setDefaultCommand(manualTranslateC);
+    climberS.setDefaultCommand(manualClimbC);
   }
 
   /**

@@ -66,7 +66,7 @@ public final class Constants {
 
     public static final int PCM_ID_CLIMB_BRAKE = 0;
 
-    public static final int DIO_CLIMB_MAGNETIC_LIMIT_SWITCH = 0;
+    public static final int DIO_CLIMB_LIMIT_SWITCH = 0;
 
     public static final int CLIMB_SOFT_LIMIT = 8000;
 

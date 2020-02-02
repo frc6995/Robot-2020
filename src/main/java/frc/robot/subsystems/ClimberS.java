@@ -11,15 +11,17 @@ import frc.robot.Constants;
 import frc.robot.RobotPreferences;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class ClimberS extends SubsystemBase {
+public class ClimberS extends SubsystemBase implements Loggable{
   private NomadTalonSRX climbMaster = new NomadTalonSRX(Constants.CAN_ID_CLIMB_TALON);
   private NomadVictorSPX climbSlave = new NomadVictorSPX(Constants.CAN_ID_CLIMB_VICTOR, false, climbMaster);
 
   /**A solenoid that controls the friction brake on the elevator. */
   private Solenoid brakeSolenoid = new Solenoid(Constants.PCM_ID_CLIMB_BRAKE);
 
-  private DigitalInput magneticLimitSwitch = new DigitalInput(Constants.DIO_CLIMB_MAGNETIC_LIMIT_SWITCH);
+  private DigitalInput magneticLimitSwitch = new DigitalInput(Constants.DIO_CLIMB_LIMIT_SWITCH);
 
   private double countWithinSetPoint = 0;
 
@@ -197,10 +199,16 @@ public class ClimberS extends SubsystemBase {
    * to the climber talon. Units are ticks/100ms
    * @return the velocity of the climber encoder
    */
+  @Log.Graph(name="Climber Rate (ticks100ms)", columnIndex = 0, rowIndex = 0, height = 3, width = 5)
   public double getVelocity() {
     return climbMaster.getSelectedSensorVelocity();
   }
 
+  /**
+   * 
+   * @return the position of the climber in ticks
+   */
+  @Log.Graph(name="Climber Position (ticks)", columnIndex = 0, rowIndex = 3, height = 3, width = 5)
   public double getPosition() {
     return climbMaster.getSelectedSensorPosition();
   }
@@ -209,6 +217,7 @@ public class ClimberS extends SubsystemBase {
    * Returns the error in encoder counts.
    * @return Error in encoder counts
    */
+  @Log.Graph(name="Climber Error (ticks)", columnIndex = 5, rowIndex = 3, height = 3, width = 3)
   public int getError() {
     return climbMaster.getClosedLoopError();
   }
@@ -225,6 +234,7 @@ public class ClimberS extends SubsystemBase {
    * so that true is on and false is off.
    * @return the switch flipped status as a boolean.
    */
+  @Log.BooleanBox(name = "Climber Limit", columnIndex = 5, rowIndex = 1, height = 2, width = 2, tabName = "ClimberS")
   public boolean isHomed() {
     return magneticLimitSwitch.get(); //invert? add a not
   }

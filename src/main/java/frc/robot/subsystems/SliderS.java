@@ -7,11 +7,12 @@ import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
+import io.github.oblarg.oblog.Loggable;
 
 /**
  * The Slider subsystem that enables the robot to translate on the switch.
  */
-public class SliderS extends SubsystemBase {
+public class SliderS extends SubsystemBase implements Loggable {
   private NomadVictorSPX sliderVictor= new NomadVictorSPX(Constants.SLIDER_CONTROLLER);
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 

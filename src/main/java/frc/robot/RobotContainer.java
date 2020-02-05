@@ -17,6 +17,8 @@ import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import java.util.function.DoubleSupplier;
 
 /**
@@ -43,6 +45,8 @@ public class RobotContainer {
   private final Command driveStickC;
   private final ManualTranslateC manualTranslateC;
   private final ClimberManualC manualClimbC;
+  private final Command climberBrakeOnC;
+  private final Command climberBrakeOffC;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -64,6 +68,9 @@ public class RobotContainer {
     manualClimbC = new ClimberManualC(manualClimbPower);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
+    
+    climberBrakeOnC = new RunCommand(() -> climberS.brake(), climberS);
+    climberBrakeOffC = new RunCommand(() -> climberS.unbrake(), climberS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings
@@ -81,6 +88,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
+    new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
   }
 
   

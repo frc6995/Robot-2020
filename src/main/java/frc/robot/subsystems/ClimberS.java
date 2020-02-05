@@ -19,7 +19,7 @@ public class ClimberS extends SubsystemBase implements Loggable{
   private NomadVictorSPX climbSlave = new NomadVictorSPX(Constants.CAN_ID_CLIMB_VICTOR, false, climbMaster);
 
   /**A solenoid that controls the friction brake on the elevator. */
-  private Solenoid brakeSolenoid = new Solenoid(Constants.PCM_ID_CLIMB_BRAKE);
+  private Solenoid brakeSolenoid = new Solenoid(1, Constants.PCM_ID_CLIMB_BRAKE);
 
   private DigitalInput magneticLimitSwitch = new DigitalInput(Constants.DIO_CLIMB_LIMIT_SWITCH);
 

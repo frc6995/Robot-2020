@@ -44,7 +44,7 @@ private DoubleSupplier slide;
    */
   @Override
   public void execute() {
-    double speed = Math.abs(this.slide.getAsDouble()) > 0.15 ? this.slide.getAsDouble() : 0;
+    double speed = (Math.abs(this.slide.getAsDouble())) > 0.15 ? this.slide.getAsDouble() : 0;
     RobotContainer.sliderS.translate(speed);
   }
 

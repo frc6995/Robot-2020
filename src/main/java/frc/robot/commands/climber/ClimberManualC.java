@@ -24,7 +24,7 @@ public class ClimberManualC extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double speed = Math.abs(this.power.getAsDouble()) > 0.15 ? this.power.getAsDouble() : 0;
+    double speed = (Math.abs(this.power.getAsDouble())) > 0.15 ? this.power.getAsDouble() : 0;
     RobotContainer.climberS.setClimberPower(speed);
   }
 

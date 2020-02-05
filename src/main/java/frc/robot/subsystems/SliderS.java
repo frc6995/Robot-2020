@@ -17,9 +17,6 @@ public class SliderS extends SubsystemBase implements Loggable {
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 
   public SliderS() {
-    final UsbCamera camera = new UsbCamera("cam0", 0);
-    CameraServer server = CameraServer.getInstance();
-    server.startAutomaticCapture(camera);
   }
 /**
  * Function to translate the robot: positve forward, negative backward.

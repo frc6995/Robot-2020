@@ -63,7 +63,7 @@ public final class Constants {
 
     public static final int DIO_CLIMB_LIMIT_SWITCH = 0;
 
-    public static final int CLIMB_SOFT_LIMIT = 69950;
+    public static final int CLIMB_SOFT_LIMIT = 65950;
 
     public static final int CLIMBER_PID_UP_SLOT = 0;
 

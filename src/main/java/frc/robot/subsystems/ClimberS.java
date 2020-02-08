@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -119,8 +120,8 @@ public class ClimberS extends SubsystemBase implements Loggable{
     climbMaster.config_kP(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
-    climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, dynamicFeedForward.calculate(getVelocity())); //does this work?
-    //climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKf.getValue());
+   // climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, dynamicFeedForward.calculate(getVelocity())); //does this work?
+  
 
     climbMaster.config_IntegralZone(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
@@ -176,7 +177,7 @@ public class ClimberS extends SubsystemBase implements Loggable{
 
     if (target != 0.6995) { // target of 0.6995 tells it to automatically return false
       //increment countWithinSetPoint if its within allowable error.
-      if (Math.abs(target - getError()) < RobotPreferences.climberAllowableError.getValue()) {
+      if (Math.abs(getError()) < RobotPreferences.climberAllowableError.getValue()) {
         countWithinSetPoint++;
       }
 

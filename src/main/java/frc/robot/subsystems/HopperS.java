@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotPreferences;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 /**
  * The Subsystem for that holds our balls
@@ -16,10 +17,6 @@ public class HopperS extends SubsystemBase {
    * The solenoid that controls the hopper pistons
    */
   private DoubleSolenoid doubleSolenoid = new DoubleSolenoid(2, 3);
-  /**
-   * The preferenc variable for the motor power
-   */
-  private double motorPower = 0.5;
 
   public HopperS() {
 
@@ -34,8 +31,8 @@ public class HopperS extends SubsystemBase {
  * @param reversed should the motor spin in reverse?
  */
   public void SpinTubes(Boolean reversed){
-    if (reversed) hopperVictor.set(-motorPower);
-    else hopperVictor.set(motorPower);
+    if (reversed) hopperVictor.set(-RobotPreferences.hopperSpeed.getValue());
+    else hopperVictor.set(RobotPreferences.hopperSpeed.getValue());
   }
   /**
    * Stops the hopper motor from spinning

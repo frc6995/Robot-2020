@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.utility.preferences.NomadDoublePreference;
+
 /**
  * The Preferences class provides a convenient place for us to hold robot-wide numerical or boolean
  * preferences.  This class should not be used for any other purpose.  All preferences should be
@@ -9,4 +11,5 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class RobotPreferences {
+    public static final NomadDoublePreference hopperSpeed = new NomadDoublePreference("Hopper Speed", 0.5);
 }

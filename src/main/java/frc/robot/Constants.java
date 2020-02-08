@@ -54,4 +54,5 @@ public final class Constants {
      */
     public static int[] ARRAY_CAN_ID_DRIVE_RIGHT = {12};
 
+    public static int HOPPER_VICTOR_ID = 31;
 }

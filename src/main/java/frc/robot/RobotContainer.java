@@ -65,7 +65,7 @@ public class RobotContainer {
     manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
 
     DoubleSupplier manualClimbPower = () -> driveController.getRawAxis(5);
-    manualClimbC = new ClimberManualC(manualClimbPower);
+    manualClimbC = new ClimberManualC(climberS, manualClimbPower);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     
@@ -90,6 +90,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
+    new JoystickButton(driveController, 2).whenPressed(climberBrakeOnC);
   }
 
   

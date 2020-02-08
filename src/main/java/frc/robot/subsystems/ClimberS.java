@@ -94,8 +94,8 @@ public class ClimberS extends SubsystemBase implements Loggable{
    * @param power The power to apply. It is clamped within (-1,1)
   */
   public void setClimberPower(double power) {
-    var pwr = Math.max(Math.min(power, 1.0), -1.0);
-    climbMaster.set(ControlMode.PercentOutput, pwr);
+    //var pwr = Math.max(Math.min(power, 1.0), -1.0);
+    climbMaster.set(ControlMode.PercentOutput, power);
   }
 
   /**
@@ -236,7 +236,7 @@ public class ClimberS extends SubsystemBase implements Loggable{
    */
   @Log.BooleanBox(name = "Climber Limit", columnIndex = 5, rowIndex = 1, height = 2, width = 2, tabName = "ClimberS")
   public boolean isHomed() {
-    return magneticLimitSwitch.get(); //invert? add a not
+    return !magneticLimitSwitch.get(); //invert? add a not
   }
 
   @Override

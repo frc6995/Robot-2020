@@ -45,11 +45,6 @@ public final class Constants {
     public static final int AXIS_DRIVE_TURN = 1;
 
     /**
-     * The axis on the slider controller
-     */    
-     public static final int SLIDER_CONTROLLER = 20;
-
-    /**
      * An array of slave controller IDs for the left drivebase side.
      */
     public static int[] ARRAY_CAN_ID_DRIVE_LEFT = {13};
@@ -61,19 +56,25 @@ public final class Constants {
 
 
     //Climber Constants
-    public static final int CAN_ID_CLIMB_TALON = 30;
-    public static final int CAN_ID_CLIMB_VICTOR = 25;
+    public static final int CAN_ID_CLIMB_TALON = 20;
+    public static final int CAN_ID_CLIMB_VICTOR = 21;
 
     public static final int PCM_ID_CLIMB_BRAKE = 0;
 
     public static final int DIO_CLIMB_LIMIT_SWITCH = 0;
 
-    public static final int CLIMB_SOFT_LIMIT = 8000;
+    public static final int CLIMB_SOFT_LIMIT = 69950;
 
     public static final int CLIMBER_PID_UP_SLOT = 0;
 
     public static final double CLIMBER_KS = 0;
     public static final double CLIMBER_KV = 0;
     public static final double CLIMBER_KA = 0;
+
+
+    /**
+     * The axis on the slider controller
+     */    
+    public static final int SLIDER_CONTROLLER = 22;
     
 }

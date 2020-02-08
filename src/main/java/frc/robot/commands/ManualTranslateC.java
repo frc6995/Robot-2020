@@ -25,7 +25,7 @@ private DoubleSupplier slide;
   public ManualTranslateC(SliderS sliderS, DoubleSupplier slideAxis) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(sliderS);
-    slide = slideAxis;
+    this.slide = slideAxis;
   }
 
   // Called when the command is initially scheduled.
@@ -44,7 +44,10 @@ private DoubleSupplier slide;
    */
   @Override
   public void execute() {
-    double speed = (Math.abs(this.slide.getAsDouble())) > 0.15 ? this.slide.getAsDouble() : 0;
+    double speed = this.slide.getAsDouble();
+    if  (Math.abs(speed) < 0.1) {
+      speed = 0;
+    }
     RobotContainer.sliderS.translate(speed);
   }
 

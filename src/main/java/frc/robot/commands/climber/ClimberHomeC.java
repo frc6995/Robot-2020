@@ -27,7 +27,7 @@ public class ClimberHomeC extends CommandBase {
   public void execute() {
     if (count < timeUp * 50) {
       count++;
-      RobotContainer.climberS.setClimberPower(0.3);
+      RobotContainer.climberS.setClimberPower(0.1);
     }
     else if (!RobotContainer.climberS.isHomed()) {
       RobotContainer.climberS.setClimberPower(0);

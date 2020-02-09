@@ -12,6 +12,12 @@ package frc.robot.constants;
  */
 public class VisionConstants {
     /**
+     * Horizontal and Vertical Proportional terms
+     */
+    public static final double VISION_KP_HORIZONTAL = 0.04f;
+    public static final double VISION_KP_VERTICAL = 0.04f;
+
+    /**
      * the time per increment in seconds
      */
     public static final double VISION_RAMP_TIME = 0.25;
@@ -19,6 +25,6 @@ public class VisionConstants {
     /**
      * Vision Pipeline Preset, should be in this state at all times
      */
-    public static final double VISION_PIPELINE = 4;
+    public static final double VISION_PIPELINE = 1;
 
 }

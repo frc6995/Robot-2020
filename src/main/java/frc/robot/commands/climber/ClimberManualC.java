@@ -5,24 +5,28 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberS;
+import frc.robot.subsystems.ClimberS.climberLevel;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class ClimberManualC extends CommandBase {
   private DoubleSupplier power;
+  private ClimberS climber;
   /**
    * Creates a new ClimberManualC.
    */
   public ClimberManualC(ClimberS climberS, DoubleSupplier pwr) {
-    addRequirements(climberS);
+    climber = climberS;
+    addRequirements(climber);
     this.power = pwr;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.climberS.setClimberPower(0);
+    climber.setClimberPower(0);
   }
   
 
@@ -31,6 +35,7 @@ public class ClimberManualC extends CommandBase {
   public void execute() {
     //@Log(name="climber Speed")
     double speed = this.power.getAsDouble();
+    
     /*if  (Math.abs(speed) < 0.1) {
       speed = 0;
     }*/

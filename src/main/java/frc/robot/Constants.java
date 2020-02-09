@@ -59,7 +59,7 @@ public final class Constants {
     public static final int CAN_ID_CLIMB_TALON = 20;
     public static final int CAN_ID_CLIMB_VICTOR = 21;
 
-    public static final int PCM_ID_CLIMB_BRAKE = 0;
+    public static final int PCM_ID_CLIMB_BRAKE = 1;
 
     public static final int DIO_CLIMB_LIMIT_SWITCH = 0;
 

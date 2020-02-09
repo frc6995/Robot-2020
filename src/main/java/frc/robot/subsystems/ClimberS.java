@@ -2,11 +2,13 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.Constants;
 import frc.robot.RobotPreferences;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
@@ -67,8 +69,8 @@ public class ClimberS extends SubsystemBase implements Loggable{
  
     climbMaster.configClosedloopRamp(0.7);
     climbMaster.configClosedLoopPeakOutput(Constants.CLIMBER_PID_UP_SLOT, 0.5); //tune me pls
-
     dynamicFeedForward = new SimpleMotorFeedforward(Constants.CLIMBER_KS, Constants.CLIMBER_KV, Constants.CLIMBER_KA);
+
   }
 
 
@@ -94,8 +96,10 @@ public class ClimberS extends SubsystemBase implements Loggable{
    * @param power The power to apply. It is clamped within (-1,1)
   */
   public void setClimberPower(double power) {
-    //var pwr = Math.max(Math.min(power, 1.0), -1.0);
-    climbMaster.set(ControlMode.PercentOutput, power);
+    double pwr = MathUtil.clamp(power, -1, 1);
+    if(isHomed())
+      pwr = MathUtil.clamp(pwr, 0, Math.abs(pwr));
+    climbMaster.set(ControlMode.PercentOutput, pwr);
   }
 
   /**

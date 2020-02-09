@@ -6,11 +6,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
 import frc.robot.subsystems.ClimberS;
 import frc.robot.commands.ManualTranslateC;
+import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
+import frc.robot.commands.climber.ClimberUpPIDC;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.SliderS;
 import io.github.oblarg.oblog.Logger;
@@ -45,9 +48,11 @@ public class RobotContainer {
   private final Command driveStickC;
   private final ManualTranslateC manualTranslateC;
   private final ClimberManualC manualClimbC;
+  private final ClimberHomeC climberHomeC;
   private final Command climberBrakeOnC;
   private final Command climberBrakeOffC;
-
+  private final Command resetEncodersC;
+  private final ClimberUpPIDC climberUpPID;
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -64,13 +69,17 @@ public class RobotContainer {
     DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
     manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
 
-    DoubleSupplier manualClimbPower = () -> driveController.getRawAxis(5);
+    DoubleSupplier manualClimbPower = () -> -driveController.getRawAxis(5);
     manualClimbC = new ClimberManualC(climberS, manualClimbPower);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     
     climberBrakeOnC = new RunCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new RunCommand(() -> climberS.unbrake(), climberS);
+    resetEncodersC = new RunCommand(() -> climberS.resetEncoders(), climberS);
+    climberHomeC = new ClimberHomeC();
+    climberUpPID = new ClimberUpPIDC(true);
+    SmartDashboard.putData(climberUpPID);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings
@@ -90,7 +99,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
-    new JoystickButton(driveController, 2).whenPressed(climberBrakeOnC);
+    new JoystickButton(driveController, 2).whenPressed(climberHomeC);
+    new JoystickButton(driveController, 1).whenPressed(resetEncodersC);
   }
 
   

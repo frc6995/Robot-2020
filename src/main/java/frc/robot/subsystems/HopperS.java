@@ -10,12 +10,13 @@ import frc.wrappers.MotorControllers.NomadVictorSPX;
  */
 public class HopperS extends SubsystemBase {
   /**
-   * The victor that controls the hopper tubes
+   * The victors that controls the hopper tubes
    */
-  private NomadVictorSPX hopperVictor = new NomadVictorSPX(Constants.HOPPER_VICTOR_ID);
+  private NomadVictorSPX hopperVictor1 = new NomadVictorSPX(Constants.HOPPER_VICTOR_1_ID);
+  private NomadVictorSPX hopperVictor2 = new NomadVictorSPX(Constants.HOPPER_VICTOR_2_ID);
   /**
    * The solenoid that controls the hopper pistons
-   */
+   */  
   private DoubleSolenoid doubleSolenoid = new DoubleSolenoid(2, 3);
 
   public HopperS() {
@@ -31,14 +32,21 @@ public class HopperS extends SubsystemBase {
  * @param reversed should the motor spin in reverse?
  */
   public void SpinTubes(Boolean reversed){
-    if (reversed) hopperVictor.set(-RobotPreferences.hopperSpeed.getValue());
-    else hopperVictor.set(RobotPreferences.hopperSpeed.getValue());
+    if (reversed) {
+      hopperVictor1.set(-RobotPreferences.hopperSpeed.getValue());
+      hopperVictor2.set(-RobotPreferences.hopperSpeed.getValue());
+    }
+    else {
+      hopperVictor1.set(RobotPreferences.hopperSpeed.getValue());
+      hopperVictor2.set(RobotPreferences.hopperSpeed.getValue());
+    }
   }
   /**
    * Stops the hopper motor from spinning
    */
   public void StopTubes(){
-    hopperVictor.stopMotor();
+    hopperVictor1.stopMotor();
+    hopperVictor2.stopMotor();
   }
   /**
    * Extends the pistons, preventing ball flow through the hopper

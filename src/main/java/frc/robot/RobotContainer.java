@@ -19,6 +19,7 @@ import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.IntakeS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -67,14 +68,14 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
+   * Use this method to define your button-&gt;command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //new Joystick(3).whenpressed(intakeDeployC);
-    //new Joystick(8).whenpressed(intakeRetractC);
+    new JoystickButton(driveController, 3).whenPressed(intakeDeployC);
+    new JoystickButton(driveController, 8).whenPressed(intakeRetractC);
   }
 
   

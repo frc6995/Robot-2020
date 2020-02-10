@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
+import frc.robot.commands.Slider.IntakeDeployC;
+import frc.robot.commands.Slider.IntakeRetractC;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.IntakeS;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,11 +29,13 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
-  @log(name="IntakeS");
+  @log(name="IntakeS")
   public final static IntakeS intakeS = new IntakeS();
   
   private final DrivebaseS drivebaseS = new DrivebaseS();
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
+  private final IntakeDeployC intakeDeployC;
+  private final IntakeRetractC intakeRetractC;
   private final GenericHID driveController;
   private final Command driveStickC;
 
@@ -50,10 +54,16 @@ public class RobotContainer {
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
+    intakeDeployC = new IntakeDeployC();
+    intakeRetractC = new IntakeRetractC();
+
     // Configure the button bindings
     configureButtonBindings();
 
     drivebaseS.setDefaultCommand(driveStickC);
+
+    // defaults to Retracted state
+    intakeS.setDefaultCommand(intakeRetractC);
   }
 
   /**
@@ -63,6 +73,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //new Joystick(3).whenpressed(intakeDeployC);
+    //new Joystick(8).whenpressed(intakeRetractC);
   }
 
   

@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10};
+var data = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -138,7 +138,8 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre>public class <span class="typeNameLabel">DrivebaseS</span>
 extends java.lang.Object
 implements edu.wpi.first.wpilibj2.command.Subsystem</pre>
-<div class="block">This subsystem is for the drivetrain, which is made up of two master Talons and two sets of Victors, each on a side of the drivetrain.</div>
+<div class="block">This subsystem is for the drivetrain, which is made up of two master Talons
+ and two sets of Victors, each on a side of the drivetrain.</div>
 </li>
 </ul>
 </div>
@@ -190,6 +191,123 @@ implements edu.wpi.first.wpilibj2.command.Subsystem</pre>
 <div class="block">Calls the DifferentialDrive arcadeDrive method</div>
 </td>
 </tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAverageEncoderDistance()">getAverageEncoderDistance</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets the average distance of the two encoders.</div>
+</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getHeading()">getHeading</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the heading of the robot.</div>
+</td>
+</tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeftEncoderMeters()">getLeftEncoderMeters</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets the left drive encoder.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getLeftEncoderRate()">getLeftEncoderRate</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the left encoder rate in meters per second.</div>
+</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>edu.wpi.first.wpilibj.geometry.Pose2d</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getPose()">getPose</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the currently-estimated pose of the robot.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRightEncoderMeters()">getRightEncoderMeters</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Gets the right drive encoder.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getRightEncoderRate()">getRightEncoderRate</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the right encoder rate in meters per second.</div>
+</td>
+</tr>
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>double</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTurnRate()">getTurnRate</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the turn rate of the robot.</div>
+</td>
+</tr>
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getWheelSpeeds()">getWheelSpeeds</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Returns the current wheel speeds of the robot.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#periodic()">periodic</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i11" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetEncoders()">resetEncoders</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Resets the drive encoders to currently read a position of 0.</div>
+</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#resetOdometry(edu.wpi.first.wpilibj.geometry.Pose2d)">resetOdometry</a></span>&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;pose)</code></th>
+<td class="colLast">
+<div class="block">Resets the odometry to the specified pose.</div>
+</td>
+</tr>
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMaxOutput(double)">setMaxOutput</a></span>&#8203;(double&nbsp;maxOutput)</code></th>
+<td class="colLast">
+<div class="block">Sets the max output of the drive.</div>
+</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#tankDriveVolts(double,double)">tankDriveVolts</a></span>&#8203;(double&nbsp;leftVolts,
+              double&nbsp;rightVolts)</code></th>
+<td class="colLast">
+<div class="block">Controls the left and right sides of the drive directly with voltages.</div>
+</td>
+</tr>
+<tr id="i15" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#trajectoryDrive(double,double)">trajectoryDrive</a></span>&#8203;(double&nbsp;leftSpeed,
+               double&nbsp;rightSpeed)</code></th>
+<td class="colLast">
+<div class="block">Uses Talon Velocity Control to drive the robot with arbitrary feed forward.</div>
+</td>
+</tr>
+<tr id="i16" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#updateTelemetry()">updateTelemetry</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i17" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#zeroHeading()">zeroHeading</a></span>()</code></th>
+<td class="colLast">
+<div class="block">Zeroes the heading of the robot.</div>
+</td>
+</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a id="methods.inherited.from.class.java.lang.Object">
@@ -203,7 +321,7 @@ implements edu.wpi.first.wpilibj2.command.Subsystem</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;edu.wpi.first.wpilibj2.command.Subsystem</h3>
-<code>getCurrentCommand, getDefaultCommand, periodic, register, setDefaultCommand</code></li>
+<code>getCurrentCommand, getDefaultCommand, register, setDefaultCommand</code></li>
 </ul>
 </li>
 </ul>
@@ -244,7 +362,7 @@ implements edu.wpi.first.wpilibj2.command.Subsystem</pre>
 <a id="arcadeDrive(double,double)">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>arcadeDrive</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;arcadeDrive&#8203;(double&nbsp;driveSpeed,
@@ -255,6 +373,234 @@ implements edu.wpi.first.wpilibj2.command.Subsystem</pre>
 <dd><code>driveSpeed</code> - -1 to 1, forward-backward speed.</dd>
 <dd><code>turnSpeed</code> - -1 to 1, turning speed.</dd>
 </dl>
+</li>
+</ul>
+<a id="periodic()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>periodic</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;periodic()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>periodic</code>&nbsp;in interface&nbsp;<code>edu.wpi.first.wpilibj2.command.Subsystem</code></dd>
+</dl>
+</li>
+</ul>
+<a id="getPose()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPose</h4>
+<pre class="methodSignature">public&nbsp;edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;getPose()</pre>
+<div class="block">Returns the currently-estimated pose of the robot.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The pose.</dd>
+</dl>
+</li>
+</ul>
+<a id="getWheelSpeeds()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getWheelSpeeds</h4>
+<pre class="methodSignature">public&nbsp;edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds&nbsp;getWheelSpeeds()</pre>
+<div class="block">Returns the current wheel speeds of the robot.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The current wheel speeds.</dd>
+</dl>
+</li>
+</ul>
+<a id="resetOdometry(edu.wpi.first.wpilibj.geometry.Pose2d)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resetOdometry</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;resetOdometry&#8203;(edu.wpi.first.wpilibj.geometry.Pose2d&nbsp;pose)</pre>
+<div class="block">Resets the odometry to the specified pose.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>pose</code> - The pose to which to set the odometry.</dd>
+</dl>
+</li>
+</ul>
+<a id="tankDriveVolts(double,double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>tankDriveVolts</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;tankDriveVolts&#8203;(double&nbsp;leftVolts,
+                           double&nbsp;rightVolts)</pre>
+<div class="block">Controls the left and right sides of the drive directly with voltages.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>leftVolts</code> - the commanded left output</dd>
+<dd><code>rightVolts</code> - the commanded right output</dd>
+</dl>
+</li>
+</ul>
+<a id="resetEncoders()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resetEncoders</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;resetEncoders()</pre>
+<div class="block">Resets the drive encoders to currently read a position of 0.</div>
+</li>
+</ul>
+<a id="getAverageEncoderDistance()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getAverageEncoderDistance</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getAverageEncoderDistance()</pre>
+<div class="block">Gets the average distance of the two encoders.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the average of the two encoder readings</dd>
+</dl>
+</li>
+</ul>
+<a id="getLeftEncoderMeters()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLeftEncoderMeters</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getLeftEncoderMeters()</pre>
+<div class="block">Gets the left drive encoder.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the left drive encoder</dd>
+</dl>
+</li>
+</ul>
+<a id="getRightEncoderMeters()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRightEncoderMeters</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getRightEncoderMeters()</pre>
+<div class="block">Gets the right drive encoder.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the right drive encoder</dd>
+</dl>
+</li>
+</ul>
+<a id="setMaxOutput(double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setMaxOutput</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setMaxOutput&#8203;(double&nbsp;maxOutput)</pre>
+<div class="block">Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>maxOutput</code> - the maximum output to which the drive will be constrained</dd>
+</dl>
+</li>
+</ul>
+<a id="zeroHeading()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>zeroHeading</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;zeroHeading()</pre>
+<div class="block">Zeroes the heading of the robot.</div>
+</li>
+</ul>
+<a id="getHeading()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getHeading</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getHeading()</pre>
+<div class="block">Returns the heading of the robot.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the robot's heading in degrees, from 180 to 180</dd>
+</dl>
+</li>
+</ul>
+<a id="getTurnRate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getTurnRate</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getTurnRate()</pre>
+<div class="block">Returns the turn rate of the robot.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The turn rate of the robot, in degrees per second</dd>
+</dl>
+</li>
+</ul>
+<a id="getLeftEncoderRate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLeftEncoderRate</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getLeftEncoderRate()</pre>
+<div class="block">Returns the left encoder rate in meters per second.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the left encoder rate in meters per second.</dd>
+</dl>
+</li>
+</ul>
+<a id="getRightEncoderRate()">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRightEncoderRate</h4>
+<pre class="methodSignature">public&nbsp;double&nbsp;getRightEncoderRate()</pre>
+<div class="block">Returns the right encoder rate in meters per second.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the right encoder rate in meters per second.</dd>
+</dl>
+</li>
+</ul>
+<a id="trajectoryDrive(double,double)">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>trajectoryDrive</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;trajectoryDrive&#8203;(double&nbsp;leftSpeed,
+                            double&nbsp;rightSpeed)</pre>
+<div class="block">Uses Talon Velocity Control to drive the robot with arbitrary feed forward. Used for auto.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>leftSpeed</code> - Left side speed in meters per second.</dd>
+<dd><code>rightSpeed</code> - Right side speed in meters per second.</dd>
+</dl>
+</li>
+</ul>
+<a id="updateTelemetry()">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>updateTelemetry</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;updateTelemetry()</pre>
 </li>
 </ul>
 </li>

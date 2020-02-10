@@ -97,11 +97,13 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <span class="packageHierarchyLabel">Package Hierarchies:</span>
 <ul class="horizontal">
 <li><a href="frc/robot/package-tree.html">frc.robot</a>, </li>
-<li><a href="frc/robot/commands/Drivebase/package-tree.html">frc.robot.commands.Drivebase</a>, </li>
+<li><a href="frc/robot/commands/auto/package-tree.html">frc.robot.commands.auto</a>, </li>
+<li><a href="frc/robot/commands/drivebase/package-tree.html">frc.robot.commands.drivebase</a>, </li>
+<li><a href="frc/robot/constants/package-tree.html">frc.robot.constants</a>, </li>
 <li><a href="frc/robot/subsystems/package-tree.html">frc.robot.subsystems</a>, </li>
+<li><a href="frc/utility/package-tree.html">frc.utility</a>, </li>
 <li><a href="frc/utility/preferences/package-tree.html">frc.utility.preferences</a>, </li>
-<li><a href="frc/wrappers/MotorControllers/package-tree.html">frc.wrappers.MotorControllers</a>, </li>
-<li><a href="frc/wrappers/Preferences/package-tree.html">frc.wrappers.Preferences</a></li>
+<li><a href="frc/wrappers/MotorControllers/package-tree.html">frc.wrappers.MotorControllers</a></li>
 </ul>
 </div>
 <div class="contentContainer">
@@ -110,6 +112,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">java.lang.Object
 <ul>
+<li class="circle">frc.robot.constants.<a href="frc/robot/constants/AutoConstants.html" title="class in frc.robot.constants"><span class="typeNameLink">AutoConstants</span></a></li>
 <li class="circle">com.ctre.phoenix.motorcontrol.can.BaseMotorController (implements com.ctre.phoenix.motorcontrol.IMotorController)
 <ul>
 <li class="circle">com.ctre.phoenix.motorcontrol.can.BaseTalon (implements com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced)
@@ -142,17 +145,18 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <ul>
 <li class="circle">edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 <ul>
-<li class="circle">frc.robot.commands.Drivebase.<a href="frc/robot/commands/Drivebase/BasicAutoCG.html" title="class in frc.robot.commands.Drivebase"><span class="typeNameLink">BasicAutoCG</span></a></li>
+<li class="circle">frc.robot.commands.drivebase.<a href="frc/robot/commands/drivebase/BasicAutoCG.html" title="class in frc.robot.commands.drivebase"><span class="typeNameLink">BasicAutoCG</span></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="circle">frc.robot.commands.Drivebase.<a href="frc/robot/commands/Drivebase/DrivebaseVisonC.html" title="class in frc.robot.commands.Drivebase"><span class="typeNameLink">DrivebaseVisonC</span></a></li>
+<li class="circle">frc.robot.commands.drivebase.<a href="frc/robot/commands/drivebase/DrivebaseVisionC.html" title="class in frc.robot.commands.drivebase"><span class="typeNameLink">DrivebaseVisionC</span></a></li>
 </ul>
 </li>
-<li class="circle">frc.robot.<a href="frc/robot/Constants.html" title="class in frc.robot"><span class="typeNameLink">Constants</span></a></li>
 <li class="circle">frc.robot.subsystems.<a href="frc/robot/subsystems/DrivebaseS.html" title="class in frc.robot.subsystems"><span class="typeNameLink">DrivebaseS</span></a> (implements edu.wpi.first.wpilibj2.command.Subsystem)</li>
+<li class="circle">frc.robot.constants.<a href="frc/robot/constants/DriveConstants.html" title="class in frc.robot.constants"><span class="typeNameLink">DriveConstants</span></a></li>
 <li class="circle">frc.robot.<a href="frc/robot/Main.html" title="class in frc.robot"><span class="typeNameLink">Main</span></a></li>
+<li class="circle">frc.robot.commands.auto.<a href="frc/robot/commands/auto/NomadPathFollowerCommandBuilder.html" title="class in frc.robot.commands.auto"><span class="typeNameLink">NomadPathFollowerCommandBuilder</span></a></li>
 <li class="circle">frc.utility.preferences.<a href="frc/utility/preferences/NomadPreference.html" title="class in frc.utility.preferences"><span class="typeNameLink">NomadPreference</span></a>
 <ul>
 <li class="circle">frc.utility.preferences.<a href="frc/utility/preferences/NomadBooleanPreference.html" title="class in frc.utility.preferences"><span class="typeNameLink">NomadBooleanPreference</span></a></li>
@@ -160,7 +164,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li class="circle">frc.utility.preferences.<a href="frc/utility/preferences/NomadIntPreference.html" title="class in frc.utility.preferences"><span class="typeNameLink">NomadIntPreference</span></a></li>
 </ul>
 </li>
-<li class="circle">frc.wrappers.Preferences.<a href="frc/wrappers/Preferences/NomadPreferences.html" title="class in frc.wrappers.Preferences"><span class="typeNameLink">NomadPreferences</span></a></li>
+<li class="circle">frc.utility.<a href="frc/utility/NomadUnits.html" title="class in frc.utility"><span class="typeNameLink">NomadUnits</span></a></li>
 <li class="circle">frc.robot.<a href="frc/robot/Preferences.html" title="class in frc.robot"><span class="typeNameLink">Preferences</span></a></li>
 <li class="circle">edu.wpi.first.wpilibj.RobotBase (implements java.lang.AutoCloseable)
 <ul>
@@ -176,6 +180,22 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 </ul>
 </li>
 <li class="circle">frc.robot.<a href="frc/robot/RobotContainer.html" title="class in frc.robot"><span class="typeNameLink">RobotContainer</span></a></li>
+<li class="circle">frc.robot.constants.<a href="frc/robot/constants/Trajectories.html" title="class in frc.robot.constants"><span class="typeNameLink">Trajectories</span></a></li>
+<li class="circle">frc.robot.constants.<a href="frc/robot/constants/VisionConstants.html" title="class in frc.robot.constants"><span class="typeNameLink">VisionConstants</span></a></li>
+</ul>
+</li>
+</ul>
+</section>
+<section role="region">
+<h2 title="Enum Hierarchy">Enum Hierarchy</h2>
+<ul>
+<li class="circle">java.lang.Object
+<ul>
+<li class="circle">java.lang.Enum&lt;E&gt; (implements java.lang.Comparable&lt;T&gt;, java.io.Serializable)
+<ul>
+<li class="circle">frc.robot.constants.<a href="frc/robot/constants/DriveConstants.CONTROLLER_TYPE.html" title="enum in frc.robot.constants"><span class="typeNameLink">DriveConstants.CONTROLLER_TYPE</span></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

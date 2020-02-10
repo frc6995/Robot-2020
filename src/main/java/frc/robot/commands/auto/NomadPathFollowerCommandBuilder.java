@@ -25,11 +25,22 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DrivebaseS;
 
 public class NomadPathFollowerCommandBuilder {
+  /**
+   * The DrivebaseS object to follow the path with.
+   */
   private DrivebaseS drivetrain;
+  /**
+   * The filename (minus path and .wpilib.json) of the Pathweaver JSON.
+   */
   private String filename;
+  /**
+   * The Trajectory to follow.
+   */
   private Trajectory trajectory;
   /**
-   * Creates a new NomadPathFollowerC.
+   * Creates a new NomadPathFollowerC from a Pathweaver JSON.
+   * @param filename The filename (minus path and .wpilib.json) of the Pathweaver JSON.
+   * @param drivebaseS The DrivebaseS object to follow the path with.
    */
   public NomadPathFollowerCommandBuilder(String filename, DrivebaseS drivebaseS) {
     drivetrain = drivebaseS;
@@ -75,6 +86,8 @@ public class NomadPathFollowerCommandBuilder {
 
   /**
    * Creates a new NomadPathFollowerC.
+   * @param trajectory The Trajectory to follow.
+   * @param drivebaseS The DrivebaseS object to follow the path with.
    */
   public NomadPathFollowerCommandBuilder(Trajectory trajectory, DrivebaseS drivebaseS) {
     drivetrain = drivebaseS;

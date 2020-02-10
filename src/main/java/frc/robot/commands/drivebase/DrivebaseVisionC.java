@@ -112,15 +112,16 @@ public class DrivebaseVisionC extends CommandBase {
    * Default state:
    * Sets Pipeline to Vision Align
    * Turns off LEDs
+   * 
+   * @param drivebaseS The DrivebaseS object to use.
    */
-  public DrivebaseVisionC(DrivebaseS drivebaseS, DoubleSupplier fwdBackAxis) {
+  public DrivebaseVisionC(DrivebaseS drivebaseS) {
     pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
     ledModeEntry.setDouble(0);
     addRequirements(drivebaseS);
     drivebase = drivebaseS;
     turnPid.setTolerance(horizontalRange);
     distPid.setTolerance(verticalRange);
-    fwdBack = fwdBackAxis;
   }
 
   /**
@@ -173,10 +174,10 @@ public class DrivebaseVisionC extends CommandBase {
 
     clampValue = MathUtil.clamp(rampTimer.get() / VisionConstants.VISION_RAMP_TIME, -1, 1);
 
-    //[]\horizontalAdjust = MathUtil.clamp(horizontalAdjust, -clampValue, clampValue);
+    horizontalAdjust = MathUtil.clamp(horizontalAdjust, -clampValue, clampValue);
     verticalAdjust = MathUtil.clamp(verticalAdjust, -clampValue, clampValue);
 
-    wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(new ChassisSpeeds(verticalAdjust/*fwdBack.getAsDouble()*/, 0, Math.toRadians(horizontalAdjust)));
+    wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(new ChassisSpeeds(verticalAdjust, 0, Math.toRadians(horizontalAdjust)));
     drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
   }
 

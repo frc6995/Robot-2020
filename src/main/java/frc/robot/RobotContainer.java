@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.Trajectories;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
-import frc.robot.commands.BasicAutoCG;
+import frc.robot.commands.drivebase.BasicAutoCG;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.subsystems.DrivebaseS;
@@ -58,8 +58,8 @@ public class RobotContainer {
     }
     fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
-    visionAlignC = new DrivebaseVisionC(drivebaseS, fwdBackAxis);
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(fwdBackAxis.getAsDouble(), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
+    visionAlignC = new DrivebaseVisionC(drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings

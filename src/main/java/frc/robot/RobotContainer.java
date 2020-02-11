@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.Trajectories;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
-import frc.robot.commands.drivebase.BasicAutoCG;
+import frc.robot.commands.drivebase.EmptyAutoCG;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.subsystems.DrivebaseS;
@@ -35,7 +35,7 @@ public class RobotContainer {
   
 
   public static final DrivebaseS drivebaseS = new DrivebaseS();
-  private final BasicAutoCG basicAutoCG = new BasicAutoCG();
+  private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
     private final SequentialCommandGroup straight2mAutoCG 

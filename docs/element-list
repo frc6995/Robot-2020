@@ -1,8 +1,0 @@
-frc.robot
-frc.robot.commands.auto
-frc.robot.commands.drivebase
-frc.robot.constants
-frc.robot.subsystems
-frc.utility
-frc.utility.preferences
-frc.wrappers.MotorControllers

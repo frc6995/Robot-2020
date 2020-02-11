@@ -39,5 +39,5 @@
     git push --set-upstream >username>/>issue-number>/>name>
 ```
 
-* Push it, and submit a pull Request and two reviewers will review it
+* Push it, and submit a pull Request to Development and two reviewers will review it
 * Make necessary changes to code until it gets accepted

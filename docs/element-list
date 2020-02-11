@@ -1,6 +1,7 @@
 frc.robot
 frc.robot.commands
 frc.robot.commands.Slider
+frc.robot.constants
 frc.robot.subsystems
 frc.wrappers.MotorControllers
 frc.wrappers.Preferences

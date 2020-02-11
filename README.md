@@ -1,10 +1,10 @@
-# FRC 6995 Robot for Infinate Recharge 2020
+# FRC 6995 Robot for Infinite Recharge 2020
 
 ## General Info
 
 * [FRC 6995](https://frc6995nomad.org)
 
-## Development Environmet
+## Development Environment
 
 * Language: Java 11
 * Structure: Command Based
@@ -15,6 +15,7 @@
 * WPILIB 2020.2.2 (as of 1/28/2020)
 * CTRE Phoenix Motor Controllers
 * NAVX FRC Lib
+* Rev Robotics FRC Lib
 
 ## Javadoc
 

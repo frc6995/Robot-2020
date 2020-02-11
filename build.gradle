@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2020.1.2"
+    id "edu.wpi.first.GradleRIO" version "2020.2.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -71,4 +71,5 @@ jar {
 javadoc {
     options.addBooleanOption('html5', true)
     destinationDir = file("${projectDir}/docs")
+    options.memberLevel = JavadocMemberLevel.PRIVATE
 }

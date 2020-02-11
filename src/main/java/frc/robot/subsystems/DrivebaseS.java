@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.Constants;
-import frc.wrappers.MotorControllers.*;
+import frc.robot.constants.DrivebaseConstants;
+import frc.wrappers.MotorControllers.NomadTalonSRX;
+import frc.wrappers.MotorControllers.NomadVictorSPX;
 
 
 /**
@@ -22,11 +23,11 @@ public class DrivebaseS implements Subsystem {
   /**
    * The left master NomadTalonSRX
    */
-  private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(Constants.CAN_ID_DRIVE_LEFT_MASTER);
+  private NomadTalonSRX leftMasterTalon = new NomadTalonSRX(DrivebaseConstants.CAN_ID_DRIVE_LEFT_MASTER);
   /**
    * the right master NomadTalonSRX
    */
-  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(Constants.CAN_ID_DRIVE_RIGHT_MASTER, true);
+  private NomadTalonSRX rightMasterTalon = new NomadTalonSRX(DrivebaseConstants.CAN_ID_DRIVE_RIGHT_MASTER, true);
   /**
    * An ArrayList of NomadVictorSPXs for the left side of the drivebase.
    */
@@ -45,10 +46,10 @@ public class DrivebaseS implements Subsystem {
    * Creates a new DrivebaseS.
    */
   public DrivebaseS() {
-    for (int i : Constants.ARRAY_CAN_ID_DRIVE_LEFT) { //assume the slaves are Victor SPXs
+    for (int i : DrivebaseConstants.ARRAY_CAN_ID_DRIVE_LEFT) { //assume the slaves are Victor SPXs
       leftSlaveVictors.add(new NomadVictorSPX(i, false, leftMasterTalon));
     }
-    for (int i : Constants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
+    for (int i : DrivebaseConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
       rightSlaveVictors.add(new NomadVictorSPX(i, true, rightMasterTalon));
     }
   }

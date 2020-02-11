@@ -72,3 +72,4 @@ javadoc {
     options.addBooleanOption('html5', true)
     destinationDir = file("${projectDir}/docs")
 }
+

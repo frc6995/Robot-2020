@@ -1,25 +1,30 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.constants.ClimberConstants;;
 import frc.robot.RobotPreferences;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class ClimberS extends SubsystemBase {
-  private NomadTalonSRX climbMaster = new NomadTalonSRX(Constants.CAN_ID_CLIMB_TALON);
+public class ClimberS extends SubsystemBase implements Loggable{
+  private NomadTalonSRX climbMaster = new NomadTalonSRX(ClimberConstants.CAN_ID_CLIMB_TALON);
   private NomadVictorSPX climbSlave = new NomadVictorSPX(Constants.CAN_ID_CLIMB_VICTOR, false, climbMaster);
 
   /**A solenoid that controls the friction brake on the elevator. */
-  private Solenoid brakeSolenoid = new Solenoid(Constants.PCM_ID_CLIMB_BRAKE);
+  private Solenoid brakeSolenoid = new Solenoid(1, Constants.PCM_ID_CLIMB_BRAKE);
 
-  private DigitalInput magneticLimitSwitch = new DigitalInput(Constants.DIO_CLIMB_MAGNETIC_LIMIT_SWITCH);
+  private DigitalInput magneticLimitSwitch = new DigitalInput(Constants.DIO_CLIMB_LIMIT_SWITCH);
 
   private double countWithinSetPoint = 0;
 
@@ -27,6 +32,9 @@ public class ClimberS extends SubsystemBase {
 
   public static enum climberLevel {
     AboveBar, Pullup, Home, reset;
+  }
+  public static enum brakePosition {
+    Brake, Unbrake;
   }
 
   /**
@@ -62,8 +70,8 @@ public class ClimberS extends SubsystemBase {
  
     climbMaster.configClosedloopRamp(0.7);
     climbMaster.configClosedLoopPeakOutput(Constants.CLIMBER_PID_UP_SLOT, 0.5); //tune me pls
-
     dynamicFeedForward = new SimpleMotorFeedforward(Constants.CLIMBER_KS, Constants.CLIMBER_KV, Constants.CLIMBER_KA);
+
   }
 
 
@@ -85,11 +93,14 @@ public class ClimberS extends SubsystemBase {
 
   /**
    * Set the raw elevator power as a number from -1 to 1 inclusive.
+   * If it is homed, it will clamp the output between 0 and 1.
    * 
-   * @param power The power to apply. It is clamped within (-1,1)
+   * @param power The power to apply.
   */
   public void setClimberPower(double power) {
-    var pwr = Math.max(Math.min(power, 1.0), -1.0);
+    double pwr = MathUtil.clamp(power, -1, 1);
+    if(isHomed())
+      pwr = MathUtil.clamp(pwr, 0, 1);
     climbMaster.set(ControlMode.PercentOutput, pwr);
   }
 
@@ -114,8 +125,8 @@ public class ClimberS extends SubsystemBase {
     climbMaster.config_kP(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
-    climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, dynamicFeedForward.calculate(getVelocity())); //does this work?
-    //climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKf.getValue());
+   // climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, dynamicFeedForward.calculate(getVelocity())); //does this work?
+  
 
     climbMaster.config_IntegralZone(Constants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
@@ -171,7 +182,7 @@ public class ClimberS extends SubsystemBase {
 
     if (target != 0.6995) { // target of 0.6995 tells it to automatically return false
       //increment countWithinSetPoint if its within allowable error.
-      if (Math.abs(target - getError()) < RobotPreferences.climberAllowableError.getValue()) {
+      if (Math.abs(getError()) < RobotPreferences.climberAllowableError.getValue()) {
         countWithinSetPoint++;
       }
 
@@ -194,14 +205,25 @@ public class ClimberS extends SubsystemBase {
    * to the climber talon. Units are ticks/100ms
    * @return the velocity of the climber encoder
    */
+  @Log.Graph(name="Climber Rate (ticks100ms)", columnIndex = 0, rowIndex = 0, height = 3, width = 5)
   public double getVelocity() {
     return climbMaster.getSelectedSensorVelocity();
+  }
+
+  /**
+   * 
+   * @return the position of the climber in ticks
+   */
+  @Log.Graph(name="Climber Position (ticks)", columnIndex = 0, rowIndex = 3, height = 3, width = 5)
+  public double getPosition() {
+    return climbMaster.getSelectedSensorPosition();
   }
 
   /**
    * Returns the error in encoder counts.
    * @return Error in encoder counts
    */
+  @Log.Graph(name="Climber Error (ticks)", columnIndex = 5, rowIndex = 3, height = 3, width = 3)
   public int getError() {
     return climbMaster.getClosedLoopError();
   }
@@ -218,8 +240,9 @@ public class ClimberS extends SubsystemBase {
    * so that true is on and false is off.
    * @return the switch flipped status as a boolean.
    */
+  @Log.BooleanBox(name = "Climber Limit", columnIndex = 5, rowIndex = 1, height = 2, width = 2, tabName = "ClimberS")
   public boolean isHomed() {
-    return magneticLimitSwitch.get(); //invert? add a not
+    return !magneticLimitSwitch.get(); //invert? add a not
   }
 
   @Override

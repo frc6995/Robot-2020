@@ -1,0 +1,6 @@
+#Owner for code
+/src/ @frc6995/development
+
+#Owner for docs
+/docs/ @frc6995/documentation
+*.md @frc6995/documentation

@@ -1,3 +1,4 @@
+#
 ---
 name: Subsystem
 about: Issue for the development of a core robot subsystem.
@@ -25,7 +26,7 @@ Slave motors must be on Victor SPX
 
 
 **Design (Algorithm)**
-Create master Talons on ports as specified in Constants
+Create master Talons on ports as specified in DriveConstants
 
 Create empty ArrayLists for slave Victors
 
@@ -33,7 +34,7 @@ Create DifferentialDrive object with master Talons
 
 Constructor:
 
-For each port specified in the arrays in Constants, create a NomadVictorSPX on that port and add it to its corresponding group.
+For each port specified in the arrays in DriveConstants, create a NomadVictorSPX on that port and add it to its corresponding group.
 
 arcadeDrive:
 

@@ -71,4 +71,6 @@ jar {
 javadoc {
     options.addBooleanOption('html5', true)
     destinationDir = file("${projectDir}/docs")
+    options.memberLevel = JavadocMemberLevel.PRIVATE
 }
+

@@ -14,6 +14,7 @@ import frc.robot.RobotContainer;
  * in order to Aim the shooter at the top power port
  * 
  * @author Ari Shashivkopanazak
+ * @deprecated opting for a wpilib PID manager
  */
 public class DrivebaseVisonC extends CommandBase {
 

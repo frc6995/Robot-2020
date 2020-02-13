@@ -11,6 +11,7 @@ public class ClimberConstants {
    public static final int CLIMB_SOFT_LIMIT = 65950;
 
    public static final int CLIMBER_PID_UP_SLOT = 0;
+   public static final int CLIMBER_PID_DOWN_SLOT = 1;
 
    public static final double CLIMBER_KS = 0;
    public static final double CLIMBER_KV = 0;

@@ -7,18 +7,25 @@
 
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.BasicAutoCG;
 import frc.robot.commands.Slider.IntakeDeployC;
 import frc.robot.commands.Slider.IntakeRetractC;
+import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
+import frc.robot.commands.drivebase.DrivebaseVisionC;
+import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.constants.DrivebaseConstants;
-import frc.robot.constants.OIConstants;
+import frc.robot.constants.Trajectories;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.IntakeS;
 
@@ -33,28 +40,33 @@ public class RobotContainer {
   
   public final static IntakeS intakeS = new IntakeS();
   
-  private final DrivebaseS drivebaseS = new DrivebaseS();
-  private final BasicAutoCG basicAutoCG = new BasicAutoCG();
-  private final IntakeDeployC intakeDeployC;
-  private final IntakeRetractC intakeRetractC;
-  private final GenericHID driveController;
+
+  public static final DrivebaseS drivebaseS = new DrivebaseS();
+  private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
+  private final SequentialCommandGroup sCurveRightAutoCG 
+    = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
+    private final SequentialCommandGroup straight2mAutoCG 
+    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
+  public final GenericHID driveController;
   private final Command driveStickC;
+  private DoubleSupplier fwdBackAxis;
+  private final DrivebaseVisionC visionAlignC; 
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    //not sure what I'm doing changing the paramaters here
-
-    //Initializes driveController as either a Joystick or Xbox depending on Constants.DRIVE_CONTROLLER_TYPE.
-    if (OIConstants.DRIVE_CONTROLLER_TYPE == OIConstants.CONTROLLER_TYPE.Joystick) {
-      driveController = new Joystick(OIConstants.OI_DRIVE_CONTROLLER);
+    //Initializes driveController as either a Joystick or Xbox depending on DriveConstants.DRIVE_CONTROLLER_TYPE.
+    if (DriveConstants.DRIVE_CONTROLLER_TYPE == CONTROLLER_TYPE.Joystick) {
+      driveController = new Joystick(DriveConstants.OI_DRIVE_CONTROLLER);
     }
     else {
-      driveController = new XboxController(OIConstants.OI_DRIVE_CONTROLLER);
+      driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
+    fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_TURN)), drivebaseS);
+    visionAlignC = new DrivebaseVisionC(drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     intakeDeployC = new IntakeDeployC();
@@ -78,6 +90,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(driveController, 3).whenPressed(intakeDeployC);
     new JoystickButton(driveController, 8).whenPressed(intakeRetractC);
+    new JoystickButton(driveController, 4).whileHeld(visionAlignC);
+    
   }
 
   
@@ -88,6 +102,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return basicAutoCG;
+    return sCurveRightAutoCG;
   }
 }

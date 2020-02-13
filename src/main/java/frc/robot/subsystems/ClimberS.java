@@ -38,8 +38,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
 
   /**
    * Creates a new ClimberS. This is the elevator on our robot uses for climbing
-   * in endgame.<br>
-   * <br>
+   * in endgame.
    * This subsystem uses PID to lift the elevator and then do a pullup on the bar,
    * giving us 25 points.
    */
@@ -75,18 +74,16 @@ public class ClimberS extends SubsystemBase implements Loggable {
   }
 
   /**
-   * Start braking the elevator.<br/>
-   * <br/>
-   * <b>NOTE:</b> This method sets the solenoid output to false.
+   * Start braking the elevator.
+   * NOTE: This method sets the solenoid output to false.
    */
   public void brake() {
     brakeSolenoid.set(false); // false because no output should be braking
   }
 
   /**
-   * Unbrake the elevator.<br/>
-   * <br/>
-   * <b>NOTE:</b> This sets the solenoid output to true.
+   * Unbrake the elevator.
+   * NOTE: This sets the solenoid output to true.
    */
   public void unbrake() {
     brakeSolenoid.set(true);
@@ -151,8 +148,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
   /**
    * Checks whether the climber is at a given set point. This must be called
    * continuously to check accurately, as it measures whether it has been in
-   * roughly the same spot for 15 loops.<br>
-   * <br>
+   * roughly the same spot for 15 loops.
    * Note: Don't forget to call isAtSetPoint({@link climberLevel}.reset) before
    * checking to make sure the loop count is at 0. (this returns false)
    * 
@@ -212,7 +208,6 @@ public class ClimberS extends SubsystemBase implements Loggable {
   }
 
   /**
-   * 
    * @return the position of the climber in ticks
    */
   @Log.Graph(name = "Climber Position (ticks)", columnIndex = 0, rowIndex = 3, height = 3, width = 5)

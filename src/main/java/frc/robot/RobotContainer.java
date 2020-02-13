@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import java.util.function.DoubleSupplier;
@@ -39,9 +32,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   public final static IntakeS intakeS = new IntakeS();
-  
-
-  public static final DrivebaseS drivebaseS = new DrivebaseS();
+  public final DrivebaseS drivebaseS = new DrivebaseS();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
@@ -50,7 +41,10 @@ public class RobotContainer {
   public final GenericHID driveController;
   private final Command driveStickC;
   private DoubleSupplier fwdBackAxis;
-  private final DrivebaseVisionC visionAlignC; 
+  private final DrivebaseVisionC visionAlignC;
+
+  private final IntakeDeployC intakeDeployC;
+  private final IntakeRetractC intakeRetractC;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.

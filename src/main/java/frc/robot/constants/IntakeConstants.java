@@ -12,7 +12,7 @@ public class IntakeConstants {
     /**
      * Intake Talon: Talon, ID = x
      */
-    public final static int TALON_INTAKE_MOTOR = 33;
+    public final static int CAN_ID_TALON_INTAKE_MOTOR = 33;
 
     /**
      * Intake Double Solenoid extended position, ID = x

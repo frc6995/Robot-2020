@@ -72,7 +72,7 @@ public class RobotContainer {
     DoubleSupplier manualClimbPower = () -> -driveController.getRawAxis(5);
     manualClimbC = new ClimberManualC(climberS, manualClimbPower);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), -driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     
     climberBrakeOnC = new RunCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new RunCommand(() -> climberS.unbrake(), climberS);

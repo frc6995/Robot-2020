@@ -14,9 +14,13 @@ public class ShooterConstants {
     /**
      * The target RPM for the shooter wheel.
      */
-    public static final double SHOOTER_RPM = 6000;
+    public static final double SHOOTER_RPM = 5000;
     /**
      * The CAN ID of the SPARK MAX running the shooter NEO.
      */
     public static final int CAN_ID_SHOOTER_SPARK_MAX = 32;
+    /**
+     * The number of loops the RPM must stay within range to be considered at setpoint.
+     */
+    public static final int MIN_LOOPS_IN_RANGE = 25;
 }

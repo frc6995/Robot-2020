@@ -76,6 +76,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    m_robotContainer.climberBrakeOffC.schedule();
+    m_robotContainer.climberHomeC.schedule();
   }
 
   /**
@@ -94,6 +96,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.climberBrakeOffC.schedule();
   }
 
   /**

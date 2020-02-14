@@ -48,9 +48,9 @@ public class RobotContainer {
   private final Command driveStickC;
   private final ManualTranslateC manualTranslateC;
   private final ClimberManualC manualClimbC;
-  private final ClimberHomeC climberHomeC;
+  public final ClimberHomeC climberHomeC;
   private final Command climberBrakeOnC;
-  private final Command climberBrakeOffC;
+  public final Command climberBrakeOffC;
   private final Command resetEncodersC;
   private final ClimberUpPIDC climberUpPID;
   /**

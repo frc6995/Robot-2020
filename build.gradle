@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2020.1.2"
+    id "edu.wpi.first.GradleRIO" version "2020.2.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -57,6 +57,8 @@ dependencies {
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+
+    implementation "com.github.Oblarg.Oblog:lib:3.1.0"
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -72,4 +74,8 @@ javadoc {
     options.addBooleanOption('html5', true)
     destinationDir = file("${projectDir}/docs")
     options.memberLevel = JavadocMemberLevel.PRIVATE
+}
+
+repositories {
+  maven { url 'https://jitpack.io' }
 }

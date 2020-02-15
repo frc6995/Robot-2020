@@ -32,5 +32,5 @@ public final class RobotPreferences {
     public static final NomadIntPreference climberAllowableError = new NomadIntPreference("Climber Allowable Error", 15);
 
     public static NomadBooleanPreference hopperInvert = new NomadBooleanPreference("hopper motors invert", true);
-
+    public static NomadDoublePreference hopperSpeed = new NomadDoublePreference("hopper speed", 0.5);
 }

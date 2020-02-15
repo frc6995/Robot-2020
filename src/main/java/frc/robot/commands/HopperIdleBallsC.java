@@ -1,15 +1,10 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-
+/**
+ * Command that keeps balls idling inside the hopper.
+ */
 public class HopperIdleBallsC extends CommandBase {
   /**
    * Creates a new HopperIdleBallsC.
@@ -25,6 +20,9 @@ public class HopperIdleBallsC extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  /**
+   * Spins one hopper tube one direction and the other tube the other direction.
+   */
   @Override
   public void execute() {
 
@@ -34,6 +32,9 @@ public class HopperIdleBallsC extends CommandBase {
   }
 
   // Called once the command ends or is interrupted.
+  /**
+   * if the command is interupted, stop spinning the tubes.
+   */
   @Override
   public void end(boolean interrupted) {
 

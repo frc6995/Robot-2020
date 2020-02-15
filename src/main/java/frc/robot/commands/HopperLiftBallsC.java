@@ -1,17 +1,12 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
 
+/**
+ * The command that lifts balls through the hopper
+ */
 public class HopperLiftBallsC extends CommandBase {
   /**
    * Creates a new HopperLiftBallsC.
@@ -27,6 +22,9 @@ public class HopperLiftBallsC extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  /**
+   * Spins the hopper tubes to raise balls through the hopper.
+   */
   @Override
   public void execute() {
 
@@ -35,6 +33,9 @@ public class HopperLiftBallsC extends CommandBase {
   }
 
   // Called once the command ends or is interrupted.
+  /**
+   * stops spinning the hopper when interupted
+   */
   @Override
   public void end(boolean interrupted) {
     RobotContainer.hopperS.StopTubes();

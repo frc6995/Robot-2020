@@ -13,12 +13,14 @@ import frc.robot.subsystems.ClimberS;
 import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
+import frc.robot.commands.climber.ClimberPullupCG;
 import frc.robot.commands.climber.ClimberUpPIDC;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.SliderS;
 import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -43,8 +45,8 @@ public class RobotContainer {
   public static final SliderS sliderS = new SliderS();
 
   private final BasicAutoCG basicAutoCG = new BasicAutoCG();
-  private CameraServer server = CameraServer.getInstance();
-  private UsbCamera camera = new UsbCamera("cam0", 0);
+  private final CameraServer server = CameraServer.getInstance();
+  private final UsbCamera camera = new UsbCamera("cam0", 0);
   private final Command driveStickC;
   private final ManualTranslateC manualTranslateC;
   private final ClimberManualC manualClimbC;
@@ -52,34 +54,38 @@ public class RobotContainer {
   private final Command climberBrakeOnC;
   public final Command climberBrakeOffC;
   private final Command resetEncodersC;
-  private final ClimberUpPIDC climberUpPID;
+  private final ClimberUpPIDC climberUpPIDC;
+  private final ClimberPullupCG climberPullupCG;
+
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    //Initializes driveController as either a Joystick or Xbox depending on Constants.DRIVE_CONTROLLER_TYPE.
+    // Initializes driveController as either a Joystick or Xbox depending on
+    // Constants.DRIVE_CONTROLLER_TYPE.
     if (Constants.DRIVE_CONTROLLER_TYPE == CONTROLLER_TYPE.Joystick) {
       driveController = new Joystick(Constants.OI_DRIVE_CONTROLLER);
-    }
-    else {
+    } else {
       driveController = new XboxController(Constants.OI_DRIVE_CONTROLLER);
     }
     server.startAutomaticCapture(camera);
 
-    DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
+    final DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
     manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
 
-    DoubleSupplier manualClimbPower = () -> -driveController.getRawAxis(5);
+    final DoubleSupplier manualClimbPower = () -> -driveController.getRawAxis(5);
     manualClimbC = new ClimberManualC(climberS, manualClimbPower);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(Constants.AXIS_DRIVE_FWD_BACK), -driveController.getRawAxis(Constants.AXIS_DRIVE_TURN)), drivebaseS);
     
-    climberBrakeOnC = new RunCommand(() -> climberS.brake(), climberS);
-    climberBrakeOffC = new RunCommand(() -> climberS.unbrake(), climberS);
+    climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
+    climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
     resetEncodersC = new RunCommand(() -> climberS.resetEncoders(), climberS);
-    climberHomeC = new ClimberHomeC();
-    climberUpPID = new ClimberUpPIDC(true);
-    SmartDashboard.putData(climberUpPID);
+    climberHomeC = new ClimberHomeC(climberS);
+    climberUpPIDC = new ClimberUpPIDC(true);
+    SmartDashboard.putData(climberUpPIDC);
+    climberPullupCG = new ClimberPullupCG();
+    SmartDashboard.putData(climberPullupCG);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     // Configure the button bindings
@@ -101,6 +107,8 @@ public class RobotContainer {
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
     new JoystickButton(driveController, 2).whenPressed(climberHomeC);
     new JoystickButton(driveController, 1).whenPressed(resetEncodersC);
+    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC);
+    new JoystickButton(driveController, 6).whenPressed(climberPullupCG);
   }
 
   

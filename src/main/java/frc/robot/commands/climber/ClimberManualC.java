@@ -19,7 +19,7 @@ public class ClimberManualC extends CommandBase {
    */
   public ClimberManualC(ClimberS climberS, DoubleSupplier pwr) {
     climber = climberS;
-    addRequirements(climber);
+    addRequirements(climberS);
     this.power = pwr;
   }
 
@@ -35,12 +35,15 @@ public class ClimberManualC extends CommandBase {
   public void execute() {
     //@Log(name="climber Speed")
     double speed = this.power.getAsDouble();
+    if  (Math.abs(speed) < 0.1) {
+      speed = 0;
+    }
     
     /*if  (Math.abs(speed) < 0.1) {
       speed = 0;
     }*/
     SmartDashboard.putNumber("ClimberSpeed", speed);
-    RobotContainer.climberS.setClimberPower(speed);
+    RobotContainer.climberS.setClimberPower(speed*0.5);
   }
 
   // Called once the command ends or is interrupted.

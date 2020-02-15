@@ -48,7 +48,7 @@ private DoubleSupplier slide;
     if  (Math.abs(speed) < 0.1) {
       speed = 0;
     }
-    RobotContainer.sliderS.translate(speed);
+    RobotContainer.sliderS.translate(speed*0.6);
   }
 
   // Called once the command ends or is interrupted.

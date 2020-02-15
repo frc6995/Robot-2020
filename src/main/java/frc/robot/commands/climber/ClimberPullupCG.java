@@ -10,7 +10,8 @@ public class ClimberPullupCG extends SequentialCommandGroup {
    */
   public ClimberPullupCG() {
     addCommands(new ClimberDownPIDC(true),
-                new ParallelDeadlineGroup(new SetBrakeC(brakePosition.Brake), new ClimberDownPIDC(false))
+                new SetBrakeC(brakePosition.Brake)
+                //new ParallelDeadlineGroup(new SetBrakeC(brakePosition.Brake), new ClimberDownPIDC(true))
                 );
   }
 }

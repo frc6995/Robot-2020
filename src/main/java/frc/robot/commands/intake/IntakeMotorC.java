@@ -3,17 +3,16 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-/**
- * Process for the Intake to Retract
- * 
- * @author Ari Shashivkopanazak
- */
-public class IntakeRetractC extends CommandBase {
+public class IntakeMotorC extends CommandBase {
+
+  double MotorSpeed;
 
   /**
-   * Retracts the intake
+   * Generic Motor
+   * 
+   * @param MotorSpeed Desired speed
    */
-  public IntakeRetractC() {
+  public IntakeMotorC(double MotorSpeed) {
     addRequirements(RobotContainer.intakeS);
   }
 
@@ -23,7 +22,7 @@ public class IntakeRetractC extends CommandBase {
 
   @Override
   public void execute() {
-    RobotContainer.intakeS.intakeRetract();
+    RobotContainer.intakeS.intakeMotor(MotorSpeed);
   }
 
   @Override

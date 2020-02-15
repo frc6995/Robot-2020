@@ -43,8 +43,8 @@ public class RobotContainer {
   private DoubleSupplier fwdBackAxis;
   private final DrivebaseVisionC visionAlignC;
 
-  private final IntakeDeployC intakeDeployC;
-  private final IntakeRetractC intakeRetractC;
+  private final IntakeDeployC intakeDeployCG;
+  private final IntakeRetractC intakeRetractCG;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -63,8 +63,8 @@ public class RobotContainer {
     visionAlignC = new DrivebaseVisionC(drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
-    intakeDeployC = new IntakeDeployC();
-    intakeRetractC = new IntakeRetractC();
+    intakeDeployCG = new IntakeDeployC();
+    intakeRetractCG = new IntakeRetractC();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -72,7 +72,7 @@ public class RobotContainer {
     drivebaseS.setDefaultCommand(driveStickC);
 
     // defaults to Retracted state
-    intakeS.setDefaultCommand(intakeRetractC);
+    intakeS.setDefaultCommand(intakeRetractCG);
   }
 
   /**
@@ -83,8 +83,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //TODO: Figure out these buttons
-    new JoystickButton(driveController, 2).whileHeld(intakeDeployC);
-    new JoystickButton(driveController, 2).whenReleased(intakeRetractC);
+    new JoystickButton(driveController, 2).whileHeld(intakeDeployCG);
+    new JoystickButton(driveController, 2).whenReleased(intakeRetractCG);
     
     new JoystickButton(driveController, 4).whileHeld(visionAlignC);
     

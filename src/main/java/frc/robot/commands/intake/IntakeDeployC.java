@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 /**
- * Manages all processes for the Intake to Deploy
+ * Processe for the Intake to Deploy
  * 
  * @author Ari Shashivkopanazak
  */
 public class IntakeDeployC extends CommandBase {
 
   /**
-   * Deploys the Intake and Turns on the wheels
+   * Deploys the Intake
    */
   public IntakeDeployC() {
     addRequirements(RobotContainer.intakeS);
@@ -19,12 +19,11 @@ public class IntakeDeployC extends CommandBase {
 
   @Override
   public void initialize() {
-    RobotContainer.intakeS.intakeDeploy();
   }
 
   @Override
   public void execute() {
-    RobotContainer.intakeS.intakeMotor(1.0);
+    RobotContainer.intakeS.intakeDeploy();
   }
 
   @Override

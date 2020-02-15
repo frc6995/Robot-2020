@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -7,24 +9,21 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.CONTROLLER_TYPE;
 import frc.robot.commands.BasicAutoCG;
-import frc.robot.subsystems.ClimberS;
 import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
 import frc.robot.commands.climber.ClimberPullupCG;
 import frc.robot.commands.climber.ClimberUpPIDC;
+import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.SliderS;
-import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import java.util.function.DoubleSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -36,6 +35,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
   private final GenericHID driveController;
+  public final GenericHID operatorController;
   
   @Log(name="DrivebaseS")
   public static final DrivebaseS drivebaseS = new DrivebaseS();
@@ -68,6 +68,9 @@ public class RobotContainer {
     } else {
       driveController = new XboxController(Constants.OI_DRIVE_CONTROLLER);
     }
+    operatorController = new XboxController(1); //put me in constants somewhere...
+
+
     server.startAutomaticCapture(camera);
 
     final DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);

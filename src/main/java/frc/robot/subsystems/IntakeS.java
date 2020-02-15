@@ -11,8 +11,6 @@ import frc.wrappers.MotorControllers.NomadTalonSRX;
  * storage system of the robot
  * 
  * @author Ari Shashivkopanazak
- * 
- * @version beta
  */
 public class IntakeS extends SubsystemBase {
 
@@ -29,6 +27,7 @@ public class IntakeS extends SubsystemBase {
    * </ul>
    */
   public IntakeS() {
+    // TODO: figure out the inversion
     intakeMotor.setInverted(false);
   }
 
@@ -36,6 +35,7 @@ public class IntakeS extends SubsystemBase {
    * Deploy Solenoid
    */
   public void intakeDeploy() {
+    // TODO: kforward?
     intakeSolenoid.set(Value.kForward);
   }
 
@@ -43,6 +43,7 @@ public class IntakeS extends SubsystemBase {
    * Retract Solenoid
    */
   public void intakeRetract() {
+    // TODO: kreverse?
     intakeSolenoid.set(Value.kReverse);
   }
 

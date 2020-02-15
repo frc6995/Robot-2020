@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 /**
- * manages all processes for the Intake to Retract
+ * Manages all processes for the Intake to Retract
  * 
  * @author Ari Shashivkopanazak
  */

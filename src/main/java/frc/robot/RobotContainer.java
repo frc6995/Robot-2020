@@ -82,8 +82,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveController, 3).whenPressed(intakeDeployC);
-    new JoystickButton(driveController, 8).whenPressed(intakeRetractC);
+    //TODO: Figure out these buttons
+    new JoystickButton(driveController, 2).whileHeld(intakeDeployC);
+    new JoystickButton(driveController, 2).whenReleased(intakeRetractC);
+    
     new JoystickButton(driveController, 4).whileHeld(visionAlignC);
     
   }

@@ -53,6 +53,6 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
    * @param turnSpeed -1 to 1, turning speed.
    */
   public void arcadeDrive(double driveSpeed, double turnSpeed) {
-    differentialDrive.arcadeDrive(driveSpeed*0.65, turnSpeed*0.65);
+    differentialDrive.arcadeDrive(driveSpeed, turnSpeed*0.8);
   }
 }

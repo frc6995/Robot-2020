@@ -93,7 +93,7 @@ public class RobotContainer {
 
     drivebaseS.setDefaultCommand(driveStickC);
     sliderS.setDefaultCommand(manualTranslateC);
-    climberS.setDefaultCommand(manualClimbC);
+    //climberS.setDefaultCommand(manualClimbC);
   }
 
   /**
@@ -105,10 +105,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
-    new JoystickButton(driveController, 2).whenPressed(climberHomeC);
+    //new JoystickButton(driveController, 2).whenPressed(climberHomeC);
     new JoystickButton(driveController, 1).whenPressed(resetEncodersC);
-    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC);
-    new JoystickButton(driveController, 6).whenPressed(climberPullupCG);
+    //new JoystickButton(driveController, 5).whenPressed(climberUpPIDC);
+    //new JoystickButton(driveController, 6).whenPressed(climberPullupCG);
   }
 
   

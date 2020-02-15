@@ -39,8 +39,8 @@ public class HopperS extends SubsystemBase {
 
   public void SpinTube(Boolean reversed, int tube){
     double speed = reversed ? -RobotPreferences.hopperSpeed.getValue() : RobotPreferences.hopperSpeed.getValue();
-  if (tube == 1) hopperVictor1.set(speed);
-  else if (tube == 2) hopperVictor2.set(speed);
+    if (tube == 1) hopperVictor1.set(speed);
+    else if (tube == 2) hopperVictor2.set(speed);
 
   }
   /**

@@ -23,7 +23,7 @@ public class ShooterS extends SubsystemBase {
   
   private CANPIDController pidController;
   private CANEncoder encoder;
-  public NomadDoublePreference kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, RPM, maxError, armThreshold, fireThreshold;
+  public NomadDoublePreference kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, RPM, maxError, armThreshold, fireThreshold, stopThreshold;
   private enum ShooterState {SPINUP, READY, ARMED, RECOVERY, SPINDOWN, STOPPED};
   private int cyclesInRange, ballsFired;
   private ShooterState state = ShooterState.STOPPED;
@@ -51,6 +51,7 @@ public class ShooterS extends SubsystemBase {
     maxError = new NomadDoublePreference("MaxError", 100);
     armThreshold = new NomadDoublePreference("ArmingRPM", RPM.getValue() - 100);
     fireThreshold = new NomadDoublePreference("PostShotRPM", RPM.getValue() -200);
+    stopThreshold = new NomadDoublePreference("Stopped RPM", 60);
     // set PID coefficients
     pidController.setP(kP.getValue());
     pidController.setI(kI.getValue());
@@ -118,6 +119,13 @@ public class ShooterS extends SubsystemBase {
         
         break;
       case ARMED:
+        if (encoder.getVelocity() < fireThreshold.getValue()) {
+          ballsFired++;
+          state = ShooterState.RECOVERY;
+        }
+        else if (encoder.getVelocity() > armThreshold.getValue()){
+          state = ShooterState.READY;
+        }
         // if it has dropped below "ball has definitely gone through" threshold
         //  increment balls fired.
         //  go straight to RECOVERY
@@ -126,10 +134,15 @@ public class ShooterS extends SubsystemBase {
       case RECOVERY: 
       // if we are back up to setpt speed,
       //  go to READY
+        if (encoder.getVelocity() > armThreshold.getValue()){
+          state = ShooterState.READY;
+        }
         break;
       case SPINDOWN:
-        //set motor to coast mode 0 power.
-        // if motor has stopped moving, 
+        spark.set(0);//set motor to coast mode 0 power.
+        if (encoder.getVelocity() < stopThreshold.getValue()) {
+          state = ShooterState.STOPPED;
+        }// if motor has stopped moving, 
         // go to STOPPED
         break;
       case STOPPED:
@@ -140,7 +153,5 @@ public class ShooterS extends SubsystemBase {
 
   public void spinDown() {
     state = ShooterState.SPINDOWN;
-    spark.set(0);
-
   }
 }

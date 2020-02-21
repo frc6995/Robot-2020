@@ -37,7 +37,12 @@ public class GyroPID extends CommandBase {
   @Override
   public void execute() {
 
-    
+    if (turnLeft){
+        // <insert left turn pid here>
+    }
+    else {
+      // <insert right turn pid here>
+    }
 
   }
 

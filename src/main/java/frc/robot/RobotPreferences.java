@@ -29,4 +29,8 @@ public final class RobotPreferences {
     public static final NomadIntPreference climberIZoneDown = new NomadIntPreference("Climber I zone down", 300);
 
     public static final NomadIntPreference climberAllowableError = new NomadIntPreference("Climber Allowable Error", 15);
+
+    public static final NomadDoublePreference gyroPidP = new NomadDoublePreference("Gyro PID P", 0.00);
+    public static final NomadDoublePreference gyroPidI = new NomadDoublePreference("Gyro PID I", 0.00);
+    public static final NomadDoublePreference gyroPidD = new NomadDoublePreference("Gyro PID D", 0.00);
 }

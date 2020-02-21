@@ -268,4 +268,21 @@ public class DrivebaseS implements Subsystem {
     rightMasterTalon.config_kP(0, Preferences.drivekP.getValue());
     
   }
+
+  /**
+   * Sets the drivebase talons pid constants in the selected pidSlot
+   * @param p the p constant
+   * @param i the i constant
+   * @param d the d constant
+   * @param pidSlot the pidSlot for this pid setup
+   */
+  public void setDrivebasePIDConstants(double p, double i, double d, int pidSlot){
+    leftMasterTalon.config_kP(pidSlot, p);
+    leftMasterTalon.config_kI(pidSlot, i);
+    leftMasterTalon.config_kD(pidSlot, d);
+
+    rightMasterTalon.config_kP(pidSlot, p);
+    rightMasterTalon.config_kI(pidSlot, i);
+    rightMasterTalon.config_kD(pidSlot, d);
+  }
 }

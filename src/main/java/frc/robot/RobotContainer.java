@@ -10,17 +10,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.Slider.IntakeDeployC;
-import frc.robot.commands.Slider.IntakeRetractC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.intake.IntakeDeployC;
+import frc.robot.commands.intake.IntakeRetractC;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.constants.DrivebaseConstants;
+import frc.robot.constants.OIConstants;
 import frc.robot.constants.Trajectories;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.IntakeS;
+import io.github.oblarg.oblog.annotations.Log;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -31,7 +33,12 @@ import frc.robot.subsystems.IntakeS;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
+  private final GenericHID driveController;
+  public final GenericHID operatorController;
+
+  @Log(name = "IntakeS")
   public final static IntakeS intakeS = new IntakeS();
+
   public static final DrivebaseS drivebaseS = new DrivebaseS();
   
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
@@ -39,7 +46,6 @@ public class RobotContainer {
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
     private final SequentialCommandGroup straight2mAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
-  public final GenericHID driveController;
   private final Command driveStickC;
   private DoubleSupplier fwdBackAxis;
   private final DrivebaseVisionC visionAlignC;
@@ -58,6 +64,9 @@ public class RobotContainer {
     else {
       driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
+
+    operatorController = new XboxController(OIConstants.OI_OPERATOR_CONTROLLER);
+
     fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_TURN)), drivebaseS);
@@ -84,9 +93,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //TODO: Figure out these buttons
-    new JoystickButton(driveController, 2).whileHeld(intakeDeployCG);
-    new JoystickButton(driveController, 2).whenReleased(intakeRetractCG);
+    new JoystickButton(operatorController, 2).whileHeld(intakeDeployCG);
+    new JoystickButton(operatorController, 2).whenReleased(intakeRetractCG);
     
     new JoystickButton(driveController, 4).whileHeld(visionAlignC);
     

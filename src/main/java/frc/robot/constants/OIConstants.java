@@ -21,4 +21,5 @@ public final class OIConstants {
      * The USB device ID for the drive controller.
      */
     public static final int OI_DRIVE_CONTROLLER = 0;
+    public static final int OI_OPERATOR_CONTROLLER = 1;
 }

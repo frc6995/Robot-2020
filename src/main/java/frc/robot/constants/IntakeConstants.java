@@ -6,21 +6,19 @@ package frc.robot.constants;
  * @author Ari Shashivkopanazak
  */
 public class IntakeConstants {
-    
-    //TODO map out the hardware
-    
+        
     /**
-     * Intake Talon: Talon, ID = x
+     * Intake Talon: Talon
      */
     public final static int CAN_ID_TALON_INTAKE_MOTOR = 33;
 
     /**
-     * Intake Double Solenoid extended position, ID = x
+     * Intake Double Solenoid extended position
      */
-    public final static int DBL_SOLENOID_INTAKE_EXTEND = 40;
+    public final static int DBL_SOLENOID_INTAKE_EXTEND = 2;
     
     /**
-     * Intake Double Solenoid retract position, ID = x
+     * Intake Double Solenoid retract position
      */
-    public final static int DBL_SOLENOID_INTAKE_RETRACT = 41;
+    public final static int DBL_SOLENOID_INTAKE_RETRACT = 3;
 }

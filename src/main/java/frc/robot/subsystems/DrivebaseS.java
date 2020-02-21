@@ -209,6 +209,14 @@ public class DrivebaseS implements Subsystem {
   }
 
   /**
+   * returns the angle of the gyro between -360 to 360 degrees
+   * @return the current angle of the gyro in degrees kept within -360 to 360
+   */
+  public double getDegrees(){
+    return DriveConstants.GYRO_REVERSED ? -(gyro.getAngle() % 360) : gyro.getAngle() % 360;
+  }
+
+  /**
    * Returns the turn rate of the robot.
    *
    * @return The turn rate of the robot, in degrees per second

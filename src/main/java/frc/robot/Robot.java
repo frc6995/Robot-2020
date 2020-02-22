@@ -10,6 +10,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -63,6 +64,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0.5);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0.5);
   }
 
   /**
@@ -70,6 +73,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -91,6 +96,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }

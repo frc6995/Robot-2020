@@ -1,13 +1,7 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
 
 import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -29,6 +23,19 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
+import frc.robot.commands.drivebase.DrivebaseVisionC;
+import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.intake.IntakeDeployAndRunCG;
+import frc.robot.commands.intake.IntakeRetractAndStopCG;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
+import frc.robot.constants.DrivebaseConstants;
+import frc.robot.constants.OIConstants;
+import frc.robot.constants.Trajectories;
+import frc.robot.subsystems.DrivebaseS;
+import frc.robot.subsystems.IntakeS;
+import io.github.oblarg.oblog.annotations.Log;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -38,8 +45,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //@Log.PDP
-  //public static final PowerDistributionPanel pdp = new PowerDistributionPanel(0);
+  
+  private final GenericHID driveController;
+  public final GenericHID operatorController;
+
+  @Log(name = "IntakeS")
+  public final static IntakeS intakeS = new IntakeS();
 
   public static final DrivebaseS drivebaseS = new DrivebaseS();
   public static final HopperS hopperS = new HopperS();
@@ -49,10 +60,12 @@ public class RobotContainer {
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
     private final SequentialCommandGroup straight2mAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
-  public final GenericHID driveController;
   private final Command driveStickC;
   private DoubleSupplier fwdBackAxis;
   private final DrivebaseVisionC visionAlignC;
+
+  private final IntakeDeployAndRunCG intakeDeployCG;
+  private final IntakeRetractAndStopCG intakeRetractCG;
 
   public static final ShooterS shooterS = new ShooterS();
   @Log(tabName = "ShooterS")
@@ -70,26 +83,39 @@ public class RobotContainer {
     else {
       driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
+
+    operatorController = new XboxController(OIConstants.OI_OPERATOR_CONTROLLER);
+
     fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(fwdBackAxis.getAsDouble(), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_TURN)), drivebaseS);
     visionAlignC = new DrivebaseVisionC(drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     Logger.configureLoggingAndConfig(this, false);
+    intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
+    intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
+
     // Configure the button bindings
     configureButtonBindings();
 
     drivebaseS.setDefaultCommand(driveStickC);
+
+    // defaults to Retracted state
+    intakeS.setDefaultCommand(intakeRetractCG);
   }
 
   /**
    * Use this method to define your button-command mappings.  Buttons can be created by
+
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(operatorController, 2).whenPressed(intakeDeployCG);
+    new JoystickButton(operatorController, 2).whenReleased(intakeRetractCG);
+    
     new JoystickButton(driveController, 4).whileHeld(visionAlignC);
     
   }

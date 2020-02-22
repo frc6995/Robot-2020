@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
-import frc.robot.commands.intake.IntakeDeployAndRunCG;
-import frc.robot.commands.intake.IntakeRetractAndStopCG;
+import frc.robot.commands.intake.IntakeDeployC;
+import frc.robot.commands.intake.IntakeRetractC;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.constants.DrivebaseConstants;
@@ -59,8 +59,8 @@ public class RobotContainer {
   private DoubleSupplier fwdBackAxis;
   private final DrivebaseVisionC visionAlignC;
 
-  private final IntakeDeployAndRunCG intakeDeployCG;
-  private final IntakeRetractAndStopCG intakeRetractCG;
+  private final IntakeDeployC intakeDeployCG;
+  private final IntakeRetractC intakeRetractCG;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -82,8 +82,8 @@ public class RobotContainer {
     visionAlignC = new DrivebaseVisionC(drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
-    intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
-    intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
+    intakeDeployCG = new IntakeDeployC();
+    intakeRetractCG = new IntakeRetractC();
 
     // Configure the button bindings
     configureButtonBindings();
@@ -102,7 +102,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(operatorController, 2).whenPressed(intakeDeployCG);
+    new JoystickButton(operatorController, 2).whileHeld(intakeDeployCG);
     new JoystickButton(operatorController, 2).whenReleased(intakeRetractCG);
     
     new JoystickButton(driveController, 4).whileHeld(visionAlignC);

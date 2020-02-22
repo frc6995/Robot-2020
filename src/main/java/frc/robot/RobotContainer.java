@@ -10,6 +10,7 @@ package frc.robot;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.constants.DriveConstants;
@@ -19,7 +20,11 @@ import frc.robot.commands.drivebase.EmptyAutoCG;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.subsystems.DrivebaseS;
+import frc.robot.subsystems.ShooterS;
+import io.github.oblarg.oblog.Logger;
+import io.github.oblarg.oblog.annotations.Log;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -32,7 +37,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  
+  //@Log.PDP
+  //public static final PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
   public static final DrivebaseS drivebaseS = new DrivebaseS();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
@@ -43,8 +49,13 @@ public class RobotContainer {
   public final GenericHID driveController;
   private final Command driveStickC;
   private DoubleSupplier fwdBackAxis;
-  private final DrivebaseVisionC visionAlignC; 
+  private final DrivebaseVisionC visionAlignC;
 
+  public static final ShooterS shooterS = new ShooterS();
+  @Log(tabName = "ShooterS")
+  private final InstantCommand shooterSpinUpC = new InstantCommand(() -> shooterS.spinUp(), shooterS);
+  @Log(tabName = "ShooterS")
+  private final InstantCommand shooterSpinDownC = new InstantCommand(() -> shooterS.spinDown(), shooterS);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -62,6 +73,7 @@ public class RobotContainer {
     visionAlignC = new DrivebaseVisionC(drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
+    Logger.configureLoggingAndConfig(this, false);
     // Configure the button bindings
     configureButtonBindings();
 

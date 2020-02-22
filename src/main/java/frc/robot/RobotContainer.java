@@ -6,6 +6,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.Trajectories;
+import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
+import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
+import frc.robot.commands.drivebase.DrivebaseVisionC;
+import frc.robot.subsystems.DrivebaseS;
+import frc.robot.subsystems.HopperS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -40,6 +48,7 @@ public class RobotContainer {
   public final static IntakeS intakeS = new IntakeS();
 
   public static final DrivebaseS drivebaseS = new DrivebaseS();
+  public static final HopperS hopperS = new HopperS();
   
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 

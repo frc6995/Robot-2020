@@ -16,6 +16,9 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.constants.Trajectories;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.HopperIdleBallsC;
+import frc.robot.commands.HopperLiftBallsC;
+import frc.robot.commands.HopperLowerBallsC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.subsystems.DrivebaseS;
@@ -44,6 +47,7 @@ public class RobotContainer {
     private final SequentialCommandGroup straight2mAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
   public final GenericHID driveController;
+  public final GenericHID operatorController;
   private final Command driveStickC;
   private DoubleSupplier fwdBackAxis;
   private final DrivebaseVisionC visionAlignC; 
@@ -59,6 +63,7 @@ public class RobotContainer {
     else {
       driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
+    operatorController = new XboxController(1);
     fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(fwdBackAxis.getAsDouble(), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
@@ -79,6 +84,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(driveController, 4).whileHeld(visionAlignC);
+    new JoystickButton(operatorController, 1).toggleWhenPressed(new HopperIdleBallsC());
+    new JoystickButton(operatorController, 2).toggleWhenPressed(new HopperLiftBallsC());
+    new JoystickButton(operatorController, 3).toggleWhenPressed(new HopperLowerBallsC());
+    new JoystickButton(operatorController, 4).toggleWhenPressed(new HopperIdleBallsC());
     
   }
 

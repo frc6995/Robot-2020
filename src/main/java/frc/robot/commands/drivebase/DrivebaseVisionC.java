@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.function.DoubleSupplier;
 
@@ -172,10 +173,10 @@ public class DrivebaseVisionC extends CommandBase {
     verticalError = -verticalTarget;
 
     System.out.print("error: "+horizontalError);
+    SmartDashboard.putNumber("VisionError", horizontalError);
     
 
     horizontalAdjust = turnPid.calculate(horizontalError);
-    System.out.print("adjust: "+horizontalAdjust);
     verticalAdjust = distPid.calculate(verticalError); 
 
     clampValue = MathUtil.clamp(rampTimer.get() / VisionConstants.VISION_RAMP_TIME, -1, 1);
@@ -183,8 +184,15 @@ public class DrivebaseVisionC extends CommandBase {
     horizontalAdjust = MathUtil.clamp(horizontalAdjust, -clampValue, clampValue);
     verticalAdjust = MathUtil.clamp(verticalAdjust, -clampValue, clampValue);
 
+    System.out.print("adjust (rad): "+Math.toRadians(horizontalAdjust));
+    SmartDashboard.putNumber("VisionAdjustRad", Math.toRadians(horizontalAdjust));
+
     wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(new ChassisSpeeds(verticalAdjust, horizontalAdjust, Math.toRadians(horizontalAdjust)));
     drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
+    System.out.print("Speeds: "+wheelSpeeds.leftMetersPerSecond+" "+wheelSpeeds.rightMetersPerSecond);
+    double[] var = new double[]{wheelSpeeds.leftMetersPerSecond,wheelSpeeds.rightMetersPerSecond};
+    SmartDashboard.putNumberArray("VisionSpeeds", var);
+    SmartDashboard.putNumber("VisionLeft", var[0]);
   }
 
   /**

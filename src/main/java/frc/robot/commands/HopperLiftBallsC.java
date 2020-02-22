@@ -28,7 +28,7 @@ public class HopperLiftBallsC extends CommandBase {
   @Override
   public void execute() {
 
-    RobotContainer.hopperS.SpinTubes(RobotPreferences.hopperInvert.getValue());
+    RobotContainer.hopperS.spinTubes(RobotPreferences.hopperInvert.getValue());
 
   }
 
@@ -38,7 +38,7 @@ public class HopperLiftBallsC extends CommandBase {
    */
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.hopperS.StopTubes();
+    RobotContainer.hopperS.stopTubes();
   }
 
   // Returns true when the command should end.

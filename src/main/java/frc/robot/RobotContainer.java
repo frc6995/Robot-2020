@@ -63,8 +63,6 @@ public class RobotContainer {
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-  private final SequentialCommandGroup straight2mAutoCG 
-    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();
   
   private final Command driveStickC;
   private final DrivebaseVisionC visionAlignC;

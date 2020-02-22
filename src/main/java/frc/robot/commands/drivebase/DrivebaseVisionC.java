@@ -189,16 +189,10 @@ public class DrivebaseVisionC extends CommandBase {
    */
   @Override
   public boolean isFinished() {
-    if (turnPid.atSetpoint() && distPid.atSetpoint()) {
-      sumInRange++;
-    } else {
-      sumInRange = 0;
-    }
+    if (turnPid.atSetpoint() && distPid.atSetpoint()) sumInRange++;
+    else sumInRange = 0;
 
-    if (sumInRange >= waitInRange) {
-      return true;
-    } else {
-      return false;
-    }
+    if (sumInRange >= waitInRange) return true;
+     else return false;
   }
 }

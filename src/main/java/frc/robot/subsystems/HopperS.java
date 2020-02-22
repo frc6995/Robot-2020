@@ -11,8 +11,8 @@ public class HopperS extends SubsystemBase {
   /**
    * The victors that controls the hopper tubes
    */
-  private NomadTalonSRX hopperVictor1 = new NomadTalonSRX(31);
-  private NomadVictorSPX hopperVictor2 = new NomadVictorSPX(32);
+  private NomadTalonSRX hopperTalon = new NomadTalonSRX(31);
+  private NomadVictorSPX hopperVictor = new NomadVictorSPX(32);
   /**
    * The solenoid that controls the hopper pistons
    */  
@@ -28,29 +28,29 @@ public class HopperS extends SubsystemBase {
  * The function that spins the hopper tubes at preference speed
  * @param reversed should the motor spin in reverse?
  */
-  public void SpinTubes(Boolean reversed){
+  public void spinTubes(Boolean reversed){
     if (reversed) {
-      hopperVictor1.set(-RobotPreferences.hopperSpeed.getValue());
-      hopperVictor2.set(-RobotPreferences.hopperSpeed.getValue());
+      hopperTalon.set(-RobotPreferences.hopperSpeed.getValue());
+      hopperVictor.set(-RobotPreferences.hopperSpeed.getValue());
     }
     else {
-      hopperVictor1.set(RobotPreferences.hopperSpeed.getValue());
-      hopperVictor2.set(RobotPreferences.hopperSpeed.getValue());
+      hopperTalon.set(RobotPreferences.hopperSpeed.getValue());
+      hopperVictor.set(RobotPreferences.hopperSpeed.getValue());
     }
   }
 
-  public void SpinTube(Boolean reversed, int tube){
+  public void spinTube(Boolean reversed, int tube){
     double speed = reversed ? -RobotPreferences.hopperSpeed.getValue() : RobotPreferences.hopperSpeed.getValue();
-    if (tube == 1) hopperVictor1.set(speed);
-    else if (tube == 2) hopperVictor2.set(speed);
+    if (tube == 1) hopperTalon.set(speed);
+    else if (tube == 2) hopperVictor.set(speed);
 
   }
   /**
    * Stops the hopper motor from spinning
    */
-  public void StopTubes(){
-    hopperVictor1.stopMotor();
-    hopperVictor2.stopMotor();
+  public void stopTubes(){
+    hopperTalon.stopMotor();
+    hopperVictor.stopMotor();
   }
 
 }

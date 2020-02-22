@@ -54,10 +54,9 @@ public class RobotContainer {
   @Log(name = "SliderS")
   public static final SliderS sliderS = new SliderS();
   
-  private final SendableChooser<Command> autoChooser = new SendableChooser();
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
-  autoChooser.addDefaultOption(basi)
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
   private final SequentialCommandGroup straight2mAutoCG 
@@ -107,6 +106,11 @@ public class RobotContainer {
 
     // defaults to Retracted state
     intakeS.setDefaultCommand(intakeRetractCG);
+
+    autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
+    autoChooser.addOption("S Curve Right", sCurveRightAutoCG); //TODO add actual paths
+    autoChooser.addOption("Straight", straight2mAutoCG);
+
   }
 
   /**
@@ -131,7 +135,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return sCurveRightAutoCG;
+    return autoChooser.getSelected();
   }
 }

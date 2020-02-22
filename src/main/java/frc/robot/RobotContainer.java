@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
@@ -11,11 +13,13 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.constants.Trajectories;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.ShooterS;
 import io.github.oblarg.oblog.Logger;
+import frc.robot.subsystems.SliderS;
 import io.github.oblarg.oblog.annotations.Log;
 import frc.robot.subsystems.HopperS;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,18 +50,27 @@ import io.github.oblarg.oblog.annotations.Log;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   
+  @Log(name="DrivebaseS")
   private final GenericHID driveController;
   public final GenericHID operatorController;
 
   @Log(name = "IntakeS")
   public final static IntakeS intakeS = new IntakeS();
-
+  
   public static final DrivebaseS drivebaseS = new DrivebaseS();
+
+  @Log(name="SliderS")
+  public static final SliderS sliderS = new SliderS();
   public static final HopperS hopperS = new HopperS();
   
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
+  
+  private final CameraServer server = CameraServer.getInstance();
+  private final UsbCamera camera = new UsbCamera("cam0", 0);
+  
+  private final ManualTranslateC manualTranslateC;
     private final SequentialCommandGroup straight2mAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
   private final Command driveStickC;
@@ -84,6 +97,10 @@ public class RobotContainer {
       driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
 
+    server.startAutomaticCapture(camera);
+
+    DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
+    manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
     operatorController = new XboxController(OIConstants.OI_OPERATOR_CONTROLLER);
 
     fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
@@ -100,6 +117,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     drivebaseS.setDefaultCommand(driveStickC);
+    sliderS.setDefaultCommand(manualTranslateC);
 
     // defaults to Retracted state
     intakeS.setDefaultCommand(intakeRetractCG);

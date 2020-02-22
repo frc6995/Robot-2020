@@ -31,7 +31,6 @@ public class ClimberS extends SubsystemBase implements Loggable {
   public static enum climberLevel {
     AboveBar, Pullup, Home, reset;
   }
-
   public static enum brakePosition {
     Brake, Unbrake;
   }
@@ -177,9 +176,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
 
     if (target != 0.6995) { // target of 0.6995 tells it to automatically return false
       // increment countWithinSetPoint if its within allowable error.
-      if (Math.abs(getError()) < RobotPreferences.climberAllowableError.getValue()) {
-        countWithinSetPoint++;
-      }
+      if (Math.abs(getError()) < RobotPreferences.climberAllowableError.getValue()) countWithinSetPoint++;
 
       // check if countWithinSetPoint is greater than 15, meaning it is at the set
       // point.

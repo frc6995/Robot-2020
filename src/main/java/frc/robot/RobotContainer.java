@@ -8,12 +8,21 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.constants.DriveConstants;
+import frc.robot.constants.Trajectories;
+import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
+import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.ManualTranslateC;
+import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
+import frc.robot.commands.drivebase.DrivebaseVisionC;
+import frc.robot.subsystems.DrivebaseS;
+import frc.robot.subsystems.SliderS;
+import io.github.oblarg.oblog.annotations.Log;
+import frc.robot.subsystems.HopperS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
@@ -25,9 +34,7 @@ import frc.robot.constants.DrivebaseConstants;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.Trajectories;
 import frc.robot.subsystems.DrivebaseS;
-import frc.robot.subsystems.HopperS;
 import frc.robot.subsystems.IntakeS;
-import frc.robot.subsystems.SliderS;
 import io.github.oblarg.oblog.annotations.Log;
 
 /**
@@ -37,36 +44,33 @@ import io.github.oblarg.oblog.annotations.Log;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
-  // Operator Controllers
+  // The robot's subsystems and commands are defined here...
+  
+  @Log(name="DrivebaseS")
   private final GenericHID driveController;
   public final GenericHID operatorController;
 
-  @Log(name = "DrivebaseS")
+  @Log(name = "IntakeS")
+  public final static IntakeS intakeS = new IntakeS();
+  
   public static final DrivebaseS drivebaseS = new DrivebaseS();
 
-  @Log(name = "HopperS")
-  public static final HopperS hopperS = new HopperS();
-
-  @Log(name = "IntakeS")
-  public final static IntakeS intakeS = new IntakeS();  
-
-  @Log(name = "SliderS")
+  @Log(name="SliderS")
   public static final SliderS sliderS = new SliderS();
-  
-  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  public static final HopperS hopperS = new HopperS();
   
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-  private final SequentialCommandGroup straight2mAutoCG 
-    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();
   
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   
-  private final Command driveStickC;
   private final ManualTranslateC manualTranslateC;
+    private final SequentialCommandGroup straight2mAutoCG 
+    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
+  private final Command driveStickC;
+  private DoubleSupplier fwdBackAxis;
   private final DrivebaseVisionC visionAlignC;
 
   private final IntakeDeployAndRunCG intakeDeployCG;
@@ -90,6 +94,7 @@ public class RobotContainer {
     manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
     operatorController = new XboxController(OIConstants.OI_OPERATOR_CONTROLLER);
 
+    fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_TURN)), drivebaseS);
     visionAlignC = new DrivebaseVisionC(drivebaseS);
@@ -106,11 +111,6 @@ public class RobotContainer {
 
     // defaults to Retracted state
     intakeS.setDefaultCommand(intakeRetractCG);
-
-    autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
-    autoChooser.addOption("S Curve Right", sCurveRightAutoCG); //TODO add actual paths
-    autoChooser.addOption("Straight", straight2mAutoCG);
-
   }
 
   /**
@@ -135,6 +135,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return autoChooser.getSelected();
+    // An ExampleCommand will run in autonomous
+    return sCurveRightAutoCG;
   }
 }

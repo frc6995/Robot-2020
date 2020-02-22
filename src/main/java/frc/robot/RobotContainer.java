@@ -22,6 +22,7 @@ import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.SliderS;
 import io.github.oblarg.oblog.annotations.Log;
+import frc.robot.subsystems.HopperS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -42,6 +43,7 @@ public class RobotContainer {
 
   @Log(name="SliderS")
   public static final SliderS sliderS = new SliderS();
+  public static final HopperS hopperS = new HopperS();
   
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 

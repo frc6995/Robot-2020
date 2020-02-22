@@ -44,11 +44,6 @@ public class ClimberUpPIDC extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (this.endAtTarget) {
-      return RobotContainer.climberS.isAtSetPoint(climberLevel.AboveBar);
-    }
-    else {
-      return false;
-    }
+      return this.endAtTarget && RobotContainer.climberS.isAtSetPoint(climberLevel.AboveBar);
   }
 }

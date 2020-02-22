@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 /**
  * Command that keeps balls idling inside the hopper.
+ *  (hotdog mode)
  */
 public class HopperIdleBallsC extends CommandBase {
   /**

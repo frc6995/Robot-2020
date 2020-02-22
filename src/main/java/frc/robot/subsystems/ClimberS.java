@@ -31,7 +31,6 @@ public class ClimberS extends SubsystemBase implements Loggable {
   public static enum climberLevel {
     AboveBar, Pullup, Home, reset;
   }
-
   public static enum brakePosition {
     Brake, Unbrake;
   }

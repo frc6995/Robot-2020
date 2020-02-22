@@ -45,7 +45,6 @@ import io.github.oblarg.oblog.annotations.Log;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public final GenericHID driveController;
   
   @Log(name="DrivebaseS")
   private final GenericHID driveController;
@@ -63,16 +62,11 @@ public class RobotContainer {
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-  private final SequentialCommandGroup straight2mAutoCG 
-    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();
   
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   
-  private final Command driveStickC;
-  private DoubleSupplier fwdBackAxis;
   private final ManualTranslateC manualTranslateC;
-  private final DrivebaseVisionC visionAlignC; 
     private final SequentialCommandGroup straight2mAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
   private final Command driveStickC;

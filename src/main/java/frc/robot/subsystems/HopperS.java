@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotPreferences;
+import frc.robot.constants.HopperConstants;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 /**
@@ -11,8 +12,8 @@ public class HopperS extends SubsystemBase {
   /**
    * The victors that controls the hopper tubes
    */
-  private NomadTalonSRX hopperTalon = new NomadTalonSRX(31);
-  private NomadVictorSPX hopperVictor = new NomadVictorSPX(32);
+  private NomadTalonSRX hopperTalon = new NomadTalonSRX(HopperConstants.CAN_ID_HOPPER_TALON);
+  private NomadVictorSPX hopperVictor = new NomadVictorSPX(HopperConstants.CAN_ID_HOPPER_VICTOR);
   /**
    * The solenoid that controls the hopper pistons
    */  

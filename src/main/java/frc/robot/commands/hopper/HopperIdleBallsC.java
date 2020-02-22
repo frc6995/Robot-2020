@@ -1,17 +1,15 @@
-package frc.robot.commands;
+package frc.robot.commands.hopper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.RobotPreferences;
-
 /**
- * The command that lifts balls through the hopper
+ * Command that keeps balls idling inside the hopper.
  */
-public class HopperLiftBallsC extends CommandBase {
+public class HopperIdleBallsC extends CommandBase {
   /**
-   * Creates a new HopperLiftBallsC.
+   * Creates a new HopperIdleBallsC.
    */
-  public HopperLiftBallsC() {
+  public HopperIdleBallsC() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.hopperS);
   }
@@ -23,22 +21,25 @@ public class HopperLiftBallsC extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   /**
-   * Spins the hopper tubes to raise balls through the hopper.
+   * Spins one hopper tube one direction and the other tube the other direction.
    */
   @Override
   public void execute() {
 
-    RobotContainer.hopperS.spinTubes(RobotPreferences.hopperInvert.getValue());
+    RobotContainer.hopperS.spinTube(true, 1);
+    RobotContainer.hopperS.spinTube(false, 2);
 
   }
 
   // Called once the command ends or is interrupted.
   /**
-   * stops spinning the hopper when interupted
+   * if the command is interupted, stop spinning the tubes.
    */
   @Override
   public void end(boolean interrupted) {
+
     RobotContainer.hopperS.stopTubes();
+
   }
 
   // Returns true when the command should end.

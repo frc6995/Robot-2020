@@ -33,7 +33,7 @@ public class ClimberManualC extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //@Log(name="climber Speed")
+    
     double speed = this.power.getAsDouble();
     if  (Math.abs(speed) < 0.1) {
       speed = 0;

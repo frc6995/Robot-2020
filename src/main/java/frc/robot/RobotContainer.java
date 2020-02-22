@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -60,6 +61,7 @@ public class RobotContainer {
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
@@ -92,6 +94,8 @@ public class RobotContainer {
     }
     operatorController = new XboxController(1); //put me in constants somewhere...
 
+    autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
+    autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
 
     server.startAutomaticCapture(camera);
 
@@ -155,6 +159,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return sCurveRightAutoCG;
+    return autoChooser.getSelected();
   }
 }

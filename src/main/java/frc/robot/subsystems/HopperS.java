@@ -29,18 +29,18 @@ public class HopperS extends SubsystemBase {
  * @param reversed should the motor spin in reverse?
  */
   public void spinTubes(Boolean reversed){
-    if (reversed) {
-      hopperTalon.set(-RobotPreferences.hopperSpeed.getValue());
-      hopperVictor.set(-RobotPreferences.hopperSpeed.getValue());
+    if (!reversed) {
+      hopperTalon.set(-RobotPreferences.hopperSpeed.getValue() - .1);
+      hopperVictor.set(-RobotPreferences.hopperSpeed.getValue() - .1);
     }
     else {
-      hopperTalon.set(RobotPreferences.hopperSpeed.getValue());
-      hopperVictor.set(RobotPreferences.hopperSpeed.getValue());
+      hopperTalon.set(RobotPreferences.hopperSpeed.getValue() + .1);
+      hopperVictor.set(RobotPreferences.hopperSpeed.getValue() + .1);
     }
   }
 
   public void spinTube(Boolean reversed, int tube){
-    double speed = reversed ? -RobotPreferences.hopperSpeed.getValue() : RobotPreferences.hopperSpeed.getValue();
+    double speed = !reversed ? -RobotPreferences.hopperSpeed.getValue() : RobotPreferences.hopperSpeed.getValue();
     if (tube == 1) hopperTalon.set(speed);
     else if (tube == 2) hopperVictor.set(speed);
 

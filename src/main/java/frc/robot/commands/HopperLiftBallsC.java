@@ -28,7 +28,7 @@ public class HopperLiftBallsC extends CommandBase {
   @Override
   public void execute() {
 
-    RobotContainer.hopperS.spinTubes(RobotPreferences.hopperInvert.getValue());
+    RobotContainer.hopperS.spinTubes(true);
 
   }
 

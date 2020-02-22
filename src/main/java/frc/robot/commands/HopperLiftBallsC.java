@@ -5,6 +5,7 @@ import frc.robot.RobotContainer;
 
 /**
  * The command that lifts balls through the hopper
+ * @author Joey Fabel
  */
 public class HopperLiftBallsC extends CommandBase {
   /**

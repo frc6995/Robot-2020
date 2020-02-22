@@ -5,6 +5,7 @@ import frc.robot.RobotContainer;
 
 /**
  * The command that lowers balls in the hopper.
+ * @author Joey Fabel
  */
 public class HopperLowerBallsC extends CommandBase {
   /**

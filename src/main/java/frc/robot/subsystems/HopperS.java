@@ -6,6 +6,7 @@ import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 /**
  * The Subsystem for that holds our balls
+ * @author Joey Fabel
  */
 public class HopperS extends SubsystemBase {
   /**

@@ -5,6 +5,7 @@ import frc.robot.RobotContainer;
 /**
  * Command that keeps balls idling inside the hopper.
  *  (hotdog mode)
+ * @author Joey Fabel
  */
 public class HopperIdleBallsC extends CommandBase {
   /**

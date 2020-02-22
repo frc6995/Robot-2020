@@ -18,6 +18,7 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.DrivebaseS;
 import frc.utility.preferences.NomadPreference;
+import io.github.oblarg.oblog.Logger;
 
 /**
  * VisionAlignC
@@ -116,7 +117,9 @@ public class DrivebaseVisionC extends CommandBase {
    * @param drivebaseS The DrivebaseS object to use.
    */
   public DrivebaseVisionC(DrivebaseS drivebaseS) {
-    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
+    addRequirements(drivebaseS);
+    System.out.println("starting");
+    pipelineEntry.setDouble(0);
     ledModeEntry.setDouble(0);
     addRequirements(drivebaseS);
     drivebase = drivebaseS;
@@ -134,6 +137,7 @@ public class DrivebaseVisionC extends CommandBase {
 
     turnPid.setSetpoint(0);
     distPid.setSetpoint(0);
+    sumInRange = 0;
   }
 
   /**
@@ -158,7 +162,7 @@ public class DrivebaseVisionC extends CommandBase {
     turnPid.setP(Preferences.VISION_KP_HORIZONTAL.getValue());
     distPid.setP(Preferences.VISION_KP_VERTICAL.getValue());
 
-    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
+    pipelineEntry.setDouble(0);
     ledModeEntry.setDouble(2);
 
     horizontalTarget = txEntry.getDouble(0);
@@ -167,9 +171,11 @@ public class DrivebaseVisionC extends CommandBase {
     horizontalError = -horizontalTarget;
     verticalError = -verticalTarget;
 
+    System.out.print("error: "+horizontalError);
     
 
     horizontalAdjust = turnPid.calculate(horizontalError);
+    System.out.print("adjust: "+horizontalAdjust);
     verticalAdjust = distPid.calculate(verticalError); 
 
     clampValue = MathUtil.clamp(rampTimer.get() / VisionConstants.VISION_RAMP_TIME, -1, 1);
@@ -177,7 +183,7 @@ public class DrivebaseVisionC extends CommandBase {
     horizontalAdjust = MathUtil.clamp(horizontalAdjust, -clampValue, clampValue);
     verticalAdjust = MathUtil.clamp(verticalAdjust, -clampValue, clampValue);
 
-    wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(new ChassisSpeeds(verticalAdjust, 0, Math.toRadians(horizontalAdjust)));
+    wheelSpeeds = DriveConstants.kDriveKinematics.toWheelSpeeds(new ChassisSpeeds(verticalAdjust, horizontalAdjust, Math.toRadians(horizontalAdjust)));
     drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
   }
 
@@ -191,6 +197,7 @@ public class DrivebaseVisionC extends CommandBase {
     rampTimer.stop();
     rampTimer.reset();
     firstLoop = true;
+    System.out.println("ending");
     ledModeEntry.setDouble(0);
   }
 
@@ -200,6 +207,7 @@ public class DrivebaseVisionC extends CommandBase {
    */
   @Override
   public boolean isFinished() {
+    System.out.println(sumInRange);
     if (turnPid.atSetpoint() && distPid.atSetpoint()) {
       sumInRange++;
     }

@@ -5,14 +5,22 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.SliderS;
 import java.util.function.DoubleSupplier;
 
-public class ManualTranslateC extends CommandBase {
-  
-private DoubleSupplier slide;
 /**
- * The command that allows the robot to manually translate on the switch in respone to user input.
- * @param sliderS The instance of the slider subsystem used by the robot.
- * @param slideAxis The double supplier providing the value of the joystick axis for input.
+ * The command that allows the robot to manually translate on the switch in
+ * response to user input.
  */
+public class ManualTranslateC extends CommandBase {
+
+  private DoubleSupplier slide;
+
+  /**
+   * The command that allows the robot to manually translate on the switch in
+   * respone to user input.
+   * 
+   * @param sliderS   The instance of the slider subsystem used by the robot.
+   * @param slideAxis The double supplier providing the value of the joystick axis
+   *                  for input.
+   */
   public ManualTranslateC(SliderS sliderS, DoubleSupplier slideAxis) {
     addRequirements(sliderS);
     this.slide = slideAxis;
@@ -23,12 +31,13 @@ private DoubleSupplier slide;
    */
   @Override
   public void initialize() {
-    RobotContainer.sliderS.translate(0);    
+    RobotContainer.sliderS.translate(0);
   }
 
   /**
-   * The main part of the command. Checks the value of the input axis against a deadzone, and, if greater than 
-   * the deadzone, gives that value as the translation speed.
+   * The main part of the command. Checks the value of the input axis against a
+   * deadzone, and, if greater than the deadzone, gives that value as the
+   * translation speed.
    */
   @Override
   public void execute() {
@@ -40,7 +49,8 @@ private DoubleSupplier slide;
   }
 
   /**
-   * If the manual translate command is interupted, tell the slider to stop moving.
+   * If the manual translate command is interupted, tell the slider to stop
+   * moving.
    */
   @Override
   public void end(boolean interrupted) {

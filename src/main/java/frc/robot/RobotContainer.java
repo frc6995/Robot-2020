@@ -8,6 +8,9 @@
 package frc.robot;
 
 import java.util.function.DoubleSupplier;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -47,9 +50,12 @@ public class RobotContainer {
   
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
-  = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-    private final SequentialCommandGroup straight2mAutoCG 
-    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
+    = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
+  private final SequentialCommandGroup straight2mAutoCG 
+    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();
+  
+  private final CameraServer server = CameraServer.getInstance();
+  private final UsbCamera camera = new UsbCamera("cam0", 0);
   
   private final Command driveStickC;
   private DoubleSupplier fwdBackAxis;
@@ -67,6 +73,8 @@ public class RobotContainer {
     else {
       driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
     }
+
+    server.startAutomaticCapture(camera);
 
     DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
     manualTranslateC = new ManualTranslateC(sliderS, slideAxis);

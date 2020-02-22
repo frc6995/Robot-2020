@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,17 +10,13 @@ import io.github.oblarg.oblog.annotations.Log;
 
 /**
  * The Slider subsystem that enables the robot to translate on the switch.
- * 
- * @author Joey Fabel
  */
 public class SliderS extends SubsystemBase implements Loggable {
   private NomadVictorSPX sliderVictor = new NomadVictorSPX(SliderConstants.CAN_ID_SLIDER_CONTROLLER);
+  @Log(name="Slider Gyro")
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 
   public SliderS() {
-    final UsbCamera camera = new UsbCamera("cam0", 0);
-    CameraServer server = CameraServer.getInstance();
-    server.startAutomaticCapture(camera);
   }
 
   /**

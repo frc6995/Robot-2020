@@ -25,12 +25,8 @@ public class SliderS extends SubsystemBase implements Loggable {
    * @param speed how fast the robot should translate
    */
   public void translate(double speed) {
-    if (speed == 0) {
-      sliderVictor.stopMotor();
-    }
-    else {
-      sliderVictor.set(speed);
-    }
+    if (speed == 0) sliderVictor.stopMotor();
+    else sliderVictor.set(speed);
   }
 
   /**

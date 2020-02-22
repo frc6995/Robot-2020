@@ -26,8 +26,8 @@ public class HopperIdleBallsC extends CommandBase {
   @Override
   public void execute() {
 
-    RobotContainer.hopperS.SpinTube(true, 1);
-    RobotContainer.hopperS.SpinTube(false, 2);
+    RobotContainer.hopperS.spinTube(true, 1);
+    RobotContainer.hopperS.spinTube(false, 2);
 
   }
 
@@ -38,7 +38,7 @@ public class HopperIdleBallsC extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    RobotContainer.hopperS.StopTubes();
+    RobotContainer.hopperS.stopTubes();
 
   }
 

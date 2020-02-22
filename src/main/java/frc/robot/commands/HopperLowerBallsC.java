@@ -28,7 +28,7 @@ public class HopperLowerBallsC extends CommandBase {
   @Override
   public void execute() {
     //Spins it opposite direction from lift balls command, based on preference to make sure the invert value is correct.
-    RobotContainer.hopperS.SpinTubes(!RobotPreferences.hopperInvert.getValue());
+    RobotContainer.hopperS.spinTubes(!RobotPreferences.hopperInvert.getValue());
 
   }
 
@@ -39,7 +39,7 @@ public class HopperLowerBallsC extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-  RobotContainer.hopperS.StopTubes();
+  RobotContainer.hopperS.stopTubes();
 
   }
 

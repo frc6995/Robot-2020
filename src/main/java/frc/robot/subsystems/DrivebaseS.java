@@ -30,7 +30,6 @@ import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 
 /**
- * This subsystem is for the drivetrain, which is made up of two master Talons
  * and two sets of Victors, each on a side of the drivetrain.
  */
 public class DrivebaseS implements Subsystem {
@@ -72,7 +71,7 @@ public class DrivebaseS implements Subsystem {
    * The NetworkTableEntry for the current gyro heading;
    */
   // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  // here. Call these from Commands`.
   /**
    * Creates a new DrivebaseS.
    */
@@ -90,7 +89,13 @@ public class DrivebaseS implements Subsystem {
     differentialDrive.setRightSideInverted(false);
     gyro = new AHRS(SerialPort.Port.kMXP);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+
+    resetEncoders();
+    zeroHeading();
+    resetOdometry(new Pose2d());
+
   }
+
   /**
    * Calls the DifferentialDrive arcadeDrive method
    * @param driveSpeed -1 to 1, forward-backward speed.
@@ -209,6 +214,14 @@ public class DrivebaseS implements Subsystem {
   }
 
   /**
+   * returns the angle of the gyro between -360 to 360 degrees
+   * @return the current angle of the gyro in degrees kept within -360 to 360
+   */
+  public double getDegrees(){
+    return DriveConstants.GYRO_REVERSED ? -(gyro.getAngle() % 360) : gyro.getAngle() % 360;
+  }
+
+  /**
    * Returns the turn rate of the robot.
    *
    * @return The turn rate of the robot, in degrees per second
@@ -260,4 +273,23 @@ public class DrivebaseS implements Subsystem {
     rightMasterTalon.config_kP(0, Preferences.drivekP.getValue());
     
   }
+
+  /**
+   * Sets the drivebase talons pid constants in the selected pidSlot
+   * @param p the p constant
+   * @param i the i constant
+   * @param d the d constant
+   * @param pidSlot the pidSlot for this pid setup
+   */
+  public void setDrivebasePIDConstants(double p, double i, double d, int pidSlot){
+    leftMasterTalon.config_kP(pidSlot, p);
+    leftMasterTalon.config_kI(pidSlot, i);
+    leftMasterTalon.config_kD(pidSlot, d);
+
+    rightMasterTalon.config_kP(pidSlot, p);
+    rightMasterTalon.config_kI(pidSlot, i);
+    rightMasterTalon.config_kD(pidSlot, d);
+  }
+
+  
 }

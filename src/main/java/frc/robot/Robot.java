@@ -10,9 +10,11 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import io.github.oblarg.oblog.Logger;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
+    Logger.configureLoggingAndConfig(this.robotContainer, false);
   }
 
   /**
@@ -61,6 +64,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0.5);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0.5);
   }
 
   /**
@@ -68,13 +73,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
     autonomousCommand = robotContainer.getAutonomousCommand();
-
-
-    robotContainer.drivebaseS.resetEncoders();
-    robotContainer.drivebaseS.zeroHeading();
-    robotContainer.drivebaseS.resetOdometry(new Pose2d());
-    
 
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
@@ -95,6 +96,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }

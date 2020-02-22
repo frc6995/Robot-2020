@@ -23,6 +23,7 @@ import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.ShooterS;
 import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
+import frc.robot.subsystems.HopperS;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -41,6 +42,8 @@ public class RobotContainer {
   //public static final PowerDistributionPanel pdp = new PowerDistributionPanel(0);
 
   public static final DrivebaseS drivebaseS = new DrivebaseS();
+  public static final HopperS hopperS = new HopperS();
+  
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
@@ -81,7 +84,7 @@ public class RobotContainer {
   }
 
   /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
+   * Use this method to define your button-command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.

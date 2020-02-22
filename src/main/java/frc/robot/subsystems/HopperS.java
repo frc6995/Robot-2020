@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotPreferences;
+import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 /**
  * The Subsystem for that holds our balls
@@ -9,7 +11,7 @@ public class HopperS extends SubsystemBase {
   /**
    * The victors that controls the hopper tubes
    */
-  private NomadVictorSPX hopperVictor1 = new NomadVictorSPX(31);
+  private NomadTalonSRX hopperVictor1 = new NomadTalonSRX(31);
   private NomadVictorSPX hopperVictor2 = new NomadVictorSPX(32);
   /**
    * The solenoid that controls the hopper pistons

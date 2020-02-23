@@ -1,16 +1,20 @@
 package frc.robot.commands.hopper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+import frc.robot.subsystems.HopperS;
+
 /**
  * Command that keeps balls idling inside the hopper.
  */
 public class HopperIdleBallsC extends CommandBase {
+  private HopperS hopper;
+
   /**
    * Creates a new HopperIdleBallsC.
    */
-  public HopperIdleBallsC() {
-    addRequirements(RobotContainer.hopperS);
+  public HopperIdleBallsC(HopperS hopperS) {
+    this.hopper = hopperS;
+    addRequirements(this.hopper);
   }
 
   @Override
@@ -23,8 +27,8 @@ public class HopperIdleBallsC extends CommandBase {
   @Override
   public void execute() {
 
-    RobotContainer.hopperS.spinTube(true, 1);
-    RobotContainer.hopperS.spinTube(false, 2);
+    this.hopper.spinTube(true, 1);
+    this.hopper.spinTube(false, 2);
 
   }
 
@@ -34,7 +38,7 @@ public class HopperIdleBallsC extends CommandBase {
   @Override
   public void end(boolean interrupted) {
 
-    RobotContainer.hopperS.stopTubes();
+    this.hopper.stopTubes();
 
   }
 

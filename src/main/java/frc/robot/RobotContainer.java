@@ -110,9 +110,9 @@ public class RobotContainer {
     climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
     climberHomeC = new ClimberHomeC(climberS);
-    climberUpPIDC = new ClimberUpPIDC(true);
+    climberUpPIDC = new ClimberUpPIDC(climberS, true);
     SmartDashboard.putData(climberUpPIDC);
-    climberPullupCG = new ClimberPullupCG();
+    climberPullupCG = new ClimberPullupCG(climberS);
     SmartDashboard.putData(climberPullupCG);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
@@ -138,15 +138,15 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveController, 1).whileHeld(visionAlignC);
-    new JoystickButton(driveController, 2).whenPressed(climberHomeC);
+    new JoystickButton(driveController, 1).whenPressed(climberHomeC); // test w/ toggle when pressed
+    new JoystickButton(driveController, 2).whenPressed(climberBrakeOnC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
-    new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
-    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC);
-    new JoystickButton(driveController, 6).whenPressed(climberPullupCG);
+    new JoystickButton(driveController, 4).whileHeld(visionAlignC);
+    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); //test w/ toggle when pressed
+    new JoystickButton(driveController, 6).whenPressed(climberPullupCG); //test w/ toggle when pressed
 
-    new JoystickButton(operatorController, 2).whenPressed(intakeDeployCG);
-    new JoystickButton(operatorController, 2).whenReleased(intakeRetractCG);
+    new JoystickButton(operatorController, 4).whenPressed(intakeDeployCG);
+    new JoystickButton(operatorController, 4).whenReleased(intakeRetractCG);
     
     
   }

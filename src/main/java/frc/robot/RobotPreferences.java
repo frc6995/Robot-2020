@@ -31,6 +31,16 @@ public final class RobotPreferences {
 
     public static final NomadIntPreference climberAllowableError = new NomadIntPreference("Climber Allowable Error", 15);
 
+    
     public static NomadBooleanPreference hopperInvert = new NomadBooleanPreference("hopper motors invert", true);
     public static NomadDoublePreference hopperSpeed = new NomadDoublePreference("hopper speed", 0.5);
+
+
+    public static NomadDoublePreference drivekP = new NomadDoublePreference("drivekP", 0.1);
+
+    /*
+     * Horizontal and Vertical Proportional terms
+     */
+    public static final NomadDoublePreference VISION_KP_HORIZONTAL = new NomadDoublePreference("Vision Horizontal kP", 0.04f);
+    public static final NomadDoublePreference VISION_KP_VERTICAL = new NomadDoublePreference("Vision Vertical kP", 0.04f);
 }

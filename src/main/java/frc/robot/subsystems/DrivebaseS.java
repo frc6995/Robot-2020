@@ -14,9 +14,8 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Preferences;
+import frc.robot.RobotPreferences;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.utility.NomadUnits;
@@ -77,7 +76,7 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
     for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
       rightSlaveVictors.add(new NomadVictorSPX(i, true, rightMasterTalon));
     }
-    talonConfig.slot0.kP = Preferences.drivekP.getValue();
+    talonConfig.slot0.kP = RobotPreferences.drivekP.getValue();
     leftMasterTalon.config_kP(0, 0.0309);
     leftMasterTalon.setSensorPhase(true);
     rightMasterTalon.config_kP(0, 0.0209);
@@ -97,7 +96,7 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
    * @param turnSpeed -1 to 1, turning speed.
    */
   public void arcadeDrive(double driveSpeed, double turnSpeed) {
-    differentialDrive.arcadeDrive(driveSpeed, turnSpeed);
+    differentialDrive.arcadeDrive(driveSpeed, turnSpeed*0.8);
   }
 
   @Override
@@ -264,8 +263,8 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
     SmartDashboard.putNumber("leftEncoderRate", getLeftEncoderRate());
     SmartDashboard.putNumber("rightEncoderRate", getRightEncoderRate());
     SmartDashboard.putNumber("gyro heading", getHeading());
-    leftMasterTalon.config_kP(0, Preferences.drivekP.getValue());
-    rightMasterTalon.config_kP(0, Preferences.drivekP.getValue());
+    leftMasterTalon.config_kP(0, RobotPreferences.drivekP.getValue());
+    rightMasterTalon.config_kP(0, RobotPreferences.drivekP.getValue());
     
   }
 

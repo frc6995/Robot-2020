@@ -16,7 +16,7 @@ public class ShooterConstants {
     /**
      * The target RPM for the shooter wheel.
      */
-    public static final double SHOOTER_RPM = 3000;
+    public static final double SHOOTER_RPM = 1000;
 
     public static final double SHOOTER_MAX_RPM = 5600;
     /**

@@ -34,6 +34,7 @@ public class SliderS extends SubsystemBase implements Loggable {
    * 
    * @return returns the angle of the gyro.
    */
+  @Log.Gyro(name = "Gyro Angle", columnIndex = 0, rowIndex = 0, height = 3, width = 3)
   public double getGyroAngle() {
     return gyro.getAngle();
   }

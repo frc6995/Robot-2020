@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -17,15 +15,12 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
-import frc.robot.commands.climber.ClimberHomeC;
-import frc.robot.commands.climber.ClimberManualC;
-import frc.robot.commands.climber.ClimberPullupCG;
-import frc.robot.commands.climber.ClimberUpPIDC;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.DrivebaseConstants;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
 import frc.robot.constants.Trajectories;
@@ -35,8 +30,8 @@ import frc.robot.subsystems.HopperS;
 import frc.robot.subsystems.IntakeS;
 import frc.robot.subsystems.ShooterS;
 import frc.robot.subsystems.SliderS;
-import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
+import frc.robot.constants.DrivebaseConstants;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -45,9 +40,14 @@ import io.github.oblarg.oblog.annotations.Log;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...  
+  // The robot's subsystems and commands are defined here...
+  
+  @Log(name="DrivebaseS")
   private final GenericHID driveController;
   public final GenericHID operatorController;
+
+  @Log(name = "IntakeS")
+  public final static IntakeS intakeS = new IntakeS();
   
   @Log(name = "DrivebaseS")
   public static final DrivebaseS drivebaseS = new DrivebaseS();
@@ -57,28 +57,20 @@ public class RobotContainer {
   public static final SliderS sliderS = new SliderS();
   @Log(name = "HopperS")
   public static final HopperS hopperS = new HopperS();
-  @Log(name = "IntakeS")
-  public final static IntakeS intakeS = new IntakeS();
   
-  private final CameraServer server = CameraServer.getInstance();
-  private final UsbCamera camera = new UsbCamera("cam0", 0);
-  
-  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
   
-  private final Command driveStickC;
-  private final DrivebaseVisionC visionAlignC;
-
+  private final CameraServer server = CameraServer.getInstance();
+  private final UsbCamera camera = new UsbCamera("cam0", 0);
+  
   private final ManualTranslateC manualTranslateC;
-
-  private final ClimberManualC manualClimbC;
-  public final ClimberHomeC climberHomeC;
-  private final Command climberBrakeOnC;
-  public final Command climberBrakeOffC;
-  private final ClimberUpPIDC climberUpPIDC;
-  private final ClimberPullupCG climberPullupCG;
+    private final SequentialCommandGroup straight2mAutoCG 
+    = new NomadPathFollowerCommandBuilder(Trajectories.straight2m, drivebaseS).buildPathFollowerCommandGroup();  
+  private final Command driveStickC;
+  private DoubleSupplier fwdBackAxis;
+  private final DrivebaseVisionC visionAlignC;
 
   private final IntakeDeployAndRunCG intakeDeployCG;
   private final IntakeRetractAndStopCG intakeRetractCG;
@@ -89,53 +81,41 @@ public class RobotContainer {
   @Log(tabName = "ShooterS")
   private final InstantCommand shooterSpinDownC = new InstantCommand(() -> shooterS.spinDown(), shooterS);
   /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
+   * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Initializes driveController as either a Joystick or Xbox depending on
-    // Constants.DRIVE_CONTROLLER_TYPE.
+    //Initializes driveController as either a Joystick or Xbox depending on DriveConstants.DRIVE_CONTROLLER_TYPE.
     if (OIConstants.DRIVE_CONTROLLER_TYPE == CONTROLLER_TYPE.Joystick) {
-      driveController = new Joystick(OIConstants.OI_DRIVE_CONTROLLER);
-    } else {
-      driveController = new XboxController(OIConstants.OI_OPERATOR_CONTROLLER);
+      driveController = new Joystick(DriveConstants.OI_DRIVE_CONTROLLER);
     }
-    operatorController = new XboxController(1); //put me in constants somewhere...
-
-    autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
-    autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
+    else {
+      driveController = new XboxController(DriveConstants.OI_DRIVE_CONTROLLER);
+    }
 
     server.startAutomaticCapture(camera);
 
-    final DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
+    DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
     manualTranslateC = new ManualTranslateC(sliderS, slideAxis);
+    operatorController = new XboxController(OIConstants.OI_OPERATOR_CONTROLLER);
 
-    final DoubleSupplier manualClimbPower = () -> -driveController.getRawAxis(5);
-    manualClimbC = new ClimberManualC(climberS, manualClimbPower);
+    fwdBackAxis = () -> -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
-    
-    climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
-    climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
-    climberHomeC = new ClimberHomeC(climberS);
-    climberUpPIDC = new ClimberUpPIDC(true);
-    SmartDashboard.putData(climberUpPIDC);
-    climberPullupCG = new ClimberPullupCG();
-    SmartDashboard.putData(climberPullupCG);
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DrivebaseConstants.AXIS_DRIVE_TURN)), drivebaseS);
+    visionAlignC = new DrivebaseVisionC(drivebaseS);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     
     intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
     intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
-    visionAlignC = new DrivebaseVisionC(drivebaseS);
 
     // Configure the button bindings
     configureButtonBindings();
 
     drivebaseS.setDefaultCommand(driveStickC);
     sliderS.setDefaultCommand(manualTranslateC);
-    climberS.setDefaultCommand(manualClimbC);
+
     // defaults to Retracted state
-    //intakeS.setDefaultCommand(intakeRetractCG);
+    intakeS.setDefaultCommand(intakeRetractCG);
   }
 
   /**
@@ -146,18 +126,12 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveController, 1).whileHeld(visionAlignC);
-    new JoystickButton(driveController, 2).whenPressed(climberHomeC);
-    new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
-    new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
-    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC);
-    new JoystickButton(driveController, 6).whenPressed(climberPullupCG);
-
     new JoystickButton(operatorController, 2).whenPressed(intakeDeployCG);
     new JoystickButton(operatorController, 2).whenReleased(intakeRetractCG);
     new JoystickButton(operatorController, 3).whenPressed(shooterSpinUpC);
     new JoystickButton(operatorController, 4).whenPressed(shooterSpinDownC);
     
+    new JoystickButton(driveController, 4).whileHeld(visionAlignC);
     
   }
 
@@ -169,6 +143,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return autoChooser.getSelected();
+    return sCurveRightAutoCG;
   }
 }

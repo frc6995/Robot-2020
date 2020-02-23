@@ -15,11 +15,11 @@ import frc.wrappers.MotorControllers.NomadVictorSPX;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class ClimberS extends SubsystemBase implements Loggable{
+public class ClimberS extends SubsystemBase implements Loggable {
   private NomadTalonSRX climbMaster = new NomadTalonSRX(ClimberConstants.CAN_ID_CLIMB_TALON);
   private NomadVictorSPX climbSlave = new NomadVictorSPX(ClimberConstants.CAN_ID_CLIMB_VICTOR, false, climbMaster);
 
-  /**A solenoid that controls the friction brake on the elevator. */
+  /** A solenoid that controls the friction brake on the elevator. */
   private Solenoid brakeSolenoid = new Solenoid(1, ClimberConstants.PCM_ID_CLIMB_BRAKE);
 
   private DigitalInput magneticLimitSwitch = new DigitalInput(ClimberConstants.DIO_CLIMB_LIMIT_SWITCH);
@@ -66,8 +66,9 @@ public class ClimberS extends SubsystemBase implements Loggable{
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
     climbMaster.configClosedloopRamp(0.7);
-    climbMaster.configClosedLoopPeakOutput(ClimberConstants.CLIMBER_PID_UP_SLOT, 0.75); //tune me pls
-    dynamicFeedForward = new SimpleMotorFeedforward(ClimberConstants.CLIMBER_KS, ClimberConstants.CLIMBER_KV, ClimberConstants.CLIMBER_KA);
+    climbMaster.configClosedLoopPeakOutput(ClimberConstants.CLIMBER_PID_UP_SLOT, 0.5); // tune me pls
+    dynamicFeedForward = new SimpleMotorFeedforward(ClimberConstants.CLIMBER_KS, ClimberConstants.CLIMBER_KV,
+        ClimberConstants.CLIMBER_KA);
 
   }
 
@@ -95,8 +96,8 @@ public class ClimberS extends SubsystemBase implements Loggable{
    */
   public void setClimberPower(double power) {
     double pwr = MathUtil.clamp(power, -1, 1);
-    if(isHomed())
-      pwr = MathUtil.clamp(pwr, 0, Math.abs(pwr));
+    if (isHomed())
+      pwr = MathUtil.clamp(pwr, 0, 1);
     climbMaster.set(ControlMode.PercentOutput, pwr);
   }
 
@@ -119,8 +120,8 @@ public class ClimberS extends SubsystemBase implements Loggable{
     climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
-   // climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT, dynamicFeedForward.calculate(getVelocity())); //does this work?
-  
+    // climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT,
+    // dynamicFeedForward.calculate(getVelocity())); //does this work?
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
@@ -193,20 +194,20 @@ public class ClimberS extends SubsystemBase implements Loggable{
   }
 
   /**
-   * Check the velocity of the encoder connected
-   * to the climber talon. Units are ticks/100ms
+   * Check the velocity of the encoder connected to the climber talon. Units are
+   * ticks/100ms
+   * 
    * @return the velocity of the climber encoder
    */
-  @Log.Graph(name="Climber Rate (ticks100ms)", columnIndex = 0, rowIndex = 0, height = 3, width = 5)
+  @Log.Graph(name = "Climber Rate (ticks100ms)", columnIndex = 0, rowIndex = 0, height = 3, width = 5)
   public double getVelocity() {
     return climbMaster.getSelectedSensorVelocity();
   }
 
   /**
-   * 
    * @return the position of the climber in ticks
    */
-  @Log.Graph(name="Climber Position (ticks)", columnIndex = 0, rowIndex = 3, height = 3, width = 5)
+  @Log.Graph(name = "Climber Position (ticks)", columnIndex = 0, rowIndex = 3, height = 3, width = 5)
   public double getPosition() {
     return climbMaster.getSelectedSensorPosition();
   }
@@ -216,7 +217,7 @@ public class ClimberS extends SubsystemBase implements Loggable{
    * 
    * @return Error in encoder counts
    */
-  @Log.Graph(name="Climber Error (ticks)", columnIndex = 5, rowIndex = 3, height = 3, width = 3)
+  @Log.Graph(name = "Climber Error (ticks)", columnIndex = 5, rowIndex = 3, height = 3, width = 3)
   public int getError() {
     return climbMaster.getClosedLoopError();
   }
@@ -229,13 +230,14 @@ public class ClimberS extends SubsystemBase implements Loggable{
   }
 
   /**
-   * Check whether the magnetic limit switch is flipped, inverted
-   * so that true is on and false is off.
+   * Check whether the magnetic limit switch is flipped, inverted so that true is
+   * on and false is off.
+   * 
    * @return the switch flipped status as a boolean.
    */
   @Log.BooleanBox(name = "Climber Limit", columnIndex = 5, rowIndex = 1, height = 2, width = 2, tabName = "ClimberS")
   public boolean isHomed() {
-    return !magneticLimitSwitch.get(); //invert? add a not
+    return !magneticLimitSwitch.get(); // invert? add a not
   }
 
   @Override

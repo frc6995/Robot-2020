@@ -73,15 +73,15 @@ public final class DriveConstants {
 
     //Drive characterization DriveConstants
 
-    public static final double ksVolts = 0.938;
-    public static final double kvVoltSecondsPerMeter = 0.565 * 4;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.129 * 4;
+    public static final double ksVolts = 1.26;
+    public static final double kvVoltSecondsPerMeter = 2.19;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.683;
     public static final double kWheelDiameter = 0.1524;
 
     // Example value only - as above, this must be tuned for your drive!
     public static final double kPDriveVel = 0.0209;
-    public static final double kPDriveVelLeft = 0.0309;
-    public static final double kPDriveVelRight = 0.0209; 
+    public static final double kPDriveVelLeft = 0.0405;
+    public static final double kPDriveVelRight = 0.0405; 
     public static final double kTrackWidthMeters = 0.6032;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackWidthMeters);
 }

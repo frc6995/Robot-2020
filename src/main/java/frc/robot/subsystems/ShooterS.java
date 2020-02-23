@@ -33,7 +33,7 @@ public class ShooterS extends SubsystemBase implements Loggable{
   private int cyclesInRange; 
   @Log 
   private int ballsFired;
-  @ToString
+  //@ToString
   private ShooterState state = ShooterState.STOPPED;
   @Log.Graph(name = "ShooterRPM")
   private double currentRPM;

@@ -13,10 +13,6 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 public final class DriveConstants {
     //TODO Adjust these DriveConstants for an actual robot.
     /**
-     * Defines the types of GenericHID controller.
-     */
-    public enum CONTROLLER_TYPE {Joystick, Xbox};
-    /**
      * The CAN ID for the left master motor controller.
      */
     public final static int CAN_ID_DRIVE_LEFT_MASTER = 10;
@@ -25,12 +21,6 @@ public final class DriveConstants {
      * The CAN ID for the right master motor controller.
      */
     public final static int CAN_ID_DRIVE_RIGHT_MASTER = 11;
-
-    /**
-     * The GenericHID implementation being used for the driver controller. Can be either Joystick or Xbox
-     */
-    public static final CONTROLLER_TYPE DRIVE_CONTROLLER_TYPE = CONTROLLER_TYPE.Joystick;
-
     /**
      * The USB device ID for the drive controller.
      */

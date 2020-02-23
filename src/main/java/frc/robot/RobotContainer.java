@@ -6,22 +6,8 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import frc.robot.constants.DriveConstants;
-import frc.robot.constants.Trajectories;
-import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
-import frc.robot.commands.drivebase.EmptyAutoCG;
-import frc.robot.commands.ManualTranslateC;
-import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
-import frc.robot.commands.drivebase.DrivebaseVisionC;
-import frc.robot.subsystems.DrivebaseS;
-import frc.robot.subsystems.ShooterS;
-import io.github.oblarg.oblog.Logger;
-import frc.robot.subsystems.SliderS;
-import io.github.oblarg.oblog.annotations.Log;
-import frc.robot.subsystems.HopperS;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,15 +25,17 @@ import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
-import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
-import frc.robot.constants.OIConstants;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.OIConstants;
+import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
 import frc.robot.constants.Trajectories;
 import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.HopperS;
 import frc.robot.subsystems.IntakeS;
+import frc.robot.subsystems.ShooterS;
 import frc.robot.subsystems.SliderS;
+import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
 
 /**
@@ -61,13 +49,13 @@ public class RobotContainer {
   private final GenericHID driveController;
   public final GenericHID operatorController;
   
-  @Log(name="DrivebaseS")
+  @Log(name = "DrivebaseS")
   public static final DrivebaseS drivebaseS = new DrivebaseS();
-  @Log(name="ClimberS")
+  @Log(name = "ClimberS")
   public static final ClimberS climberS = new ClimberS();
-  @Log(name="SliderS")
+  @Log(name = "SliderS")
   public static final SliderS sliderS = new SliderS();
-  @Log(name="HopperS")
+  @Log(name = "HopperS")
   public static final HopperS hopperS = new HopperS();
   @Log(name = "IntakeS")
   public final static IntakeS intakeS = new IntakeS();
@@ -94,7 +82,7 @@ public class RobotContainer {
 
   private final IntakeDeployAndRunCG intakeDeployCG;
   private final IntakeRetractAndStopCG intakeRetractCG;
-
+  @Log(name = "ShooterS")
   public static final ShooterS shooterS = new ShooterS();
   @Log(tabName = "ShooterS")
   private final InstantCommand shooterSpinUpC = new InstantCommand(() -> shooterS.spinUp(), shooterS);
@@ -135,7 +123,7 @@ public class RobotContainer {
     SmartDashboard.putData(climberPullupCG);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
-    Logger.configureLoggingAndConfig(this, false);
+    
     intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
     intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
     visionAlignC = new DrivebaseVisionC(drivebaseS);
@@ -167,6 +155,8 @@ public class RobotContainer {
 
     new JoystickButton(operatorController, 2).whenPressed(intakeDeployCG);
     new JoystickButton(operatorController, 2).whenReleased(intakeRetractCG);
+    new JoystickButton(operatorController, 3).whenPressed(shooterSpinUpC);
+    new JoystickButton(operatorController, 4).whenPressed(shooterSpinDownC);
     
     
   }

@@ -1,6 +1,5 @@
 package frc.robot;
 
-import frc.utility.preferences.NomadBooleanPreference;
 import frc.utility.preferences.NomadDoublePreference;
 import frc.utility.preferences.NomadIntPreference;
 
@@ -30,7 +29,4 @@ public final class RobotPreferences {
     public static final NomadIntPreference climberIZoneDown = new NomadIntPreference("Climber I zone down", 300);
 
     public static final NomadIntPreference climberAllowableError = new NomadIntPreference("Climber Allowable Error", 15);
-
-    public static NomadBooleanPreference hopperInvert = new NomadBooleanPreference("hopper motors invert", true);
-    public static NomadDoublePreference hopperSpeed = new NomadDoublePreference("hopper speed", 0.5);
 }

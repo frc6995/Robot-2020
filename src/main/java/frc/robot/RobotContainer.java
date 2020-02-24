@@ -145,8 +145,10 @@ public class RobotContainer {
     new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); //test w/ toggle when pressed
     new JoystickButton(driveController, 6).whenPressed(climberPullupCG); //test w/ toggle when pressed
 
-    new JoystickButton(operatorController, 4).whenPressed(intakeDeployCG);
-    new JoystickButton(operatorController, 4).whenReleased(intakeRetractCG);
+    JoystickButton intakeButton = new JoystickButton(operatorController, 4); //We do two things with this button, so instantiate separately
+    //to avoid double-allocation.
+    intakeButton.whenPressed(intakeDeployCG);
+    intakeButton.whenReleased(intakeRetractCG);
     
     
   }

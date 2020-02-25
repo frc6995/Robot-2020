@@ -20,10 +20,10 @@ public final class DriveConstants {
     public final static int CAN_ID_DRIVE_RIGHT_MASTER = 11;
 
     /** The axis on the drive controller for driving forward and backward. */
-    public static final int AXIS_DRIVE_FWD_BACK = 0;
+    public static final int AXIS_DRIVE_FWD_BACK = 1;
 
     /** The axis on the drive controller for turning. */
-    public static final int AXIS_DRIVE_TURN = 1;
+    public static final int AXIS_DRIVE_TURN = 0;
 
     // Drivebase DriveConstants
     /** An array of slave controller IDs for the left drivebase side. */

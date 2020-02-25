@@ -33,7 +33,7 @@ public class ShooterS extends SubsystemBase implements Loggable{
   private int cyclesInRange; 
   @Log 
   private int ballsFired;
-  //@ToString
+  @ToString
   private ShooterState state = ShooterState.STOPPED;
   @Log.Graph(name = "ShooterRPM")
   private double currentRPM;
@@ -79,12 +79,12 @@ public class ShooterS extends SubsystemBase implements Loggable{
 
   @Override
   public void periodic() {
-    pidController.setP(kP.getValue());
+    /*pidController.setP(kP.getValue());
     pidController.setI(kI.getValue());
     pidController.setD(kD.getValue());
     pidController.setIZone(kIz.getValue());
     pidController.setFF(kFF.getValue());
-    pidController.setOutputRange(kMinOutput.getValue(), kMaxOutput.getValue());
+    pidController.setOutputRange(kMinOutput.getValue(), kMaxOutput.getValue());*/
     currentRPM = encoder.getVelocity();
     updateState();
   }

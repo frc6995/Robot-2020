@@ -16,7 +16,7 @@ public class ShooterConstants {
     /**
      * The target RPM for the shooter wheel.
      */
-    public static final double SHOOTER_RPM = 1000;
+    public static final double SHOOTER_RPM = 3500;
 
     public static final double SHOOTER_MAX_RPM = 5600;
     /**
@@ -26,7 +26,7 @@ public class ShooterConstants {
     /**
      * The number of loops the RPM must stay within range to be considered at setpoint.
      */
-    public static final int MIN_LOOPS_IN_RANGE = 25;
+    public static final int MIN_LOOPS_IN_RANGE = 50;
     /**
      * The SimpleMotorFeedForward for the shooter
      */

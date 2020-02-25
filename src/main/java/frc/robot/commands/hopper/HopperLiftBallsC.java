@@ -1,18 +1,21 @@
 package frc.robot.commands.hopper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.RobotPreferences;
+import frc.robot.subsystems.HopperS;
 
 /**
  * The command that lifts balls through the hopper
  */
 public class HopperLiftBallsC extends CommandBase {
+  private HopperS hopper;
+
   /**
    * Creates a new HopperLiftBallsC.
    */
-  public HopperLiftBallsC() {
-    addRequirements(RobotContainer.hopperS);
+  public HopperLiftBallsC(HopperS hopperS) {
+    this.hopper = hopperS;
+    addRequirements(this.hopper);
   }
 
   @Override
@@ -25,7 +28,7 @@ public class HopperLiftBallsC extends CommandBase {
   @Override
   public void execute() {
 
-    RobotContainer.hopperS.spinTubes(RobotPreferences.hopperInvert.getValue());
+    this.hopper.spinTubes(RobotPreferences.hopperInvert.getValue());
 
   }
 
@@ -34,7 +37,7 @@ public class HopperLiftBallsC extends CommandBase {
    */
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.hopperS.stopTubes();
+    this.hopper.stopTubes();
   }
 
   @Override

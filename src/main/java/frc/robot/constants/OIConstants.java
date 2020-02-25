@@ -17,9 +17,8 @@ public final class OIConstants {
      */
     public static final CONTROLLER_TYPE DRIVE_CONTROLLER_TYPE = CONTROLLER_TYPE.Joystick;
 
-    /**
-     * The USB device ID for the drive controller.
-     */
+    /** The USB device ID for the drive controller. */
     public static final int OI_DRIVE_CONTROLLER = 0;
+    /** The USB device ID for the operator controller. */
     public static final int OI_OPERATOR_CONTROLLER = 1;
 }

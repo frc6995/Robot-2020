@@ -65,8 +65,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0.5);
-    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0.5);
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0.25);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0.25);
   }
 
   /**

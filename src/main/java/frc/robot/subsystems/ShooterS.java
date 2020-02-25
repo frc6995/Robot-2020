@@ -16,6 +16,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.constants.ShooterConstants;
 import frc.utility.preferences.NomadDoublePreference;
 import io.github.oblarg.oblog.Loggable;
@@ -90,13 +91,14 @@ public class ShooterS extends SubsystemBase implements Loggable{
   }
 
   public void runVelocityPIDrpm(double RPM) {
-
-    pidController.setReference(RPM, ControlType.kVelocity, 0,
-      ShooterConstants.SHOOTER_FEEDFORWARD.calculate(currentRPM));
+    spark.set(ShooterConstants.SHOOTER_FEEDFORWARD.calculate(currentRPM));
+    //pidController.setReference(RPM, ControlType.kVelocity, 0,
+    //  ShooterConstants.SHOOTER_FEEDFORWARD.calculate(currentRPM));
   }
 
   public void setSpeed(double stickVal) {
     SmartDashboard.putNumber("SetPoint", 0);
+    stickVal = MathUtil.clamp(stickVal, -0.8, 0.8);
     spark.set(stickVal);
   }
 
@@ -169,7 +171,7 @@ public class ShooterS extends SubsystemBase implements Loggable{
   public void stop() {
     state = ShooterState.STOPPED;
   }
-
+  @Log  
   public boolean isReady() {
     return state == ShooterState.READY;
   }

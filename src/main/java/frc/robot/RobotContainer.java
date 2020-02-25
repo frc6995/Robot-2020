@@ -17,12 +17,16 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
+import frc.robot.commands.auto.ballerAutoShootCG;
 import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
 import frc.robot.commands.climber.ClimberPullupCG;
 import frc.robot.commands.climber.ClimberUpPIDC;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.hopper.HopperIdleBallsC;
+import frc.robot.commands.hopper.HopperLiftBallsC;
+import frc.robot.commands.hopper.HopperLowerBallsC;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
 import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
@@ -48,17 +52,17 @@ public class RobotContainer {
   private final GenericHID driveController;
   public final GenericHID operatorController;
   
-  @Log(name="DrivebaseS")
+  //@Log(name="DrivebaseS")
   public static final DrivebaseS drivebaseS = new DrivebaseS();
-  @Log(name="ClimberS")
+  //@Log(name="ClimberS")
   public static final ClimberS climberS = new ClimberS();
-  @Log(name="SliderS")
+  //@Log(name="SliderS")
   public static final SliderS sliderS = new SliderS();
-  @Log(name = " ShooterS")
+  //@Log(name = " ShooterS")
   public static final ShooterS shooterS = new ShooterS();
-  @Log(name="HopperS")
+  //@Log(name="HopperS")
   public static final HopperS hopperS = new HopperS();
-  @Log(name = "IntakeS")
+  //@Log(name = "IntakeS")
   public final static IntakeS intakeS = new IntakeS();
   
   private final CameraServer server = CameraServer.getInstance();
@@ -83,7 +87,12 @@ public class RobotContainer {
 
   private final IntakeDeployAndRunCG intakeDeployCG;
   private final IntakeRetractAndStopCG intakeRetractCG;
-
+  @Log(tabName = "ShooterS")
+  private final InstantCommand shooterSpinUpC;
+  @Log(tabName = "ShooterS")
+  private final InstantCommand shooterSpinDownC;
+  @Log(tabName = "ShooterS")
+  private final RunCommand shooterManualC;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -99,6 +108,7 @@ public class RobotContainer {
 
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
+    autoChooser.addOption("Baller Auto", new ballerAutoShootCG());
 
     server.startAutomaticCapture(camera);
 
@@ -121,6 +131,10 @@ public class RobotContainer {
     LiveWindow.disableAllTelemetry();
     intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
     intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
+    
+    shooterSpinUpC = new InstantCommand(() -> shooterS.spinUp(), shooterS);
+    shooterSpinDownC = new InstantCommand(() -> shooterS.spinDown(), shooterS);
+    shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
     visionAlignC = new DrivebaseVisionC(drivebaseS);
 
     // Configure the button bindings
@@ -152,6 +166,11 @@ public class RobotContainer {
     //to avoid double-allocation.
     intakeButton.whenPressed(intakeDeployCG);
     intakeButton.whenReleased(intakeRetractCG);
+    new JoystickButton(operatorController, 1).whileHeld(new HopperIdleBallsC(hopperS));
+    new JoystickButton(operatorController, 2).whileHeld(new HopperLiftBallsC(hopperS));
+    new JoystickButton(operatorController, 3).whileHeld(new HopperLowerBallsC(hopperS));
+    new JoystickButton(operatorController, 5).whenPressed(shooterSpinUpC);
+    new JoystickButton(operatorController, 6).whenPressed(shooterSpinDownC);
     
     
   }
@@ -164,6 +183,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return autoChooser.getSelected();
+    //return autoChooser.getSelected();
+    return autoChooser.getSelected()/*new ballerAutoShootCG()*/;
   }
 }

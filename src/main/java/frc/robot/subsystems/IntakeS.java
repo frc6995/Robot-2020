@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
+import frc.wrappers.MotorControllers.NomadVictorSPX;
 
 /**
  * The system we use to grab power cells from the floor and transfer them to the
@@ -14,8 +15,9 @@ import frc.wrappers.MotorControllers.NomadTalonSRX;
  */
 public class IntakeS extends SubsystemBase {
 
-  private NomadTalonSRX intakeMotor = new NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
-  private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(IntakeConstants.DBL_SOLENOID_INTAKE_EXTEND,
+  //private NomadTalonSRX intakeMotor = new NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
+  private NomadVictorSPX intakeMotor = new NomadVictorSPX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
+  private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, IntakeConstants.DBL_SOLENOID_INTAKE_EXTEND,
       IntakeConstants.DBL_SOLENOID_INTAKE_RETRACT);
 
   /**

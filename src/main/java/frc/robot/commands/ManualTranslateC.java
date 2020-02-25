@@ -42,9 +42,7 @@ public class ManualTranslateC extends CommandBase {
   @Override
   public void execute() {
     double speed = this.slide.getAsDouble();
-    if (Math.abs(speed) < 0.1) {
-      speed = 0;
-    }
+    if (Math.abs(speed) < 0.1) speed = 0;
     RobotContainer.sliderS.translate(speed);
   }
 

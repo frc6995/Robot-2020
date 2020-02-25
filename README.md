@@ -12,10 +12,11 @@
 
 ## Dependencies
 
-* WPILIB 2020.2.2 (as of 1/28/2020)
+* WPILIB 2020.3.2 (as of 2/24/2020)
 * CTRE Phoenix Motor Controllers
 * NAVX FRC Lib
 * Rev Robotics FRC Lib
+* Oblog
 
 ## Javadoc
 

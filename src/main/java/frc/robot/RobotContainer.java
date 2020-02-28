@@ -23,6 +23,7 @@ import frc.robot.commands.climber.ClimberPullupCG;
 import frc.robot.commands.climber.ClimberUpPIDC;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.drivebase.XBoxDriveC;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
 import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
@@ -67,6 +68,7 @@ public class RobotContainer {
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
   
   private final Command driveStickC;
+  private final XBoxDriveC xboxDriveC;
   private final DrivebaseVisionC visionAlignC;
 
   private final ManualTranslateC manualTranslateC;
@@ -107,6 +109,7 @@ public class RobotContainer {
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
     
+    xboxDriveC = new XBoxDriveC(driveController);
     climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
     climberHomeC = new ClimberHomeC(climberS);
@@ -123,7 +126,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-  //  drivebaseS.setDefaultCommand(driveStickC);
+    drivebaseS.setDefaultCommand(xboxDriveC);
     sliderS.setDefaultCommand(manualTranslateC);
     climberS.setDefaultCommand(manualClimbC);
     // defaults to Retracted state

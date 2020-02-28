@@ -53,9 +53,8 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    System.out.print("7: both: " + robotContainer.operatorController.getRawAxis(6) + 
-    "\n 2: left: " + robotContainer.operatorController.getRawAxis(2) +
-    "\n 3: right: " + robotContainer.operatorController.getRawAxis(3));
+    //TODO - Right trigger, drive forward. Left trigger, drive backward. If both,
+    // only look at the greater value.
 
   }
 

@@ -1,5 +1,10 @@
 package frc.robot.constants;
 
+/**
+ * The constants for the Climber Subsystem
+ * 
+ * @author Sam McDowell
+ */
 public class ClimberConstants {
    public static final int CAN_ID_CLIMB_TALON = 20;
    public static final int CAN_ID_CLIMB_VICTOR = 21;

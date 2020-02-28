@@ -65,6 +65,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0.25);
     robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0.25);
+    robotContainer.lightStripsS.setColor(0.61);
   }
 
   /**
@@ -87,6 +88,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    robotContainer.lightStripsS.setColor(0.65);
   }
 
   @Override
@@ -107,6 +109,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    robotContainer.lightStripsS.setColor(0.73);
   }
 
   @Override

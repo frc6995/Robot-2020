@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberS;
 
 public class ClimberManualC extends CommandBase {
@@ -32,6 +33,7 @@ public class ClimberManualC extends CommandBase {
     double speed = this.power.getAsDouble();
     if (Math.abs(speed) < 0.1) {
       speed = 0;
+      RobotContainer.lightStripsS.setColor(-0.97);
     }
 
     /*

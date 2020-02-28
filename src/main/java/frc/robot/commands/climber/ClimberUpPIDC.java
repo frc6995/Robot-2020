@@ -1,6 +1,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.ClimberS.climberLevel;
 
@@ -28,6 +29,7 @@ public class ClimberUpPIDC extends CommandBase {
   @Override
   public void execute() {
     this.climber.runUpPID();
+    RobotContainer.lightStripsS.setColor(-0.97);
   }
 
   // Called once the command ends or is interrupted.

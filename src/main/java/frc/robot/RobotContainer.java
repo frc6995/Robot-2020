@@ -33,6 +33,7 @@ import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.HopperS;
 import frc.robot.subsystems.IntakeS;
+import frc.robot.subsystems.LightStripS;
 import frc.robot.subsystems.SliderS;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -56,7 +57,9 @@ public class RobotContainer {
   @Log(name="HopperS")
   public static final HopperS hopperS = new HopperS();
   @Log(name = "IntakeS")
-  public final static IntakeS intakeS = new IntakeS();
+  public static final IntakeS intakeS = new IntakeS();
+  @Log(name="LEDs")
+  public static final LightStripS lightStripsS = new LightStripS();
   
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
@@ -80,6 +83,8 @@ public class RobotContainer {
 
   private final IntakeDeployAndRunCG intakeDeployCG;
   private final IntakeRetractAndStopCG intakeRetractCG;
+
+  public final Command defaultColor;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -107,6 +112,8 @@ public class RobotContainer {
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
     
+    defaultColor = new RunCommand(() -> lightStripsS.setColor(0.01), lightStripsS);
+
     climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
     climberHomeC = new ClimberHomeC(climberS);
@@ -145,7 +152,8 @@ public class RobotContainer {
     new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); //test w/ toggle when pressed
     new JoystickButton(driveController, 6).whenPressed(climberPullupCG); //test w/ toggle when pressed
 
-    JoystickButton intakeButton = new JoystickButton(operatorController, 4); //We do two things with this button, so instantiate separately
+    final JoystickButton intakeButton = new JoystickButton(operatorController, 4); // We do two things with this button,
+                                                                                   // so instantiate separately
     //to avoid double-allocation.
     intakeButton.whenPressed(intakeDeployCG);
     intakeButton.whenReleased(intakeRetractCG);

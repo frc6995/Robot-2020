@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -60,6 +61,7 @@ public class RobotContainer {
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
@@ -92,6 +94,8 @@ public class RobotContainer {
     }
     operatorController = new XboxController(1); //put me in constants somewhere...
 
+    autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
+    autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
 
     server.startAutomaticCapture(camera);
 
@@ -101,14 +105,14 @@ public class RobotContainer {
     final DoubleSupplier manualClimbPower = () -> -driveController.getRawAxis(5);
     manualClimbC = new ClimberManualC(climberS, manualClimbPower);
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), -driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
+    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
     
     climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
     climberHomeC = new ClimberHomeC(climberS);
-    climberUpPIDC = new ClimberUpPIDC(true);
+    climberUpPIDC = new ClimberUpPIDC(climberS, true);
     SmartDashboard.putData(climberUpPIDC);
-    climberPullupCG = new ClimberPullupCG();
+    climberPullupCG = new ClimberPullupCG(climberS);
     SmartDashboard.putData(climberPullupCG);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
@@ -134,15 +138,17 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveController, 1).whileHeld(visionAlignC);
-    new JoystickButton(driveController, 2).whenPressed(climberHomeC);
+    new JoystickButton(driveController, 1).whenPressed(climberHomeC); // test w/ toggle when pressed
+    new JoystickButton(driveController, 2).whenPressed(climberBrakeOnC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
-    new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
-    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC);
-    new JoystickButton(driveController, 6).whenPressed(climberPullupCG);
+    new JoystickButton(driveController, 4).whileHeld(visionAlignC);
+    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); //test w/ toggle when pressed
+    new JoystickButton(driveController, 6).whenPressed(climberPullupCG); //test w/ toggle when pressed
 
-    new JoystickButton(operatorController, 2).whenPressed(intakeDeployCG);
-    new JoystickButton(operatorController, 2).whenReleased(intakeRetractCG);
+    JoystickButton intakeButton = new JoystickButton(operatorController, 4); //We do two things with this button, so instantiate separately
+    //to avoid double-allocation.
+    intakeButton.whenPressed(intakeDeployCG);
+    intakeButton.whenReleased(intakeRetractCG);
     
     
   }
@@ -155,6 +161,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return sCurveRightAutoCG;
+    return autoChooser.getSelected();
   }
 }

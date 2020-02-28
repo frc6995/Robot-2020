@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.constants.ShooterConstants;
-import frc.utility.preferences.NomadDoublePreference;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 import io.github.oblarg.oblog.annotations.Log.ToString;
@@ -29,7 +28,7 @@ public class ShooterS extends SubsystemBase implements Loggable{
   private CANPIDController pidController;
   
   private CANEncoder encoder;
-  public NomadDoublePreference kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, RPM, maxError, armThreshold, fireThreshold, stopThreshold;
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, rpm, maxError, armThreshold, fireThreshold, stopThreshold;
   private enum ShooterState {SPINUP, READY, ARMED, RECOVERY, SPINDOWN, STOPPED};
   private int cyclesInRange; 
   @Log 
@@ -37,7 +36,7 @@ public class ShooterS extends SubsystemBase implements Loggable{
   @ToString
   private ShooterState state = ShooterState.STOPPED;
   @Log.Graph(name = "ShooterRPM")
-  private double currentRPM;
+  private double currentRpm;
   /**
    * Creates a new sparkMaxS.
    */
@@ -54,46 +53,43 @@ public class ShooterS extends SubsystemBase implements Loggable{
     
 
 
-    kP = new NomadDoublePreference("kP", 0);
-    kI = new NomadDoublePreference("kI", 0);
-    kD = new NomadDoublePreference("kD", 0); 
-    kIz = new NomadDoublePreference("kIz", 0); 
-    kFF = new NomadDoublePreference("kFF", 0); 
-    kMaxOutput = new NomadDoublePreference("maxOutput", 1); 
-    kMinOutput = new NomadDoublePreference("minOutput", -1);
-    maxRPM = new NomadDoublePreference("MaxRPM", 5600); //5700 max
-    RPM = new NomadDoublePreference("RPM", 1000); //5700 max
-    maxError = new NomadDoublePreference("MaxError", 500);
-    armThreshold = new NomadDoublePreference("ArmingRPM", ShooterConstants.SHOOTER_RPM - 100);
-    fireThreshold = new NomadDoublePreference("PostShotRPM", ShooterConstants.SHOOTER_RPM -200);
-    stopThreshold = new NomadDoublePreference("Stopped RPM", 60);
+    kP = 0;
+    kI = 0;
+    kD = 0; 
+    kIz = 0; 
+    kFF = 0; 
+    kMaxOutput = 1; 
+    kMinOutput = -1;
+    maxRPM = ShooterConstants.SHOOTER_MAX_RPM; //5700 max
+    maxError = 500;
+    //@Config(name= "ShooterPrefs/ArmingRPM")
+    armThreshold = ShooterConstants.SHOOTER_RPM - 25;
+    //@Config(name = "ShooterPrefs/PostShotRPM")
+    fireThreshold = ShooterConstants.SHOOTER_RPM - 50;
+    stopThreshold = 60;
     // set PID coefficients
-    pidController.setP(kP.getValue());
-    pidController.setI(kI.getValue());
-    pidController.setD(kD.getValue());
-    pidController.setIZone(kIz.getValue());
-    pidController.setFF(kFF.getValue());
-    pidController.setOutputRange(kMinOutput.getValue(), kMaxOutput.getValue());
+    pidController.setP(kP);
+    pidController.setI(kI);
+    pidController.setD(kD);
+    pidController.setIZone(kIz);
+    pidController.setFF(kFF);
+    pidController.setOutputRange(kMinOutput, kMaxOutput);
 
     SmartDashboard.putNumber("SetPoint", 0);
   }
 
   @Override
   public void periodic() {
-    /*pidController.setP(kP.getValue());
-    pidController.setI(kI.getValue());
-    pidController.setD(kD.getValue());
-    pidController.setIZone(kIz.getValue());
-    pidController.setFF(kFF.getValue());
-    pidController.setOutputRange(kMinOutput.getValue(), kMaxOutput.getValue());*/
-    currentRPM = encoder.getVelocity();
+    currentRpm = encoder.getVelocity();
     updateState();
   }
 
-  public void runVelocityPIDrpm(double RPM) {
-    spark.set(ShooterConstants.SHOOTER_FEEDFORWARD.calculate(currentRPM));
-    //pidController.setReference(RPM, ControlType.kVelocity, 0,
-    //  ShooterConstants.SHOOTER_FEEDFORWARD.calculate(currentRPM));
+  public void runVelocityPidRpm(double rpm) {
+    //spark.set(ShooterConstants.SHOOTER_FEEDFORWARD.calculate(currentRPM));
+    rpm = MathUtil.clamp(rpm, -ShooterConstants.SHOOTER_MAX_RPM, ShooterConstants.SHOOTER_MAX_RPM);
+    SmartDashboard.putNumber("SetPoint", rpm);
+    pidController.setReference(rpm, ControlType.kVelocity, 0,
+      ShooterConstants.SHOOTER_FEEDFORWARD.calculate(rpm));
   }
 
   public void setSpeed(double stickVal) {
@@ -105,15 +101,14 @@ public class ShooterS extends SubsystemBase implements Loggable{
   public void spinUp() {
     if(state == ShooterState.STOPPED || state == ShooterState.SPINDOWN){
       state = ShooterState.SPINUP;
-      pidController.setReference(ShooterConstants.SHOOTER_RPM, ControlType.kVelocity);
     }  
   }
   
   private void updateState() {
     switch (state){
       case SPINUP:
-        runVelocityPIDrpm(ShooterConstants.SHOOTER_RPM);
-        if(Math.abs(ShooterConstants.SHOOTER_RPM - currentRPM) < maxError.getValue()) { //if we are less than maxError over out target
+        runVelocityPidRpm(ShooterConstants.SHOOTER_RPM);
+        if(Math.abs(ShooterConstants.SHOOTER_RPM - currentRpm) < maxError) { //if we are less than maxError over out target
           cyclesInRange++; // increment the counter
         }
         if(cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { //if the counter is high enough
@@ -123,17 +118,22 @@ public class ShooterS extends SubsystemBase implements Loggable{
         break;
       case READY:
         
-        if(currentRPM < armThreshold.getValue()){ //if velocity drops below "we might be shooting" threshold
+        if(currentRpm < armThreshold){ //if velocity drops below "we might be shooting" threshold
           state = ShooterState.ARMED;
         } 
+        if(currentRpm < fireThreshold){ //if velocity drops below "we might be shooting" threshold
+        ballsFired++;
+        state = ShooterState.RECOVERY;
+
+      }  
         
         break;
       case ARMED:
-        if (currentRPM < fireThreshold.getValue()) {
+        if (currentRpm < fireThreshold) {
           ballsFired++;
           state = ShooterState.RECOVERY;
         }
-        else if (currentRPM > armThreshold.getValue()){
+        else if (currentRpm > armThreshold){
           state = ShooterState.READY;
         }
         // if it has dropped below "ball has definitely gone through" threshold
@@ -145,14 +145,14 @@ public class ShooterS extends SubsystemBase implements Loggable{
 
       // if we are back up to setpt speed,
       //  go to READY
-        if (currentRPM > armThreshold.getValue()){
+        if (currentRpm > armThreshold){
           state = ShooterState.READY;
         }
         break;
       case SPINDOWN:
         spark.set(0);
         //pidController.setReference(0.0, ControlType.kVoltage);//set motor to coast mode 0 power.
-        if (currentRPM < stopThreshold.getValue()) {
+        if (currentRpm < stopThreshold) {
           state = ShooterState.STOPPED;
         }// if motor has stopped moving, 
         // go to STOPPED
@@ -171,8 +171,12 @@ public class ShooterS extends SubsystemBase implements Loggable{
   public void stop() {
     state = ShooterState.STOPPED;
   }
-  @Log  
+  @Log.BooleanBox
   public boolean isReady() {
     return state == ShooterState.READY;
+  }
+
+  public int getBallsFired() {
+    return ballsFired;
   }
 }

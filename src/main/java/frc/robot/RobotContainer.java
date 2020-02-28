@@ -67,7 +67,7 @@ public class RobotContainer {
   
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
-  
+  @Log
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 

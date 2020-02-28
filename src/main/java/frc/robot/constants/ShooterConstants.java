@@ -16,7 +16,7 @@ public class ShooterConstants {
     /**
      * The target RPM for the shooter wheel.
      */
-    public static final double SHOOTER_RPM = 3500;
+    public static final double SHOOTER_RPM = 4500;
 
     public static final double SHOOTER_MAX_RPM = 5600;
     /**
@@ -31,5 +31,5 @@ public class ShooterConstants {
      * The SimpleMotorFeedForward for the shooter
      */
     public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD 
-    = new SimpleMotorFeedforward(0, 0.192/ 60, 0.0417 / 60);
+    = new SimpleMotorFeedforward(0, 0.192/90, 0.0417/90);
 }

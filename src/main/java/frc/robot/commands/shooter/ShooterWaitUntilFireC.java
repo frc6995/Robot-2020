@@ -13,12 +13,14 @@ import frc.robot.subsystems.ShooterS;
 public class ShooterWaitUntilFireC extends CommandBase {
   private ShooterS shooter;
   private int initBallsFired;
+  private int ballsToFire;
   /**
    * Creates a new ShooterWaitUntilReadyC.
    */
-  public ShooterWaitUntilFireC(ShooterS shooterS) {
+  public ShooterWaitUntilFireC(ShooterS shooterS, int ammo) {
     // Use addRequirements() here to declare subsystem dependencies.
     shooter = shooterS;
+    ballsToFire = ammo;
   }
 
   // Called when the command is initially scheduled.
@@ -40,6 +42,6 @@ public class ShooterWaitUntilFireC extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooter.getBallsFired() > initBallsFired;
+    return shooter.getBallsFired() >= initBallsFired + ballsToFire;
   }
 }

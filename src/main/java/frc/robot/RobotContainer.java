@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
-import frc.robot.commands.auto.ballerAutoShootCG;
+import frc.robot.commands.commandgroups.MultipleAutoShootCG;
 import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
 import frc.robot.commands.climber.ClimberPullupCG;
@@ -110,7 +110,7 @@ public class RobotContainer {
 
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
-    autoChooser.addOption("Baller Auto", new ballerAutoShootCG(shooterS, hopperS));
+    autoChooser.addOption("Baller Auto", new MultipleAutoShootCG(shooterS, hopperS, 3));
 
     server.startAutomaticCapture(camera);
 

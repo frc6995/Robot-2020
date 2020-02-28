@@ -106,7 +106,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    drivebaseS.setDefaultCommand(driveStickC);
+  //  drivebaseS.setDefaultCommand(driveStickC);
     sliderS.setDefaultCommand(manualTranslateC);
 
     // defaults to Retracted state

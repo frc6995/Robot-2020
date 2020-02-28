@@ -27,6 +27,7 @@ import frc.robot.commands.drivebase.EmptyAutoCG;
 import frc.robot.commands.hopper.HopperIdleBallsC;
 import frc.robot.commands.hopper.HopperLiftBallsC;
 import frc.robot.commands.hopper.HopperLowerBallsC;
+import frc.robot.commands.drivebase.XBoxDriveC;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
 import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
@@ -74,6 +75,7 @@ public class RobotContainer {
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
   
   private final Command driveStickC;
+  private final XBoxDriveC xboxDriveC;
   private final DrivebaseVisionC visionAlignC;
 
   private final ManualTranslateC manualTranslateC;
@@ -108,7 +110,7 @@ public class RobotContainer {
 
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
-    autoChooser.addOption("Baller Auto", new ballerAutoShootCG());
+    autoChooser.addOption("Baller Auto", new ballerAutoShootCG(shooterS, hopperS));
 
     server.startAutomaticCapture(camera);
 
@@ -120,6 +122,7 @@ public class RobotContainer {
     //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
     driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
     
+    xboxDriveC = new XBoxDriveC(driveController);
     climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
     climberHomeC = new ClimberHomeC(climberS);
@@ -140,7 +143,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    drivebaseS.setDefaultCommand(driveStickC);
+    drivebaseS.setDefaultCommand(xboxDriveC);
     sliderS.setDefaultCommand(manualTranslateC);
     climberS.setDefaultCommand(manualClimbC);
     // defaults to Retracted state
@@ -155,10 +158,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveController, 1).whenPressed(climberHomeC); // test w/ toggle when pressed
-    new JoystickButton(driveController, 2).whenPressed(climberBrakeOnC);
+    new JoystickButton(driveController, 1).whileHeld(visionAlignC);
+    new JoystickButton(driveController, 2).whileHeld(visionAlignC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
-    new JoystickButton(driveController, 4).whileHeld(visionAlignC);
+    new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
     new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); //test w/ toggle when pressed
     new JoystickButton(driveController, 6).whenPressed(climberPullupCG); //test w/ toggle when pressed
 

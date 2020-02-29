@@ -5,11 +5,10 @@ import frc.robot.RobotPreferences;
 import frc.robot.constants.HopperConstants;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
-import io.github.oblarg.oblog.Loggable;
 /**
  * The Subsystem for that holds our balls
  */
-public class HopperS extends SubsystemBase implements Loggable {
+public class HopperS extends SubsystemBase {
   /**
    * The victors that controls the hopper tubes
    */

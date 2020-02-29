@@ -33,6 +33,8 @@ public class ClimberManualC extends CommandBase {
     double speed = this.power.getAsDouble();
     if (Math.abs(speed) < 0.1) {
       speed = 0;
+    }
+    else {
       RobotContainer.lightStripsS.setColor(-0.97);
     }
 

@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     robotContainer.shooterS.stop();
-    robotContainer.climberBrakeOffC.initialize();
+    robotContainer.climberBrakeOnC.initialize();
   }
 
   @Override
@@ -114,7 +114,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    robotContainer.lightStripsS.setColor(0.73);
+    //robotContainer.lightStripsS.setColor(0.73);
   }
 
   @Override

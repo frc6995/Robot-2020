@@ -43,4 +43,8 @@ public final class RobotPreferences {
      */
     public static final NomadDoublePreference VISION_KP_HORIZONTAL = new NomadDoublePreference("Vision Horizontal kP", 0.04f);
     public static final NomadDoublePreference VISION_KP_VERTICAL = new NomadDoublePreference("Vision Vertical kP", 0.04f);
+
+    public static final NomadDoublePreference gyroPidP = new NomadDoublePreference("Gyro PID P", 0.00);
+    public static final NomadDoublePreference gyroPidI = new NomadDoublePreference("Gyro PID I", 0.00);
+    public static final NomadDoublePreference gyroPidD = new NomadDoublePreference("Gyro PID D", 0.00);
 }

@@ -44,6 +44,8 @@ public class ManualTranslateC extends CommandBase {
     double speed = this.slide.getAsDouble();
     if (Math.abs(speed) < 0.1) {
       speed = 0;
+    }
+    else {
       RobotContainer.lightStripsS.setColor(-0.97);
     }
     RobotContainer.sliderS.translate(speed);

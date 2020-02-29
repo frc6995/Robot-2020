@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
@@ -24,6 +25,7 @@ import frc.robot.commands.climber.ClimberPullupCG;
 import frc.robot.commands.climber.ClimberUpPIDC;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.drivebase.GyroPID;
 import frc.robot.commands.hopper.HopperIdleBallsC;
 import frc.robot.commands.hopper.HopperLiftBallsC;
 import frc.robot.commands.hopper.HopperLowerBallsC;
@@ -41,6 +43,7 @@ import frc.robot.subsystems.IntakeS;
 import frc.robot.subsystems.LightStripS;
 import frc.robot.subsystems.ShooterS;
 import frc.robot.subsystems.SliderS;
+import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 /**
@@ -54,25 +57,26 @@ public class RobotContainer {
   private final GenericHID driveController;
   public final GenericHID operatorController;
   
-  //@Log(name="DrivebaseS")
+  @Log(name="DrivebaseS", rowIndex = 13, columnIndex = 0)
   public static final DrivebaseS drivebaseS = new DrivebaseS();
-  @Log(name="ClimberS")
+  @Log(name="ClimberS", rowIndex = 13, columnIndex = 1)
   public static final ClimberS climberS = new ClimberS();
-  @Log(name="SliderS")
+  @Log(name="SliderS", rowIndex = 13, columnIndex = 3)
   public static final SliderS sliderS = new SliderS();
-  @Log(name = " ShooterS")
+  @Log(name = " ShooterS", rowIndex = 13, columnIndex = 2)
   public static final ShooterS shooterS = new ShooterS();
-  @Log(name="HopperS")
+  @Log(name="HopperS", rowIndex = 13, columnIndex = 4)
   public static final HopperS hopperS = new HopperS();
-  @Log(name = "IntakeS")
+  @Log(name = "IntakeS", rowIndex = 13, columnIndex = 5)
   public static final IntakeS intakeS = new IntakeS();
-  @Log(name="LEDs")
+  @Log(name="LEDs", rowIndex = 13, columnIndex = 6)
   public static final LightStripS lightStripsS = new LightStripS();
   
   
   private final CameraServer server = CameraServer.getInstance();
+  @Log.CameraStream(name="DriverCam", rowIndex = 0, columnIndex = 0, width = 6, height = 5)
   private final UsbCamera camera = new UsbCamera("cam0", 0);
-  @Log
+  @Log(name="Auto Chooser", rowIndex = 9, columnIndex = 0, width = 3)
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
@@ -86,7 +90,7 @@ public class RobotContainer {
 
   private final ClimberManualC manualClimbC;
   public final ClimberHomeC climberHomeC;
-  private final Command climberBrakeOnC;
+  public final Command climberBrakeOnC;
   public final Command climberBrakeOffC;
   private final ClimberUpPIDC climberUpPIDC;
   private final ClimberPullupCG climberPullupCG;
@@ -102,6 +106,9 @@ public class RobotContainer {
   private final InstantCommand shooterSpinDownC;
   @Log(tabName = "ShooterS")
   private final RunCommand shooterManualC;
+
+  @Log(tabName = "DrivebaseS")
+  private final GyroPID gyroPidC;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -149,6 +156,8 @@ public class RobotContainer {
     shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
     visionAlignC = new DrivebaseVisionC(drivebaseS);
 
+    gyroPidC = new GyroPID(180);
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -175,14 +184,14 @@ public class RobotContainer {
     new JoystickButton(driveController, 6).toggleWhenPressed(climberPullupCG); //test w/ toggle when pressed
     new JoystickButton(driveController, 8).whenPressed(climberHomeC);
 
-    final JoystickButton intakeButton = new JoystickButton(operatorController, 4); // We do two things with this button,
+    final JoystickButton intakeButton = new JoystickButton(operatorController, 3); // We do two things with this button,
                                                                                    // so instantiate separately
     //to avoid double-allocation.
-    intakeButton.whenPressed(()->intakeS.intakeDeploy(), intakeS);
-    intakeButton.whenReleased(()->intakeS.intakeRetract(), intakeS);
-    new JoystickButton(operatorController, 1).whileHeld(new HopperIdleBallsC(hopperS).alongWith(new RunCommand(()->intakeS.intakeMotor(0), intakeS)));
-    new JoystickButton(operatorController, 2).whileHeld(new HopperLiftBallsC(hopperS).alongWith(new RunCommand(()->intakeS.intakeMotor(intakeS.isDeployed() ? -0.5 : 0), intakeS)));
-    new JoystickButton(operatorController, 3).whileHeld(new HopperLowerBallsC(hopperS).alongWith(new RunCommand(()->intakeS.intakeMotor(intakeS.isDeployed() ? 0.5 : 0), intakeS)));
+    intakeButton.toggleWhenPressed(new StartEndCommand(()->intakeS.intakeDeploy(),
+    ()->intakeS.intakeRetract(), intakeS));
+    new JoystickButton(operatorController, 4).whileHeld(new HopperIdleBallsC(hopperS));//.alongWith(new RunCommand(()->intakeS.intakeMotor(0), intakeS)));
+    new JoystickButton(operatorController, 1).whileHeld(new HopperLiftBallsC(hopperS));//.alongWith(new RunCommand(()->intakeS.intakeMotor(intakeS.isDeployed() ? -0.5 : 0), intakeS)));
+    new JoystickButton(operatorController, 2).whileHeld(new HopperLowerBallsC(hopperS));//.alongWith(new RunCommand(()->intakeS.intakeMotor(intakeS.isDeployed() ? 0.5 : 0), intakeS)));
     new JoystickButton(operatorController, 5).whenPressed(shooterSpinUpC);
     new JoystickButton(operatorController, 6).whenPressed(shooterSpinDownC);
     

@@ -32,10 +32,21 @@ public class XBoxDriveC extends CommandBase {
     double rightTrigger = controller.getRawAxis(3);
     double leftTrigger = controller.getRawAxis(2);
 
-    driveSpeed = leftTrigger - rightTrigger;
+    if (rightTrigger > -0.02 && rightTrigger < 0.02) {
+      rightTrigger = 0;
+    }
+    if (leftTrigger > -0.02 && leftTrigger < 0.02) {
+      leftTrigger = 0;
+    }
+
+    driveSpeed = rightTrigger - leftTrigger;
     turnSpeed = controller.getRawAxis(0);
 
-    drivebase.arcadeDrive(driveSpeed, turnSpeed);
+    if (turnSpeed > -0.02 && turnSpeed < 0.02) {
+      turnSpeed = 0;
+    }
+
+    drivebase.arcadeDrive(driveSpeed, turnSpeed*0.8);
   }
 
   // Called once the command ends or is interrupted.

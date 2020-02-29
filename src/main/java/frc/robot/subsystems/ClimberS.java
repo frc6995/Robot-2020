@@ -77,7 +77,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
    * NOTE: This method sets the solenoid output to false.
    */
   public void brake() {
-    brakeSolenoid.set(true); // false because no output should be braking
+    brakeSolenoid.set(false); // false because no output should be braking
   }
 
   /**
@@ -85,7 +85,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
    * NOTE: This sets the solenoid output to true.
    */
   public void unbrake() {
-    brakeSolenoid.set(false);
+    brakeSolenoid.set(true);
   }
 
   /**

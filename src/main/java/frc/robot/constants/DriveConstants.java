@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
  * <p>
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the DriveConstants are needed, to reduce verbosity.
+ * 
+ * @author Shueja
  */
 public final class DriveConstants {
     /** The CAN ID for the left master motor controller. */

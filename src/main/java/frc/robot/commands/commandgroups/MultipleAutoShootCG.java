@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -14,9 +7,11 @@ import frc.robot.commands.shooter.ShooterWaitUntilFireC;
 import frc.robot.subsystems.HopperS;
 import frc.robot.subsystems.ShooterS;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+/**
+ * Shoot multiple power cells
+ * 
+ * @author Shuja
+ */
 public class MultipleAutoShootCG extends SequentialCommandGroup {
 
   /**
@@ -27,10 +22,13 @@ public class MultipleAutoShootCG extends SequentialCommandGroup {
    */
   public MultipleAutoShootCG(ShooterS shooterS, HopperS hopperS, int ballsToFire) {
     super(
-      new InstantCommand(() -> shooterS.spinUp(), shooterS), //spinup
+      //spinup
+      new InstantCommand(() -> shooterS.spinUp(), shooterS), 
       new ParallelDeadlineGroup(
-        new ShooterWaitUntilFireC(shooterS, ballsToFire <= 5 ? ballsToFire : 5), //until we have fired the right amount of balls, or 5
-        new ShooterFireOneCG(shooterS, hopperS).perpetually() //repeatedly fire balls.
+        //until we have fired the right amount of balls, or 5
+        new ShooterWaitUntilFireC(shooterS, ballsToFire <= 5 ? ballsToFire : 5),
+        //repeatedly fire balls
+        new ShooterFireOneCG(shooterS, hopperS).perpetually()
       )
     );
   }

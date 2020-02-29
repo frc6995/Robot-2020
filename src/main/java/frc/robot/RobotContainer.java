@@ -43,37 +43,40 @@ import frc.robot.subsystems.SliderS;
 import io.github.oblarg.oblog.annotations.Log;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
+ * 
+ * @author Sammcdo, EliSauder, JoeyFabel, Shueja, AriShashivkopanazak
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...  
+  // The robot's subsystems and commands are defined here...
   private final GenericHID driveController;
   public final GenericHID operatorController;
-  
-  //@Log(name="DrivebaseS")
+
+  // @Log(name="DrivebaseS")
   public static final DrivebaseS drivebaseS = new DrivebaseS();
-  //@Log(name="ClimberS")
+  // @Log(name="ClimberS")
   public static final ClimberS climberS = new ClimberS();
-  //@Log(name="SliderS")
+  // @Log(name="SliderS")
   public static final SliderS sliderS = new SliderS();
-  //@Log(name = " ShooterS")
+  // @Log(name = " ShooterS")
   public static final ShooterS shooterS = new ShooterS();
-  //@Log(name="HopperS")
+  // @Log(name="HopperS")
   public static final HopperS hopperS = new HopperS();
-  //@Log(name = "IntakeS")
+  // @Log(name = "IntakeS")
   public final static IntakeS intakeS = new IntakeS();
-  
+
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   @Log
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
-  private final SequentialCommandGroup sCurveRightAutoCG 
-    = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-  
+  private final SequentialCommandGroup sCurveRightAutoCG = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight,
+      drivebaseS).buildPathFollowerCommandGroup();
+
   private final Command driveStickC;
   private final XBoxDriveC xboxDriveC;
   private final DrivebaseVisionC visionAlignC;
@@ -95,6 +98,7 @@ public class RobotContainer {
   private final InstantCommand shooterSpinDownC;
   @Log(tabName = "ShooterS")
   private final RunCommand shooterManualC;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -106,7 +110,7 @@ public class RobotContainer {
     } else {
       driveController = new XboxController(OIConstants.OI_OPERATOR_CONTROLLER);
     }
-    operatorController = new XboxController(1); //put me in constants somewhere...
+    operatorController = new XboxController(1); // put me in constants somewhere...
 
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
@@ -119,9 +123,13 @@ public class RobotContainer {
 
     final DoubleSupplier manualClimbPower = () -> -driveController.getRawAxis(5);
     manualClimbC = new ClimberManualC(climberS, manualClimbPower);
-    //Initializes the driveStickC command inline. Simply passes the drive controller axes into the drivebaseS arcadeDrive.
-    driveStickC = new RunCommand(() -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK), driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)), drivebaseS);
-    
+    // Initializes the driveStickC command inline. Simply passes the drive
+    // controller axes into the drivebaseS arcadeDrive.
+    driveStickC = new RunCommand(
+        () -> drivebaseS.arcadeDrive(-driveController.getRawAxis(DriveConstants.AXIS_DRIVE_FWD_BACK),
+            driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)),
+        drivebaseS);
+
     xboxDriveC = new XBoxDriveC(driveController);
     climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
@@ -130,11 +138,12 @@ public class RobotContainer {
     SmartDashboard.putData(climberUpPIDC);
     climberPullupCG = new ClimberPullupCG(climberS);
     SmartDashboard.putData(climberPullupCG);
-    //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
+    // Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop
+    // time.
     LiveWindow.disableAllTelemetry();
     intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
     intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
-    
+
     shooterSpinUpC = new InstantCommand(() -> shooterS.spinUp(), shooterS);
     shooterSpinDownC = new InstantCommand(() -> shooterS.spinDown(), shooterS);
     shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
@@ -147,26 +156,28 @@ public class RobotContainer {
     sliderS.setDefaultCommand(manualTranslateC);
     climberS.setDefaultCommand(manualClimbC);
     // defaults to Retracted state
-    //intakeS.setDefaultCommand(intakeRetractCG);
+    // intakeS.setDefaultCommand(intakeRetractCG);
   }
 
   /**
-   * Use this method to define your button-command mappings.  Buttons can be created by
-
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   * Use this method to define your button-command mappings. Buttons can be
+   * created by
+   * 
+   * instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
     new JoystickButton(driveController, 1).whileHeld(visionAlignC);
     new JoystickButton(driveController, 2).whileHeld(visionAlignC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
     new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
-    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); //test w/ toggle when pressed
-    new JoystickButton(driveController, 6).whenPressed(climberPullupCG); //test w/ toggle when pressed
+    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); // test w/ toggle when pressed
+    new JoystickButton(driveController, 6).whenPressed(climberPullupCG); // test w/ toggle when pressed
 
-    JoystickButton intakeButton = new JoystickButton(operatorController, 4); //We do two things with this button, so instantiate separately
-    //to avoid double-allocation.
+    JoystickButton intakeButton = new JoystickButton(operatorController, 4); // We do two things with this button, so
+                                                                             // instantiate separately
+    // to avoid double-allocation.
     intakeButton.whenPressed(intakeDeployCG);
     intakeButton.whenReleased(intakeRetractCG);
     new JoystickButton(operatorController, 1).whileHeld(new HopperIdleBallsC(hopperS));
@@ -174,11 +185,9 @@ public class RobotContainer {
     new JoystickButton(operatorController, 3).whileHeld(new HopperLowerBallsC(hopperS));
     new JoystickButton(operatorController, 5).whenPressed(shooterSpinUpC);
     new JoystickButton(operatorController, 6).whenPressed(shooterSpinDownC);
-    
-    
+
   }
 
-  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -186,7 +195,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    //return autoChooser.getSelected();
-    return autoChooser.getSelected()/*new ballerAutoShootCG()*/;
+    // return autoChooser.getSelected();
+    return autoChooser.getSelected()/* new ballerAutoShootCG() */;
   }
 }

@@ -14,8 +14,9 @@ import frc.wrappers.MotorControllers.NomadVictorSPX;
  */
 public class IntakeS extends SubsystemBase {
 
-  //private NomadTalonSRX intakeMotor = new NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
-  private NomadVictorSPX intakeMotor = new NomadVictorSPX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
+  // private NomadTalonSRX intakeMotor = new
+  // NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
+  private NomadVictorSPX intakeMotor = new NomadVictorSPX(IntakeConstants.CAN_ID_NEO_INTAKE_MOTOR);
   private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, IntakeConstants.DBL_SOLENOID_INTAKE_EXTEND,
       IntakeConstants.DBL_SOLENOID_INTAKE_RETRACT);
 

@@ -24,6 +24,8 @@ import frc.wrappers.MotorControllers.NomadVictorSPX;
 
 /**
  * and two sets of Victors, each on a side of the drivetrain.
+ * 
+ * @author Shuja
  */
 public class DrivebaseS implements Subsystem {
   /**
@@ -69,10 +71,10 @@ public class DrivebaseS implements Subsystem {
    * Creates a new DrivebaseS.
    */
   public DrivebaseS() {
-    for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_LEFT) { //assume the slaves are Victor SPXs
+    for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_LEFT) { // assume the slaves are Victor SPXs
       leftSlaveVictors.add(new NomadVictorSPX(i, false, leftMasterTalon));
     }
-    for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { //assume the slaves are Victor SPXs
+    for (int i : DriveConstants.ARRAY_CAN_ID_DRIVE_RIGHT) { // assume the slaves are Victor SPXs
       rightSlaveVictors.add(new NomadVictorSPX(i, true, rightMasterTalon));
     }
     talonConfig.slot0.kP = RobotPreferences.drivekP.getValue();
@@ -91,18 +93,18 @@ public class DrivebaseS implements Subsystem {
 
   /**
    * Calls the DifferentialDrive arcadeDrive method
+   * 
    * @param driveSpeed -1 to 1, forward-backward speed.
-   * @param turnSpeed -1 to 1, turning speed.
+   * @param turnSpeed  -1 to 1, turning speed.
    */
   public void arcadeDrive(double driveSpeed, double turnSpeed) {
-    differentialDrive.arcadeDrive(driveSpeed, turnSpeed*0.8);
+    differentialDrive.arcadeDrive(driveSpeed, turnSpeed * 0.8);
   }
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderMeters(),
-                      getRightEncoderMeters());
+    odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftEncoderMeters(), getRightEncoderMeters());
     updateTelemetry();
 
   }
@@ -143,7 +145,7 @@ public class DrivebaseS implements Subsystem {
    */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMasterTalon.setVoltage(leftVolts);
-    rightMasterTalon.setVoltage(-1 * rightVolts); //Inverted to match what diffy drive does
+    rightMasterTalon.setVoltage(-1 * rightVolts); // Inverted to match what diffy drive does
   }
 
   /**
@@ -182,7 +184,8 @@ public class DrivebaseS implements Subsystem {
   }
 
   /**
-   * Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
+   * Sets the max output of the drive. Useful for scaling the drive to drive more
+   * slowly.
    *
    * @param maxOutput the maximum output to which the drive will be constrained
    */
@@ -208,9 +211,10 @@ public class DrivebaseS implements Subsystem {
 
   /**
    * returns the angle of the gyro between -360 to 360 degrees
+   * 
    * @return the current angle of the gyro in degrees kept within -360 to 360
    */
-  public double getDegrees(){
+  public double getDegrees() {
     return DriveConstants.GYRO_REVERSED ? -(gyro.getAngle() % 360) : gyro.getAngle() % 360;
   }
 
@@ -229,34 +233,35 @@ public class DrivebaseS implements Subsystem {
    * @return the left encoder rate in meters per second.
    */
   public double getLeftEncoderRate() {
-    return NomadUnits.DBTicksToMeters((leftMasterTalon.getSelectedSensorVelocity() * 10)); /*because Talon reports per 100ms*/
+    return NomadUnits
+        .DBTicksToMeters((leftMasterTalon.getSelectedSensorVelocity() * 10)); /* because Talon reports per 100ms */
   }
 
-    /**
+  /**
    * Returns the right encoder rate in meters per second.
    * 
    * @return the right encoder rate in meters per second.
    */
   public double getRightEncoderRate() {
-    return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorVelocity() * 10); /* because Talon reports per 100ms */
-  }
-  /**
-   * Uses Talon Velocity Control to drive the robot with arbitrary feed forward. Used for auto.
-   * @param leftSpeed Left side speed in meters per second.
-   * @param rightSpeed Right side speed in meters per second.
-   */
-  public void trajectoryDrive(double leftSpeed, double rightSpeed){
-    leftMasterTalon.set(ControlMode.Velocity,
-      NomadUnits.DBMetersToTicks(leftSpeed) / 10,
-      DemandType.ArbitraryFeedForward,
-      AutoConstants.trajectoryFeedForward.calculate(leftSpeed) / 12);
-    rightMasterTalon.set(ControlMode.Velocity,
-      NomadUnits.DBMetersToTicks(rightSpeed) / 10,
-      DemandType.ArbitraryFeedForward,
-      AutoConstants.trajectoryFeedForward.calculate(rightSpeed) / 12);
+    return NomadUnits
+        .DBTicksToMeters(rightMasterTalon.getSelectedSensorVelocity() * 10); /* because Talon reports per 100ms */
   }
 
-  public void updateTelemetry(){
+  /**
+   * Uses Talon Velocity Control to drive the robot with arbitrary feed forward.
+   * Used for auto.
+   * 
+   * @param leftSpeed  Left side speed in meters per second.
+   * @param rightSpeed Right side speed in meters per second.
+   */
+  public void trajectoryDrive(double leftSpeed, double rightSpeed) {
+    leftMasterTalon.set(ControlMode.Velocity, NomadUnits.DBMetersToTicks(leftSpeed) / 10,
+        DemandType.ArbitraryFeedForward, AutoConstants.trajectoryFeedForward.calculate(leftSpeed) / 12);
+    rightMasterTalon.set(ControlMode.Velocity, NomadUnits.DBMetersToTicks(rightSpeed) / 10,
+        DemandType.ArbitraryFeedForward, AutoConstants.trajectoryFeedForward.calculate(rightSpeed) / 12);
+  }
+
+  public void updateTelemetry() {
     SmartDashboard.putNumber("leftEncoderMeters", getLeftEncoderMeters());
     SmartDashboard.putNumber("rightEncoderMeters", getRightEncoderMeters());
     SmartDashboard.putNumber("leftEncoderRate", getLeftEncoderRate());
@@ -264,17 +269,18 @@ public class DrivebaseS implements Subsystem {
     SmartDashboard.putNumber("gyro heading", getHeading());
     leftMasterTalon.config_kP(0, RobotPreferences.drivekP.getValue());
     rightMasterTalon.config_kP(0, RobotPreferences.drivekP.getValue());
-    
+
   }
 
   /**
    * Sets the drivebase talons pid constants in the selected pidSlot
-   * @param p the p constant
-   * @param i the i constant
-   * @param d the d constant
+   * 
+   * @param p       the p constant
+   * @param i       the i constant
+   * @param d       the d constant
    * @param pidSlot the pidSlot for this pid setup
    */
-  public void setDrivebasePIDConstants(double p, double i, double d, int pidSlot){
+  public void setDrivebasePIDConstants(double p, double i, double d, int pidSlot) {
     leftMasterTalon.config_kP(pidSlot, p);
     leftMasterTalon.config_kI(pidSlot, i);
     leftMasterTalon.config_kD(pidSlot, d);
@@ -284,5 +290,4 @@ public class DrivebaseS implements Subsystem {
     rightMasterTalon.config_kD(pidSlot, d);
   }
 
-  
 }

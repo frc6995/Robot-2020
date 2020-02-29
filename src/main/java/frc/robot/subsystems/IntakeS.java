@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 /**
  * The system we use to grab power cells from the floor and transfer them to the
@@ -12,12 +14,13 @@ import frc.wrappers.MotorControllers.NomadVictorSPX;
  * 
  * @author Ari Shashivkopanazak
  */
-public class IntakeS extends SubsystemBase {
+public class IntakeS extends SubsystemBase implements Loggable {
 
   //private NomadTalonSRX intakeMotor = new NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
   private NomadVictorSPX intakeMotor = new NomadVictorSPX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
   private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, IntakeConstants.DBL_SOLENOID_INTAKE_EXTEND,
       IntakeConstants.DBL_SOLENOID_INTAKE_RETRACT);
+  private boolean deployed;
 
   /**
    * <ul>
@@ -29,7 +32,7 @@ public class IntakeS extends SubsystemBase {
    */
   public IntakeS() {
     // TODO: figure out the inversion
-    intakeMotor.setInverted(false);
+    intakeMotor.setInverted(true);
   }
 
   /**
@@ -38,6 +41,7 @@ public class IntakeS extends SubsystemBase {
   public void intakeDeploy() {
     // TODO: kforward?
     intakeSolenoid.set(Value.kForward);
+    deployed = true;
   }
 
   /**
@@ -46,6 +50,7 @@ public class IntakeS extends SubsystemBase {
   public void intakeRetract() {
     // TODO: kreverse?
     intakeSolenoid.set(Value.kReverse);
+    deployed = false;
   }
 
   /**
@@ -59,5 +64,9 @@ public class IntakeS extends SubsystemBase {
 
   @Override
   public void periodic() {
+  }
+  @Log
+  public boolean isDeployed(){
+    return deployed;
   }
 }

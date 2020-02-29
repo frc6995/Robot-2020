@@ -17,6 +17,6 @@ public class IntakeDeployAndRunCG extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new InstantCommand(() -> intake.intakeDeploy(), intake),
-      new RunCommand(() -> intake.intakeMotor(0.8), intake));
+      new RunCommand(() -> intake.intakeMotor(0.5), intake));
   }
 }

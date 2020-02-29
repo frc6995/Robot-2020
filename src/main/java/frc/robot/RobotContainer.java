@@ -69,6 +69,7 @@ public class RobotContainer {
   @Log(name="LEDs")
   public static final LightStripS lightStripsS = new LightStripS();
   
+  
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   @Log
@@ -117,7 +118,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
     autoChooser.addOption("Baller Auto", new MultipleAutoShootCG(shooterS, hopperS, 3));
-
+    
     server.startAutomaticCapture(camera);
 
     final DoubleSupplier slideAxis = () -> driveController.getRawAxis(4);
@@ -177,11 +178,11 @@ public class RobotContainer {
     final JoystickButton intakeButton = new JoystickButton(operatorController, 4); // We do two things with this button,
                                                                                    // so instantiate separately
     //to avoid double-allocation.
-    intakeButton.whenPressed(intakeDeployCG);
-    intakeButton.whenReleased(intakeRetractCG);
-    new JoystickButton(operatorController, 1).whileHeld(new HopperIdleBallsC(hopperS));
-    new JoystickButton(operatorController, 2).whileHeld(new HopperLiftBallsC(hopperS));
-    new JoystickButton(operatorController, 3).whileHeld(new HopperLowerBallsC(hopperS));
+    intakeButton.whenPressed(()->intakeS.intakeDeploy(), intakeS);
+    intakeButton.whenReleased(()->intakeS.intakeRetract(), intakeS);
+    new JoystickButton(operatorController, 1).whileHeld(new HopperIdleBallsC(hopperS).alongWith(new RunCommand(()->intakeS.intakeMotor(0), intakeS)));
+    new JoystickButton(operatorController, 2).whileHeld(new HopperLiftBallsC(hopperS).alongWith(new RunCommand(()->intakeS.intakeMotor(intakeS.isDeployed() ? -0.5 : 0), intakeS)));
+    new JoystickButton(operatorController, 3).whileHeld(new HopperLowerBallsC(hopperS).alongWith(new RunCommand(()->intakeS.intakeMotor(intakeS.isDeployed() ? 0.5 : 0), intakeS)));
     new JoystickButton(operatorController, 5).whenPressed(shooterSpinUpC);
     new JoystickButton(operatorController, 6).whenPressed(shooterSpinDownC);
     

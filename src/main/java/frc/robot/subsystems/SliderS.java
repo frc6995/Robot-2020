@@ -34,6 +34,7 @@ public class SliderS extends SubsystemBase implements Loggable {
    * 
    * @return returns the angle of the gyro.
    */
+  
   public double getGyroAngle() {
     return gyro.getAngle();
   }

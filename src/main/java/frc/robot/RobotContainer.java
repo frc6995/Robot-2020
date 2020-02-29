@@ -90,6 +90,13 @@ public class RobotContainer {
   private final IntakeDeployAndRunCG intakeDeployCG;
   private final IntakeRetractAndStopCG intakeRetractCG;
 
+  @Log(tabName = "ShooterS")
+  private final InstantCommand shooterSpinUpC;
+  @Log(tabName = "ShooterS")
+  private final InstantCommand shooterSpinDownC;
+  @Log(tabName = "ShooterS")
+  private final RunCommand shooterManualC;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */

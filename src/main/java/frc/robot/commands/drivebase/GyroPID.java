@@ -10,7 +10,7 @@ import frc.robot.constants.DriveConstants;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Config;
 
-public class GyroPID extends CommandBase implements Loggable {
+public class GyroPID extends CommandBase implements Loggable{
   /**
    * The desired angle for the robot.
    */
@@ -28,8 +28,8 @@ public class GyroPID extends CommandBase implements Loggable {
    */
   private final int setPointLoops = 2;
 
-  @Config(tabName = "DrivebaseS")
-  private PIDController anglePID;
+  @Config()
+  public PIDController anglePID;
 
   /**
    * A variable that stores a minimum and maximum position

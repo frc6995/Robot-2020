@@ -57,7 +57,7 @@ public class RobotContainer {
   private final GenericHID driveController;
   public final GenericHID operatorController;
   
-  @Log(name="DrivebaseS", rowIndex = 13, columnIndex = 0)
+  //@Log(name="DrivebaseS", rowIndex = 13, columnIndex = 0)
   public static final DrivebaseS drivebaseS = new DrivebaseS();
   @Log(name="ClimberS", rowIndex = 13, columnIndex = 1)
   public static final ClimberS climberS = new ClimberS();
@@ -107,7 +107,7 @@ public class RobotContainer {
   @Log(tabName = "ShooterS")
   private final RunCommand shooterManualC;
 
-  @Log(tabName = "DrivebaseS")
+  @Log
   private final GyroPID gyroPidC;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.

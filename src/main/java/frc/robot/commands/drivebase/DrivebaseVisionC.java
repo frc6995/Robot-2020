@@ -109,8 +109,6 @@ public class DrivebaseVisionC extends CommandBase {
    * @param drivebaseS The DrivebaseS object to use.
    */
   public DrivebaseVisionC(DrivebaseS drivebaseS) {
-    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
-    ledModeEntry.setDouble(3);
     addRequirements(drivebaseS);
     drivebase = drivebaseS;
     turnPid.setTolerance(horizontalRange);
@@ -123,6 +121,9 @@ public class DrivebaseVisionC extends CommandBase {
   @Override
   public void initialize() {
 
+    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
+    ledModeEntry.setDouble(3);
+    
     firstLoop = true;
 
     turnPid.setSetpoint(0);

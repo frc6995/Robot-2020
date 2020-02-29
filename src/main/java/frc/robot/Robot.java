@@ -67,6 +67,11 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     RobotContainer.shooterS.stop();
+
+    // Turns off Limelight LEDs
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry ledModeEntry = table.getEntry("ledmode");
+    ledModeEntry.setDouble(1);
   }
 
   @Override
@@ -88,6 +93,11 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
     }
+
+    // Turns off Limelight LEDs
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry ledModeEntry = table.getEntry("ledmode");
+    ledModeEntry.setDouble(1);
   }
 
   /**
@@ -107,6 +117,11 @@ public class Robot extends TimedRobot {
     robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
+
+    // Turns off Limelight LEDs
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry ledModeEntry = table.getEntry("ledmode");
+    ledModeEntry.setDouble(1);
     }
   }
 

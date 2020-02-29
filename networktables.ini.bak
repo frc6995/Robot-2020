@@ -1,5 +1,18 @@
 [NetworkTables Storage 3.0]
 string "/Preferences/.type"="RobotPreferences"
+double "/Preferences/ArmingRPM"=2900
+double "/Preferences/MaxError"=100
+double "/Preferences/MaxRPM"=5600
+double "/Preferences/PostShotRPM"=2800
+double "/Preferences/RPM"=3000
+double "/Preferences/Stopped RPM"=60
 double "/Preferences/Vision Horizontal kP"=0.04
 double "/Preferences/Vision Vertical kP"=0.04
 double "/Preferences/drivekP"=0.1
+double "/Preferences/kD"=0
+double "/Preferences/kFF"=0
+double "/Preferences/kI"=1e-06
+double "/Preferences/kIz"=0
+double "/Preferences/kP"=5e-05
+double "/Preferences/maxOutput"=1
+double "/Preferences/minOutput"=-1

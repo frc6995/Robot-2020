@@ -24,6 +24,9 @@ import frc.robot.commands.climber.ClimberUpPIDC;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
 import frc.robot.commands.drivebase.XBoxDriveC;
+import frc.robot.commands.hopper.HopperIdleBallsC;
+import frc.robot.commands.hopper.HopperLiftBallsC;
+import frc.robot.commands.hopper.HopperLowerBallsC;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
 import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
@@ -80,6 +83,10 @@ public class RobotContainer {
   private final ClimberUpPIDC climberUpPIDC;
   private final ClimberPullupCG climberPullupCG;
 
+  private final HopperLowerBallsC hopperLowerBallsC;
+  private final HopperLiftBallsC hopperLiftBallsC;
+  private final HopperIdleBallsC hopperIdleBallsC;
+
   private final IntakeDeployAndRunCG intakeDeployCG;
   private final IntakeRetractAndStopCG intakeRetractCG;
 
@@ -116,6 +123,9 @@ public class RobotContainer {
     climberUpPIDC = new ClimberUpPIDC(climberS, true);
     SmartDashboard.putData(climberUpPIDC);
     climberPullupCG = new ClimberPullupCG(climberS);
+    hopperLowerBallsC = new HopperLowerBallsC(hopperS);
+    hopperLiftBallsC = new HopperLiftBallsC(hopperS);
+    hopperIdleBallsC = new HopperIdleBallsC(hopperS);
     SmartDashboard.putData(climberPullupCG);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
@@ -147,6 +157,11 @@ public class RobotContainer {
     new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
     new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); //test w/ toggle when pressed
     new JoystickButton(driveController, 6).whenPressed(climberPullupCG); //test w/ toggle when pressed
+
+    new JoystickButton(operatorController, 1).toggleWhenPressed(hopperLowerBallsC);
+    new JoystickButton(operatorController, 2).toggleWhenPressed(hopperIdleBallsC);
+    new JoystickButton(operatorController, 3).toggleWhenPressed(hopperLiftBallsC);
+    //new JoystickButton(operatorController, 4).toggleWhenPressed(activateShooter);
 
     JoystickButton intakeButton = new JoystickButton(operatorController, 4); //We do two things with this button, so instantiate separately
     //to avoid double-allocation.

@@ -167,8 +167,8 @@ public class DrivebaseVisionC extends CommandBase {
     verticalAdjust = MathUtil.clamp(verticalAdjust, -clampValue, clampValue);
 
     wheelSpeeds = DriveConstants.kDriveKinematics
-        .toWheelSpeeds(new ChassisSpeeds(verticalAdjust, 0, Math.toRadians(horizontalAdjust)));
-    drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
+        .toWheelSpeeds(new ChassisSpeeds(verticalAdjust, 0, 0));
+    drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond - horizontalAdjust, wheelSpeeds.rightMetersPerSecond + horizontalAdjust);
   }
 
   /**

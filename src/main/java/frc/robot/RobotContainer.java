@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.Trajectories;
 import frc.robot.constants.DriveConstants.CONTROLLER_TYPE;
 import frc.robot.commands.drivebase.EmptyAutoCG;
+import frc.robot.commands.drivebase.GyroPID;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.subsystems.DrivebaseS;
@@ -46,6 +48,8 @@ public class RobotContainer {
   private DoubleSupplier fwdBackAxis;
   private final DrivebaseVisionC visionAlignC; 
 
+  private final GyroPID gyroPidC;
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -66,6 +70,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    gyroPidC = new GyroPID(RobotPreferences.gyroPidAngle.getValue());
+    SmartDashboard.putData("Gyro PID", gyroPidC);
+
     drivebaseS.setDefaultCommand(driveStickC);
   }
 
@@ -76,8 +83,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveController, 4).whileHeld(visionAlignC);
-    
+    new JoystickButton(driveController, 1).whileHeld(gyroPidC);    
   }
 
   

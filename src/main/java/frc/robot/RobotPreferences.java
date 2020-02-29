@@ -33,4 +33,5 @@ public final class RobotPreferences {
     public static final NomadDoublePreference gyroPidP = new NomadDoublePreference("Gyro PID P", 0.00);
     public static final NomadDoublePreference gyroPidI = new NomadDoublePreference("Gyro PID I", 0.00);
     public static final NomadDoublePreference gyroPidD = new NomadDoublePreference("Gyro PID D", 0.00);
+    public static final NomadDoublePreference gyroPidAngle = new NomadDoublePreference("Gyro pid angle", 0);
 }

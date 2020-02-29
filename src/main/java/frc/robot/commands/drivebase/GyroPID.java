@@ -96,8 +96,8 @@ public class GyroPID extends CommandBase {
     // verticalAdjust = MathUtil.clamp(verticalAdjust, -clampValue, clampValue);
 
     DifferentialDriveWheelSpeeds wheelSpeeds = DriveConstants.kDriveKinematics
-        .toWheelSpeeds(new ChassisSpeeds(0, 0, Math.toRadians(turnAdjust)));
-    RobotContainer.drivebaseS.trajectoryDrive(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
+        .toWheelSpeeds(new ChassisSpeeds(0, 0, 0));
+    RobotContainer.drivebaseS.trajectoryDrive(wheelSpeeds.leftMetersPerSecond+turnAdjust, wheelSpeeds.rightMetersPerSecond-turnAdjust);
 
     if (turnLeft){
         // <insert0 left turn pid here>      

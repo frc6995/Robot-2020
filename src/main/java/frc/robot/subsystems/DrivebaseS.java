@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotPreferences;
 import frc.robot.constants.AutoConstants;
@@ -23,6 +23,7 @@ import frc.utility.NomadUnits;
 import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 /**
  * and two sets of Victors, each on a side of the drivetrain.
@@ -55,6 +56,7 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
   /**
    * Our NavX gyro.
    */
+  @Log.Gyro()
   private AHRS gyro;
 
   /**
@@ -170,6 +172,7 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
    *
    * @return the left drive encoder
    */
+  @Log
   public double getLeftEncoderMeters() {
     return NomadUnits.DBTicksToMeters(leftMasterTalon.getSelectedSensorPosition());
   }
@@ -179,6 +182,7 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
    *
    * @return the right drive encoder
    */
+  @Log
   public double getRightEncoderMeters() {
     return NomadUnits.DBTicksToMeters(rightMasterTalon.getSelectedSensorPosition());
   }
@@ -195,6 +199,7 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
   /**
    * Zeroes the heading of the robot.
    */
+
   public void zeroHeading() {
     gyro.reset();
   }
@@ -286,5 +291,6 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
     rightMasterTalon.config_kD(pidSlot, d);
   }
 
-  
+  @Log
+  public InstantCommand resetEncodersC = new InstantCommand(()->resetEncoders());  
 }

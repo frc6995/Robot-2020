@@ -74,9 +74,10 @@ public class RobotContainer {
   
   
   private final CameraServer server = CameraServer.getInstance();
-  @Log.CameraStream(name="DriverCam", rowIndex = 0, columnIndex = 0, width = 6, height = 5)
+  //@Log.CameraStream(name="DriverCam", rowIndex = 0, columnIndex = 0, width = 6, height = 5)
+  @Log
   private final UsbCamera camera = new UsbCamera("cam0", 0);
-  @Log(name="Auto Chooser", rowIndex = 9, columnIndex = 0, width = 3)
+  @Log
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
@@ -109,6 +110,9 @@ public class RobotContainer {
 
   @Log
   private final GyroPID gyroPidC;
+
+  @Log
+  private final Command resetEncoders;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -157,6 +161,8 @@ public class RobotContainer {
     visionAlignC = new DrivebaseVisionC(drivebaseS);
 
     gyroPidC = new GyroPID(180);
+
+    resetEncoders = new InstantCommand(()->drivebaseS.resetEncoders());
 
     // Configure the button bindings
     configureButtonBindings();

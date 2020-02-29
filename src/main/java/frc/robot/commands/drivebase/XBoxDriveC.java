@@ -4,12 +4,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DrivebaseS;
-
+/**
+ * Command that drives robot with an Xbox controller
+ */
 public class XBoxDriveC extends CommandBase {
   DrivebaseS drivebase;
   GenericHID controller;
   /**
    * Creates a new XBoxDriveC.
+   * @param xboxController the Xbox controller that will control the driving
    */
   public XBoxDriveC(GenericHID xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,6 +27,9 @@ public class XBoxDriveC extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  /**
+   * Drives the robot using triggers for forward/backwards and left stick for turning
+   */
   @Override
   public void execute() {
     double driveSpeed;

@@ -74,6 +74,7 @@ public class RobotContainer {
   
   private final Command driveStickC;
   private final XBoxDriveC xboxDriveC;
+  
   private final DrivebaseVisionC visionAlignC;
 
   private final ManualTranslateC manualTranslateC;
@@ -172,9 +173,9 @@ public class RobotContainer {
     new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); //test w/ toggle when pressed
     new JoystickButton(driveController, 6).whenPressed(climberPullupCG); //test w/ toggle when pressed
 
-    new JoystickButton(operatorController, 1).toggleWhenPressed(hopperLowerBallsC);
-    new JoystickButton(operatorController, 2).toggleWhenPressed(hopperIdleBallsC);
-    new JoystickButton(operatorController, 4).toggleWhenPressed(hopperLiftBallsC);
+    new JoystickButton(operatorController, 1).whileHeld(hopperLowerBallsC);
+    new JoystickButton(operatorController, 2).whileHeld(hopperIdleBallsC);
+    new JoystickButton(operatorController, 4).whileHeld(hopperLiftBallsC);
 
     JoystickButton intakeButton = new JoystickButton(operatorController, 3); //We do two things with this button, so instantiate separately
     //to avoid double-allocation.

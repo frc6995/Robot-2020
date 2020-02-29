@@ -28,7 +28,7 @@ public class HopperIdleBallsC extends CommandBase {
   public void execute() {
 
     this.hopper.spinTube(true, 1);
-    this.hopper.spinTube(false, 2);
+    this.hopper.spinTube(true, 2);
 
   }
 

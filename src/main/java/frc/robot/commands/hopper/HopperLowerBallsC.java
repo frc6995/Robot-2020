@@ -30,7 +30,7 @@ public class HopperLowerBallsC extends CommandBase {
   public void execute() {
     // Spins it opposite direction from lift balls command, based on preference to
     // make sure the invert value is correct.
-    this.hopper.spinTubes(!RobotPreferences.hopperInvert.getValue());
+    this.hopper.spinTubes(true);
 
   }
 

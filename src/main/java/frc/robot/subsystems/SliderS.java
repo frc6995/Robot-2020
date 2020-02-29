@@ -13,7 +13,7 @@ import io.github.oblarg.oblog.annotations.Log;
  */
 public class SliderS extends SubsystemBase implements Loggable {
   private NomadVictorSPX sliderVictor = new NomadVictorSPX(SliderConstants.CAN_ID_SLIDER_CONTROLLER);
-  @Log(name="Slider Gyro")
+  @Log(name="Slider Gyro", width = 3, height = 3, columnIndex = 0, rowIndex = 0)
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 
   public SliderS() {
@@ -34,7 +34,7 @@ public class SliderS extends SubsystemBase implements Loggable {
    * 
    * @return returns the angle of the gyro.
    */
-  @Log.Gyro(name = "Gyro Angle", columnIndex = 0, rowIndex = 0, height = 3, width = 3)
+  
   public double getGyroAngle() {
     return gyro.getAngle();
   }

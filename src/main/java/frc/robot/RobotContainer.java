@@ -37,6 +37,7 @@ import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.HopperS;
 import frc.robot.subsystems.IntakeS;
+import frc.robot.subsystems.ShooterS;
 import frc.robot.subsystems.SliderS;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -61,6 +62,7 @@ public class RobotContainer {
   public static final HopperS hopperS = new HopperS();
   @Log(name = "IntakeS")
   public final static IntakeS intakeS = new IntakeS();
+  public static final ShooterS shooterS = new ShooterS();
   
   private final CameraServer server = CameraServer.getInstance();
   private final UsbCamera camera = new UsbCamera("cam0", 0);
@@ -140,6 +142,10 @@ public class RobotContainer {
     intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
     intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
     visionAlignC = new DrivebaseVisionC(drivebaseS);
+
+    shooterSpinUpC = new InstantCommand(() -> shooterS.spinUp(), shooterS);
+    shooterSpinDownC = new InstantCommand(() -> shooterS.spinDown(), shooterS);
+    shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
 
     // Configure the button bindings
     configureButtonBindings();

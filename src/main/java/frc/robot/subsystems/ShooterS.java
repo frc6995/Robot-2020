@@ -29,6 +29,8 @@ public class ShooterS extends SubsystemBase implements Loggable{
   
   private CANEncoder encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, rpm, maxError, armThreshold, fireThreshold, stopThreshold;
+  @Log
+  private int timeInSpinup;
   private enum ShooterState {SPINUP, READY, ARMED, RECOVERY, SPINDOWN, STOPPED};
   private int cyclesInRange; 
   @Log 
@@ -46,6 +48,7 @@ public class ShooterS extends SubsystemBase implements Loggable{
     spark.setInverted(true);
     spark.setSmartCurrentLimit(30);
     spark.setIdleMode(IdleMode.kCoast);
+
     spark.burnFlash();
     pidController = spark.getPIDController();
 
@@ -74,8 +77,7 @@ public class ShooterS extends SubsystemBase implements Loggable{
     pidController.setIZone(kIz);
     pidController.setFF(kFF);
     pidController.setOutputRange(kMinOutput, kMaxOutput);
-
-    SmartDashboard.putNumber("SetPoint", 0);
+    
   }
 
   @Override
@@ -105,9 +107,14 @@ public class ShooterS extends SubsystemBase implements Loggable{
   }
   
   private void updateState() {
+    if (state != ShooterState.SPINUP) {
+      timeInSpinup = 1;
+    } 
     switch (state){
       case SPINUP:
-        runVelocityPidRpm(ShooterConstants.SHOOTER_RPM);
+        timeInSpinup = MathUtil.clamp(timeInSpinup++, 0, ShooterConstants.SHOOTER_SPINUP_CYCLES);
+        timeInSpinup++;
+        runVelocityPidRpm(ShooterConstants.SHOOTER_RPM * (timeInSpinup+1) / ShooterConstants.SHOOTER_SPINUP_CYCLES);
         if(Math.abs(ShooterConstants.SHOOTER_RPM - currentRpm) < maxError) { //if we are less than maxError over out target
           cyclesInRange++; // increment the counter
         }
@@ -160,7 +167,7 @@ public class ShooterS extends SubsystemBase implements Loggable{
       case STOPPED:
         pidController.setReference(0.0, ControlType.kVoltage);
         //do nothing until further command.
-        break;  
+        break;   
       }    
   }
 

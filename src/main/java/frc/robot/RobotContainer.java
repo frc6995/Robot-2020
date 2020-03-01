@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
@@ -73,7 +75,16 @@ public class RobotContainer {
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-  
+  private final Command shoot3AutoCG = new MultipleAutoShootCG(shooterS, hopperS, 3);
+  private final Command shoot3LeaveLineAutoCG = new MultipleAutoShootCG(shooterS, hopperS, 3)
+  .andThen(new StartEndCommand(() -> drivebaseS.arcadeDrive(0.5, 0),
+   () -> drivebaseS.arcadeDrive(0, 0), 
+   drivebaseS).withTimeout(1.5));
+  private final Command visionShoot3LeaveLineAutoCG = new DrivebaseVisionC(drivebaseS).withTimeout(4)
+  .andThen(new MultipleAutoShootCG(shooterS, hopperS, 3)
+  .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(0.5, 0), drivebaseS).withTimeout(1.5)
+  .andThen(new InstantCommand(() -> drivebaseS.arcadeDrive(0, 0), drivebaseS)))); 
+
   private final Command driveStickC;
   private final XBoxDriveC xboxDriveC;
   private final DrivebaseVisionC visionAlignC;
@@ -110,7 +121,9 @@ public class RobotContainer {
 
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
-    autoChooser.addOption("Baller Auto", new MultipleAutoShootCG(shooterS, hopperS, 3));
+    autoChooser.addOption("Shoot 3", shoot3AutoCG);
+    autoChooser.addOption("Shoot 3 Leave Line", shoot3LeaveLineAutoCG);
+    autoChooser.addOption("VisionShoot3LeaveLine", visionShoot3LeaveLineAutoCG);
 
     server.startAutomaticCapture(camera);
 

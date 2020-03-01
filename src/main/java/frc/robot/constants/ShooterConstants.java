@@ -32,4 +32,6 @@ public class ShooterConstants {
      */
     public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD 
     = new SimpleMotorFeedforward(0, 0.192/90, 0.0417/90);
+
+    public static final int SHOOTER_SPINUP_CYCLES = 200;
 }

@@ -25,7 +25,7 @@ import frc.robot.commands.climber.ClimberPullupCG;
 import frc.robot.commands.climber.ClimberUpPIDC;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
-import frc.robot.commands.drivebase.GyroPID;
+import frc.robot.commands.drivebase.GyroPidC;
 import frc.robot.commands.hopper.HopperIdleBallsC;
 import frc.robot.commands.hopper.HopperLiftBallsC;
 import frc.robot.commands.hopper.HopperLowerBallsC;
@@ -109,7 +109,7 @@ public class RobotContainer {
   private final RunCommand shooterManualC;
 
   @Log
-  private final GyroPID gyroPidC;
+  private final GyroPidC gyroPidC;
 
   @Log
   private final Command resetEncoders;
@@ -160,7 +160,7 @@ public class RobotContainer {
     shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
     visionAlignC = new DrivebaseVisionC(drivebaseS);
 
-    gyroPidC = new GyroPID(180);
+    gyroPidC = new GyroPidC(180, drivebaseS);
 
     resetEncoders = new InstantCommand(()->drivebaseS.resetEncoders());
 

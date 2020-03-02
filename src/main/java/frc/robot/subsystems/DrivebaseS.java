@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -293,4 +294,10 @@ public class DrivebaseS extends SubsystemBase implements Loggable {
 
   @Log
   public InstantCommand resetEncodersC = new InstantCommand(()->resetEncoders());  
+
+  public void turnDrive(double turnAdjust) {
+    DifferentialDriveWheelSpeeds wheelSpeeds = DriveConstants.kDriveKinematics
+        .toWheelSpeeds(new ChassisSpeeds(0, 0, Math.toRadians(turnAdjust)));
+    trajectoryDrive(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
+  }
 }

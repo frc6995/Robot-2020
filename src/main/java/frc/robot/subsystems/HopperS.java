@@ -31,11 +31,11 @@ public class HopperS extends SubsystemBase {
  */
   public void spinTubes(Boolean reversed){
     if (reversed) {
-      hopperTalon.set(-RobotPreferences.hopperSpeed.getValue());
+      hopperTalon.set(RobotPreferences.hopperSpeed.getValue());
       hopperVictor.set(-RobotPreferences.hopperSpeed.getValue());
     }
     else {
-      hopperTalon.set(RobotPreferences.hopperSpeed.getValue());
+      hopperTalon.set(-RobotPreferences.hopperSpeed.getValue());
       hopperVictor.set(RobotPreferences.hopperSpeed.getValue());
     }
   }

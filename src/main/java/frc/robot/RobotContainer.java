@@ -14,27 +14,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ManualTranslateC;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
-import frc.robot.commands.commandgroups.MultipleAutoShootCG;
 import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
 import frc.robot.commands.climber.ClimberPullupCG;
 import frc.robot.commands.climber.ClimberUpPIDC;
+import frc.robot.commands.commandgroups.MultipleAutoShootCG;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
 import frc.robot.commands.drivebase.GyroPidC;
+import frc.robot.commands.drivebase.XBoxDriveC;
 import frc.robot.commands.hopper.HopperIdleBallsC;
 import frc.robot.commands.hopper.HopperLiftBallsC;
 import frc.robot.commands.hopper.HopperLowerBallsC;
-import frc.robot.commands.drivebase.XBoxDriveC;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
-import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
-import frc.robot.constants.OIConstants;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.OIConstants;
+import frc.robot.constants.OIConstants.CONTROLLER_TYPE;
 import frc.robot.constants.Trajectories;
 import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.DrivebaseS;
@@ -43,7 +42,6 @@ import frc.robot.subsystems.IntakeS;
 import frc.robot.subsystems.LightStripS;
 import frc.robot.subsystems.ShooterS;
 import frc.robot.subsystems.SliderS;
-import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 /**
@@ -77,7 +75,7 @@ public class RobotContainer {
   //@Log.CameraStream(name="DriverCam", rowIndex = 0, columnIndex = 0, width = 6, height = 5)
   @Log
   private final UsbCamera camera = new UsbCamera("cam0", 0);
-  @Log
+  
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
@@ -85,6 +83,7 @@ public class RobotContainer {
   
   private final Command driveStickC;
   private final XBoxDriveC xboxDriveC;
+  
   private final DrivebaseVisionC visionAlignC;
 
   private final ManualTranslateC manualTranslateC;
@@ -95,6 +94,10 @@ public class RobotContainer {
   public final Command climberBrakeOffC;
   private final ClimberUpPIDC climberUpPIDC;
   private final ClimberPullupCG climberPullupCG;
+
+  private final HopperLowerBallsC hopperLowerBallsC;
+  private final HopperLiftBallsC hopperLiftBallsC;
+  private final HopperIdleBallsC hopperIdleBallsC;
 
   private final IntakeDeployAndRunCG intakeDeployCG;
   private final IntakeRetractAndStopCG intakeRetractCG;
@@ -126,6 +129,7 @@ public class RobotContainer {
     }
     operatorController = new XboxController(1); //put me in constants somewhere...
 
+    
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
     autoChooser.addOption("Baller Auto", new MultipleAutoShootCG(shooterS, hopperS, 3));
@@ -148,17 +152,20 @@ public class RobotContainer {
     climberUpPIDC = new ClimberUpPIDC(climberS, true);
     SmartDashboard.putData(climberUpPIDC);
     climberPullupCG = new ClimberPullupCG(climberS);
+    hopperLowerBallsC = new HopperLowerBallsC(hopperS);
+    hopperLiftBallsC = new HopperLiftBallsC(hopperS);
+    hopperIdleBallsC = new HopperIdleBallsC(hopperS);
     SmartDashboard.putData(climberPullupCG);
     xboxDriveC = new XBoxDriveC(driveController);
     //Turn off LiveWindow telemetry. We don't use it and it takes 90% of the loop time.
     LiveWindow.disableAllTelemetry();
     intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
     intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
-    
+    visionAlignC = new DrivebaseVisionC(drivebaseS);
+
     shooterSpinUpC = new InstantCommand(() -> shooterS.spinUp(), shooterS);
     shooterSpinDownC = new InstantCommand(() -> shooterS.spinDown(), shooterS);
     shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
-    visionAlignC = new DrivebaseVisionC(drivebaseS);
 
     gyroPidC = new GyroPidC(180, drivebaseS);
 
@@ -190,16 +197,16 @@ public class RobotContainer {
     new JoystickButton(driveController, 6).toggleWhenPressed(climberPullupCG); //test w/ toggle when pressed
     new JoystickButton(driveController, 8).whenPressed(climberHomeC);
 
-    final JoystickButton intakeButton = new JoystickButton(operatorController, 3); // We do two things with this button,
-                                                                                   // so instantiate separately
-    //to avoid double-allocation.
-    intakeButton.toggleWhenPressed(new StartEndCommand(()->intakeS.intakeDeploy(),
-    ()->intakeS.intakeRetract(), intakeS));
-    new JoystickButton(operatorController, 4).whileHeld(new HopperIdleBallsC(hopperS));//.alongWith(new RunCommand(()->intakeS.intakeMotor(0), intakeS)));
-    new JoystickButton(operatorController, 1).whileHeld(new HopperLiftBallsC(hopperS));//.alongWith(new RunCommand(()->intakeS.intakeMotor(intakeS.isDeployed() ? -0.5 : 0), intakeS)));
-    new JoystickButton(operatorController, 2).whileHeld(new HopperLowerBallsC(hopperS));//.alongWith(new RunCommand(()->intakeS.intakeMotor(intakeS.isDeployed() ? 0.5 : 0), intakeS)));
+    new JoystickButton(operatorController, 1).whileHeld(hopperLowerBallsC);
+    new JoystickButton(operatorController, 2).whileHeld(hopperIdleBallsC);
+    new JoystickButton(operatorController, 4).whileHeld(hopperLiftBallsC);
     new JoystickButton(operatorController, 5).whenPressed(shooterSpinUpC);
     new JoystickButton(operatorController, 6).whenPressed(shooterSpinDownC);
+
+    JoystickButton intakeButton = new JoystickButton(operatorController, 3); //We do two things with this button, so instantiate separately
+    //to avoid double-allocation.
+    intakeButton.whenPressed(intakeDeployCG);
+    intakeButton.whenReleased(intakeRetractCG);
     
     
   }
@@ -212,7 +219,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    //return autoChooser.getSelected();
-    return autoChooser.getSelected()/*new ballerAutoShootCG()*/;
+    return autoChooser.getSelected();
   }
 }

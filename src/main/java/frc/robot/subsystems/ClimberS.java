@@ -61,7 +61,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
     climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
-    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKf.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKfUp.getValue());
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
@@ -120,6 +120,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
     climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKfUp.getValue());
     // climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT,
     // dynamicFeedForward.calculate(getVelocity())); //does this work?
 
@@ -137,7 +138,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
     climbMaster.config_kP(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKpDown.getValue());
     climbMaster.config_kI(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKiDown.getValue());
     climbMaster.config_kD(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKdDown.getValue());
-    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKf.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKfDown.getValue());
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberIZoneDown.getValue());
 

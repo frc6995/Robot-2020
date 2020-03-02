@@ -55,25 +55,25 @@ public class RobotContainer {
   private final GenericHID driveController;
   public final GenericHID operatorController;
   
-  //@Log(name="DrivebaseS", rowIndex = 13, columnIndex = 0)
+  @Log(name="DrivebaseS", rowIndex = 0, columnIndex = 0, height = 1)
   public static final DrivebaseS drivebaseS = new DrivebaseS();
-  @Log(name="ClimberS", rowIndex = 13, columnIndex = 1)
+  @Log(name="ClimberS", rowIndex = 1, columnIndex = 0)
   public static final ClimberS climberS = new ClimberS();
-  @Log(name="SliderS", rowIndex = 13, columnIndex = 3)
+  @Log(name="SliderS", rowIndex = 3, columnIndex = 0)
   public static final SliderS sliderS = new SliderS();
-  @Log(name = " ShooterS", rowIndex = 13, columnIndex = 2)
+  @Log(name = " ShooterS", rowIndex = 2, columnIndex = 0)
   public static final ShooterS shooterS = new ShooterS();
-  @Log(name="HopperS", rowIndex = 13, columnIndex = 4)
+  @Log(name="HopperS", rowIndex = 4, columnIndex = 0)
   public static final HopperS hopperS = new HopperS();
-  @Log(name = "IntakeS", rowIndex = 13, columnIndex = 5)
+  @Log(name = "IntakeS", rowIndex = 5, columnIndex = 0)
   public static final IntakeS intakeS = new IntakeS();
-  @Log(name="LEDs", rowIndex = 13, columnIndex = 6)
+  @Log(name="LEDs", rowIndex = 6, columnIndex = 0)
   public static final LightStripS lightStripsS = new LightStripS();
   
   
   private final CameraServer server = CameraServer.getInstance();
   //@Log.CameraStream(name="DriverCam", rowIndex = 0, columnIndex = 0, width = 6, height = 5)
-  @Log
+  @Log.CameraStream(name="Driver Cam", rowIndex = 0, columnIndex = 10, width = 6, height = 5)
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();

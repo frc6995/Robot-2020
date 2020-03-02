@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
     Logger.configureLoggingAndConfig(this.robotContainer, false);
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0.25);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0.25);
   }
 
   /**

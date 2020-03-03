@@ -53,17 +53,17 @@ public class RobotContainer {
   private final GenericHID driveController;
   public final GenericHID operatorController;
   
-  //@Log(name="DrivebaseS")
+  @Log(name="DrivebaseS")
   public static final DrivebaseS drivebaseS = new DrivebaseS();
-  //@Log(name="ClimberS")
+  @Log(name="ClimberS")
   public static final ClimberS climberS = new ClimberS();
-  //@Log(name="SliderS")
+  @Log(name="SliderS")
   public static final SliderS sliderS = new SliderS();
-  //@Log(name = " ShooterS")
+  @Log(name = " ShooterS")
   public static final ShooterS shooterS = new ShooterS();
-  //@Log(name="HopperS")
+  @Log(name="HopperS")
   public static final HopperS hopperS = new HopperS();
-  //@Log(name = "IntakeS")
+  @Log(name = "IntakeS")
   public final static IntakeS intakeS = new IntakeS();
   
   private final CameraServer server = CameraServer.getInstance();

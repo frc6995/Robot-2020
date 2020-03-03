@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
+import frc.wrappers.MotorControllers.NomadVictorSPX;
+import io.github.oblarg.oblog.Loggable;
 
 /**
  * The system we use to grab power cells from the floor and transfer them to the
@@ -14,7 +16,7 @@ import frc.robot.constants.IntakeConstants;
  * 
  * @author Ari Shashivkopanazak
  */
-public class IntakeS extends SubsystemBase {
+public class IntakeS extends SubsystemBase implements Loggable  {
 
   // private NomadTalonSRX intakeMotor = new
   // NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);

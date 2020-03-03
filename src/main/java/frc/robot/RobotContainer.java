@@ -193,8 +193,8 @@ public class RobotContainer {
     new JoystickButton(driveController, 2).whileHeld(visionAlignC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
     new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
-    new JoystickButton(driveController, 5).toggleWhenPressed(climberUpPIDC); //test w/ toggle when pressed
-    new JoystickButton(driveController, 6).toggleWhenPressed(climberPullupCG); //test w/ toggle when pressed
+    new JoystickButton(driveController, 6).toggleWhenPressed(climberUpPIDC); //test w/ toggle when pressed
+    new JoystickButton(driveController, 5).toggleWhenPressed(climberPullupCG); //test w/ toggle when pressed
     new JoystickButton(driveController, 8).whenPressed(climberHomeC);
 
     new JoystickButton(operatorController, 1).whileHeld(hopperLowerBallsC);

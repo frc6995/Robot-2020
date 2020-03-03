@@ -18,7 +18,7 @@ public class IntakeS extends SubsystemBase {
 
   // private NomadTalonSRX intakeMotor = new
   // NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
-  private CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR, MotorType.kBrushless);
+  private CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.CAN_ID_SPARK_MAX_MOTOR, MotorType.kBrushless);
   private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, IntakeConstants.DBL_SOLENOID_INTAKE_EXTEND,
       IntakeConstants.DBL_SOLENOID_INTAKE_RETRACT);
 

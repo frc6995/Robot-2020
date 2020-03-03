@@ -42,6 +42,9 @@ public class Robot extends TimedRobot {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry ledModeEntry = table.getEntry("ledmode");
     ledModeEntry.setDouble(1);
+    
+    robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0.25);
+    robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0.25);
   }
 
   /**

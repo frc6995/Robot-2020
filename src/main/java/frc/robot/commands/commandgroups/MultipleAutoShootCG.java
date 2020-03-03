@@ -9,6 +9,7 @@ package frc.robot.commands.commandgroups;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.shooter.ShooterWaitUntilFireC;
 import frc.robot.subsystems.HopperS;
@@ -30,7 +31,7 @@ public class MultipleAutoShootCG extends SequentialCommandGroup {
       new InstantCommand(() -> shooterS.spinUp(), shooterS), //spinup
       new ParallelDeadlineGroup(
         new ShooterWaitUntilFireC(shooterS, ballsToFire <= 5 ? ballsToFire : 5), //until we have fired the right amount of balls, or 5
-        new ShooterFireOneCG(shooterS, hopperS).perpetually() //repeatedly fire balls.
+        new ScheduleCommand(new ShooterFireOneCG(shooterS, hopperS)).perpetually() //repeatedly fire balls.
       )
     );
   }

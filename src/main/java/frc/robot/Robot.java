@@ -62,7 +62,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    RobotContainer.shooterS.stop();
+    robotContainer.shooterS.stop();
+    robotContainer.climberBrakeOnC.initialize();
   }
 
   @Override
@@ -79,6 +80,8 @@ public class Robot extends TimedRobot {
     robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
     robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
     autonomousCommand = robotContainer.getAutonomousCommand();
+
+    robotContainer.climberBrakeOffC.initialize();
 
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
@@ -101,6 +104,9 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
     robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
+
+    robotContainer.climberBrakeOffC.initialize();
+    
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }

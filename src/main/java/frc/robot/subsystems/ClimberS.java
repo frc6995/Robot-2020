@@ -66,7 +66,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
     climbMaster.configClosedloopRamp(0.7);
-    climbMaster.configClosedLoopPeakOutput(ClimberConstants.CLIMBER_PID_UP_SLOT, 0.5); // tune me pls
+    climbMaster.configClosedLoopPeakOutput(ClimberConstants.CLIMBER_PID_UP_SLOT, 0.75); // tune me pls
     dynamicFeedForward = new SimpleMotorFeedforward(ClimberConstants.CLIMBER_KS, ClimberConstants.CLIMBER_KV,
         ClimberConstants.CLIMBER_KA);
 

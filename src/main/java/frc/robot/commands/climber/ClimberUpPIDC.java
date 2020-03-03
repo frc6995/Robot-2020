@@ -2,11 +2,15 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberS;
+import frc.robot.subsystems.RobotLEDS;
 import frc.robot.subsystems.ClimberS.climberLevel;
+import frc.robot.subsystems.RobotLEDS.ledStates;
+import jdk.internal.net.http.common.FlowTube.TubePublisher;
 
 public class ClimberUpPIDC extends CommandBase {
   private ClimberS climber;
   private boolean endAtTarget;
+  private boolean firstLoop = true;
   /**
    * Creates a new ClimberUpPIDC.
    * @param finishAtSetPoint if true, it ends the command 
@@ -28,14 +32,19 @@ public class ClimberUpPIDC extends CommandBase {
   @Override
   public void execute() {
     this.climber.runUpPID();
+    if (firstLoop){
+      RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
+      firstLoop = false;
+    }
   }
-
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     this.climber.setClimberPowerFeedForward(0);
+    RobotLEDS.robotLEDS.revertLEDS();
   }
-
+  
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

@@ -5,11 +5,14 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberS;
+import frc.robot.subsystems.RobotLEDS;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 
 public class ClimberManualC extends CommandBase {
   private DoubleSupplier power;
   private ClimberS climber;
-
+  private boolean firstLoop = true;
+  
   /**
    * Creates a new ClimberManualC.
    */
@@ -29,6 +32,11 @@ public class ClimberManualC extends CommandBase {
   @Override
   public void execute() {
 
+    if (firstLoop){
+      RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
+      firstLoop = false;
+    }
+
     double speed = this.power.getAsDouble();
     if (Math.abs(speed) < 0.1) {
       speed = 0;
@@ -39,12 +47,14 @@ public class ClimberManualC extends CommandBase {
      */
     SmartDashboard.putNumber("ClimberSpeed", speed);
     this.climber.setClimberPower(speed * 0.5);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     this.climber.setClimberPower(0);
+    RobotLEDS.robotLEDS.revertLEDS();
   }
 
   // Returns true when the command should end.

@@ -8,12 +8,15 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.RobotLEDS;
 import frc.robot.subsystems.ShooterS;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 
 public class ShooterWaitUntilFireC extends CommandBase {
   private ShooterS shooter;
   private int initBallsFired;
   private int ballsToFire;
+  private boolean firstLoop = true;
   /**
    * Creates a new ShooterWaitUntilReadyC.
    */
@@ -32,11 +35,16 @@ public class ShooterWaitUntilFireC extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (firstLoop){
+      RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
+      firstLoop = false;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    RobotLEDS.robotLEDS.revertLEDS();
   }
 
   // Returns true when the command should end.

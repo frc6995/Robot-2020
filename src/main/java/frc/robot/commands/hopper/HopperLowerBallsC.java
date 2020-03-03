@@ -3,6 +3,8 @@ package frc.robot.commands.hopper;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotPreferences;
 import frc.robot.subsystems.HopperS;
+import frc.robot.subsystems.RobotLEDS;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 
 /**
  * The command that lowers balls in the hopper.
@@ -31,6 +33,7 @@ public class HopperLowerBallsC extends CommandBase {
     // Spins it opposite direction from lift balls command, based on preference to
     // make sure the invert value is correct.
     this.hopper.spinTubes(!RobotPreferences.hopperInvert.getValue());
+    if (RobotLEDS.robotLEDS.currentState != ledStates.Climb_Time) RobotLEDS.robotLEDS.currentState = ledStates.Hopper_On;
 
   }
 
@@ -39,7 +42,7 @@ public class HopperLowerBallsC extends CommandBase {
    */
   @Override
   public void end(boolean interrupted) {
-
+    RobotLEDS.robotLEDS.revertLEDS();
     this.hopper.stopTubes();
 
   }

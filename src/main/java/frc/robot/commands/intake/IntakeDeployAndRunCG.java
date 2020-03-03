@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.IntakeS;
+import frc.robot.subsystems.RobotLEDS;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -17,6 +19,6 @@ public class IntakeDeployAndRunCG extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(new InstantCommand(() -> intake.intakeDeploy(), intake),
-      new RunCommand(() -> intake.intakeMotor(0.8), intake));
+    new RunCommand(() -> intake.intakeMotor(0.8), intake));
   }
 }

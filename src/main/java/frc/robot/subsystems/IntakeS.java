@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 
 /**
@@ -55,6 +56,8 @@ public class IntakeS extends SubsystemBase {
    */
   public void intakeMotor(double speed) {
     intakeMotor.set(speed);
+    if (speed != 0) RobotLEDS.robotLEDS.currentState = ledStates.Intake;
+    else RobotLEDS.robotLEDS.revertLEDS();
   }
 
   @Override

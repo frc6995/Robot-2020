@@ -3,12 +3,15 @@ package frc.robot.commands.climber;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotPreferences;
 import frc.robot.subsystems.ClimberS;
+import frc.robot.subsystems.RobotLEDS;
 import frc.robot.subsystems.ClimberS.climberLevel;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 
 public class ClimberDownPIDC extends CommandBase {
   private ClimberS climber;
   private boolean endAtTarget;
-
+  private boolean firstLoop = true;
+  
   /**
    * Creates a new ClimberDownPIDC.
    * @param finishAtSetPoint if true, it ends the command 
@@ -33,11 +36,16 @@ public class ClimberDownPIDC extends CommandBase {
   @Override
   public void execute() {
     this.climber.runDownPID();
+    if (firstLoop){
+      RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
+      firstLoop = false;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    RobotLEDS.robotLEDS.revertLEDS();
   }
 
   // Returns true when the command should end.
@@ -47,6 +55,7 @@ public class ClimberDownPIDC extends CommandBase {
       return this.climber.isAtSetPoint(climberLevel.Pullup);
     }
     else {
+      RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
       return false;
     }
   }

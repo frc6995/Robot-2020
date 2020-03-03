@@ -14,6 +14,7 @@ import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ClimberS extends SubsystemBase implements Loggable {
   private NomadTalonSRX climbMaster = new NomadTalonSRX(ClimberConstants.CAN_ID_CLIMB_TALON);
@@ -126,6 +127,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
+    SmartDashboard.putNumber("set point up", RobotPreferences.liftHeight.getValue());
     climbMaster.set(ControlMode.Position, RobotPreferences.liftHeight.getValue());
   }
 
@@ -142,6 +144,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberIZoneDown.getValue());
 
+    SmartDashboard.putNumber("set point down", RobotPreferences.pullHeight.getValue());
     climbMaster.set(ControlMode.Position, RobotPreferences.pullHeight.getValue());
   }
 

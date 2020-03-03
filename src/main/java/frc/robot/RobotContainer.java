@@ -55,25 +55,24 @@ public class RobotContainer {
   private final GenericHID driveController;
   public final GenericHID operatorController;
   
-  @Log(name="DrivebaseS", rowIndex = 0, columnIndex = 0, height = 1)
+  //@Log(name="DrivebaseS", rowIndex = 0, columnIndex = 0, height = 1)
   public static final DrivebaseS drivebaseS = new DrivebaseS();
   @Log(name="ClimberS", rowIndex = 1, columnIndex = 0)
   public static final ClimberS climberS = new ClimberS();
-  @Log(name="SliderS", rowIndex = 3, columnIndex = 0)
+  //@Log(name="SliderS", rowIndex = 3, columnIndex = 0)
   public static final SliderS sliderS = new SliderS();
   @Log(name = " ShooterS", rowIndex = 2, columnIndex = 0)
   public static final ShooterS shooterS = new ShooterS();
-  @Log(name="HopperS", rowIndex = 4, columnIndex = 0)
+  //@Log(name="HopperS", rowIndex = 4, columnIndex = 0)
   public static final HopperS hopperS = new HopperS();
-  @Log(name = "IntakeS", rowIndex = 5, columnIndex = 0)
+  //@Log(name = "IntakeS", rowIndex = 5, columnIndex = 0)
   public static final IntakeS intakeS = new IntakeS();
-  @Log(name="LEDs", rowIndex = 6, columnIndex = 0)
+  //@Log(name="LEDs", rowIndex = 6, columnIndex = 0)
   public static final LightStripS lightStripsS = new LightStripS();
   
   
   private final CameraServer server = CameraServer.getInstance();
-  //@Log.CameraStream(name="DriverCam", rowIndex = 0, columnIndex = 0, width = 6, height = 5)
-  @Log.CameraStream(name="Driver Cam", rowIndex = 0, columnIndex = 10, width = 6, height = 5)
+  //@Log.CameraStream(name="Driver Cam", rowIndex = 0, columnIndex = 10, width = 6, height = 5)
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -132,7 +131,8 @@ public class RobotContainer {
     
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
-    autoChooser.addOption("Baller Auto", new MultipleAutoShootCG(shooterS, hopperS, 3));
+    autoChooser.addOption("Baller Auto", shooterS.buildMultipleShootSequence(hopperS, shooterS,
+     3));
     
     server.startAutomaticCapture(camera);
 
@@ -205,8 +205,8 @@ public class RobotContainer {
 
     JoystickButton intakeButton = new JoystickButton(operatorController, 3); //We do two things with this button, so instantiate separately
     //to avoid double-allocation.
-    intakeButton.whenPressed(intakeDeployCG);
-    intakeButton.whenReleased(intakeRetractCG);
+    //intakeButton.whenPressed(intakeDeployCG);
+    //intakeButton.whenReleased(intakeRetractCG);
     
     
   }

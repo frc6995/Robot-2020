@@ -15,8 +15,14 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.commands.hopper.HopperIdleBallsC;
+import frc.robot.commands.shooter.ShooterWaitUntilFireC;
 import frc.robot.constants.ShooterConstants;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
@@ -179,4 +185,19 @@ public class ShooterS extends SubsystemBase implements Loggable{
   public int getBallsFired() {
     return ballsFired;
   }
+
+  public Command buildSingleShootSequence(HopperS hopper, ShooterS shooter){
+    return new RunCommand( ()-> {}).withInterrupt( () -> shooter.isReady())
+    .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooter, 1), new HopperIdleBallsC(hopper)));
+  }
+
+  public Command buildMultipleShootSequence(HopperS hopper, ShooterS shooter, int ammo){
+    Command sequence = buildSingleShootSequence(hopper, shooter);
+    for( int i = 0; i < ammo; i++) {
+      sequence = sequence.andThen(buildSingleShootSequence(hopper, shooter));
+    }
+    return sequence;
+  }
+
+  
 }

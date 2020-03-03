@@ -1,10 +1,14 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
+import io.github.oblarg.oblog.Loggable;
 
 /**
  * The system we use to grab power cells from the floor and transfer them to the
@@ -12,11 +16,11 @@ import frc.wrappers.MotorControllers.NomadVictorSPX;
  * 
  * @author Ari Shashivkopanazak
  */
-public class IntakeS extends SubsystemBase {
+public class IntakeS extends SubsystemBase implements Loggable  {
 
   // private NomadTalonSRX intakeMotor = new
   // NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
-  private NomadVictorSPX intakeMotor = new NomadVictorSPX(IntakeConstants.CAN_ID_NEO_INTAKE_MOTOR);
+  private CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.CAN_ID_SPARK_MAX_MOTOR, MotorType.kBrushless);
   private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, IntakeConstants.DBL_SOLENOID_INTAKE_EXTEND,
       IntakeConstants.DBL_SOLENOID_INTAKE_RETRACT);
 
@@ -29,7 +33,6 @@ public class IntakeS extends SubsystemBase {
    * </ul>
    */
   public IntakeS() {
-    // TODO: figure out the inversion
     intakeMotor.setInverted(false);
   }
 
@@ -37,7 +40,6 @@ public class IntakeS extends SubsystemBase {
    * Deploy Solenoid
    */
   public void intakeDeploy() {
-    // TODO: kforward?
     intakeSolenoid.set(Value.kForward);
   }
 
@@ -45,7 +47,6 @@ public class IntakeS extends SubsystemBase {
    * Retract Solenoid
    */
   public void intakeRetract() {
-    // TODO: kreverse?
     intakeSolenoid.set(Value.kReverse);
   }
 

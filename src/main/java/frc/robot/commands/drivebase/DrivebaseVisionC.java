@@ -109,7 +109,7 @@ public class DrivebaseVisionC extends CommandBase {
    */
   public DrivebaseVisionC(DrivebaseS drivebaseS) {
     pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
-    ledModeEntry.setDouble(0);
+    ledModeEntry.setDouble(3);
     addRequirements(drivebaseS);
     drivebase = drivebaseS;
     turnPid.setTolerance(horizontalRange);
@@ -149,7 +149,7 @@ public class DrivebaseVisionC extends CommandBase {
     distPid.setP(RobotPreferences.visionKpVertical.getValue());
 
     pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
-    ledModeEntry.setDouble(2);
+    ledModeEntry.setDouble(3);
 
     horizontalTarget = txEntry.getDouble(0);
     verticalTarget = tyEntry.getDouble(0);
@@ -167,7 +167,7 @@ public class DrivebaseVisionC extends CommandBase {
 
     wheelSpeeds = DriveConstants.kDriveKinematics
         .toWheelSpeeds(new ChassisSpeeds(verticalAdjust, 0, Math.toRadians(horizontalAdjust)));
-    drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
+    drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond - horizontalAdjust, wheelSpeeds.rightMetersPerSecond + horizontalAdjust);
   }
 
   /**
@@ -178,7 +178,7 @@ public class DrivebaseVisionC extends CommandBase {
     rampTimer.stop();
     rampTimer.reset();
     firstLoop = true;
-    ledModeEntry.setDouble(0);
+    ledModeEntry.setDouble(1);
   }
 
   /**

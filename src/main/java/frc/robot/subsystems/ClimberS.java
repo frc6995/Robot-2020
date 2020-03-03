@@ -14,6 +14,7 @@ import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Climber Subsystem
@@ -66,12 +67,12 @@ public class ClimberS extends SubsystemBase implements Loggable {
     climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
-    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKf.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKfUp.getValue());
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
     climbMaster.configClosedloopRamp(0.7);
-    climbMaster.configClosedLoopPeakOutput(ClimberConstants.CLIMBER_PID_UP_SLOT, 0.5); // tune me pls
+    climbMaster.configClosedLoopPeakOutput(ClimberConstants.CLIMBER_PID_UP_SLOT, 0.75); // tune me pls
     dynamicFeedForward = new SimpleMotorFeedforward(ClimberConstants.CLIMBER_KS, ClimberConstants.CLIMBER_KV,
         ClimberConstants.CLIMBER_KA);
 
@@ -124,11 +125,13 @@ public class ClimberS extends SubsystemBase implements Loggable {
     climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKfUp.getValue());
     // climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT,
     // dynamicFeedForward.calculate(getVelocity())); //does this work?
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
+    //climbMaster.selectProfileSlot(ClimberConstants.CLIMBER_PID_UP_SLOT, 0);
     climbMaster.set(ControlMode.Position, RobotPreferences.liftHeight.getValue());
   }
 
@@ -138,14 +141,14 @@ public class ClimberS extends SubsystemBase implements Loggable {
    * in preferences, but uses different values from runUpPID.
    */
   public void runDownPID() {
-    climbMaster.config_kP(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKpDown.getValue());
-    climbMaster.config_kI(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKiDown.getValue());
-    climbMaster.config_kD(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKdDown.getValue());
-    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKf.getValue());
+    climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpDown.getValue());
+    climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiDown.getValue());
+    climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdDown.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKfDown.getValue());
 
-    climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_DOWN_SLOT,
-        RobotPreferences.climberIZoneDown.getValue());
+    climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneDown.getValue());
 
+    //climbMaster.selectProfileSlot(ClimberConstants.CLIMBER_PID_DOWN_SLOT, 0);
     climbMaster.set(ControlMode.Position, RobotPreferences.pullHeight.getValue());
   }
 

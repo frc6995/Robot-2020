@@ -55,18 +55,18 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final GenericHID driveController;
   public final GenericHID operatorController;
-
-  // @Log(name="DrivebaseS")
+  
+  @Log(name="DrivebaseS")
   public static final DrivebaseS drivebaseS = new DrivebaseS();
-  // @Log(name="ClimberS")
+  @Log(name="ClimberS")
   public static final ClimberS climberS = new ClimberS();
-  // @Log(name="SliderS")
+  @Log(name="SliderS")
   public static final SliderS sliderS = new SliderS();
-  // @Log(name = " ShooterS")
+  @Log(name = " ShooterS")
   public static final ShooterS shooterS = new ShooterS();
-  // @Log(name="HopperS")
+  @Log(name="HopperS")
   public static final HopperS hopperS = new HopperS();
-  // @Log(name = "IntakeS")
+  @Log(name = "IntakeS")
   public final static IntakeS intakeS = new IntakeS();
 
   private final CameraServer server = CameraServer.getInstance();
@@ -85,10 +85,14 @@ public class RobotContainer {
 
   private final ClimberManualC manualClimbC;
   public final ClimberHomeC climberHomeC;
-  private final Command climberBrakeOnC;
+  public final Command climberBrakeOnC;
   public final Command climberBrakeOffC;
   private final ClimberUpPIDC climberUpPIDC;
   private final ClimberPullupCG climberPullupCG;
+
+  private final HopperLowerBallsC hopperLowerBallsC;
+  private final HopperLiftBallsC hopperLiftBallsC;
+  private final HopperIdleBallsC hopperIdleBallsC;
 
   private final IntakeDeployAndRunCG intakeDeployCG;
   private final IntakeRetractAndStopCG intakeRetractCG;
@@ -149,6 +153,10 @@ public class RobotContainer {
     shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
     visionAlignC = new DrivebaseVisionC(drivebaseS);
 
+    hopperLowerBallsC = new HopperLowerBallsC(hopperS);
+    hopperLiftBallsC = new HopperLiftBallsC(hopperS);
+    hopperIdleBallsC = new HopperIdleBallsC(hopperS);
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -172,20 +180,20 @@ public class RobotContainer {
     new JoystickButton(driveController, 2).whileHeld(visionAlignC);
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
     new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
-    new JoystickButton(driveController, 5).whenPressed(climberUpPIDC); // test w/ toggle when pressed
-    new JoystickButton(driveController, 6).whenPressed(climberPullupCG); // test w/ toggle when pressed
+    new JoystickButton(driveController, 6).whenPressed(climberUpPIDC); //test w/ toggle when pressed
+    new JoystickButton(driveController, 5).whenPressed(climberPullupCG); //test w/ toggle when pressed
 
-    JoystickButton intakeButton = new JoystickButton(operatorController, 4); // We do two things with this button, so
-                                                                             // instantiate separately
-    // to avoid double-allocation.
+    JoystickButton intakeButton = new JoystickButton(operatorController, 3); //We do two things with this button, so instantiate separately
+    //to avoid double-allocation.
     intakeButton.whenPressed(intakeDeployCG);
     intakeButton.whenReleased(intakeRetractCG);
-    new JoystickButton(operatorController, 1).whileHeld(new HopperIdleBallsC(hopperS));
-    new JoystickButton(operatorController, 2).whileHeld(new HopperLiftBallsC(hopperS));
-    new JoystickButton(operatorController, 3).whileHeld(new HopperLowerBallsC(hopperS));
-    new JoystickButton(operatorController, 5).whenPressed(shooterSpinUpC);
-    new JoystickButton(operatorController, 6).whenPressed(shooterSpinDownC);
-
+    new JoystickButton(operatorController, 4).whileHeld(hopperLiftBallsC);
+    new JoystickButton(operatorController, 2).whileHeld(hopperIdleBallsC);
+    new JoystickButton(operatorController, 1).whileHeld(hopperLowerBallsC);
+    new JoystickButton(operatorController, 6).whenPressed(shooterSpinUpC);
+    new JoystickButton(operatorController, 5).whenPressed(shooterSpinDownC);
+    
+    
   }
 
   /**

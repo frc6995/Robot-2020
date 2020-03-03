@@ -35,9 +35,9 @@
 
 ```bash
     git checkout development
-    git branch <username>/>issue-number>/>name>
-    git checkout >username>/>issue-number>/>name>
-    git push --set-upstream >username>/>issue-number>/>name>
+    git branch <username>/<issue-number>/<name>
+    git checkout <username>/<issue-number>/<name>
+    git push --set-upstream <username>/<issue-number>/<name>
 ```
 
 * Push it, and submit a pull Request to Development and two reviewers will review it

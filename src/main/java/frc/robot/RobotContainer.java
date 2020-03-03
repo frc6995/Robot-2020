@@ -82,7 +82,7 @@ public class RobotContainer {
 
   private final ClimberManualC manualClimbC;
   public final ClimberHomeC climberHomeC;
-  private final Command climberBrakeOnC;
+  public final Command climberBrakeOnC;
   public final Command climberBrakeOffC;
   private final ClimberUpPIDC climberUpPIDC;
   private final ClimberPullupCG climberPullupCG;

@@ -7,6 +7,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -118,7 +119,7 @@ public class RobotContainer {
   private final GyroPidC gyroPidC;
 
   @Log
-  private final Command resetEncoders;
+  private final Command resetOdometry;
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -173,7 +174,7 @@ public class RobotContainer {
 
     gyroPidC = new GyroPidC(180, drivebaseS);
 
-    resetEncoders = new InstantCommand(()->drivebaseS.resetEncoders());
+    resetOdometry = new InstantCommand(()->drivebaseS.resetOdometry(new Pose2d()));
 
     // Configure the button bindings
     configureButtonBindings();

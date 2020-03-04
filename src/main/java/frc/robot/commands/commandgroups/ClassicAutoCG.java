@@ -22,8 +22,8 @@ public class ClassicAutoCG extends SequentialCommandGroup {
    * Creates a new ClassicAutoCG.
    */
   public ClassicAutoCG(DrivebaseS drivebase, ShooterS shooter, HopperS hopper) {
-    super(new DrivebaseVisionC(drivebase),
-          new MultipleAutoShootCG(shooter, hopper, 3),
+    super(new DrivebaseVisionC(drivebase).withTimeout(3),
+          new MultipleAutoShootCG(shooter, hopper, 3).withTimeout(8),
           new RunCommand(() -> drivebase.arcadeDrive(1,0), drivebase).withTimeout(1)
           );
   }

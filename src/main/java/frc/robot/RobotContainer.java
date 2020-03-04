@@ -65,7 +65,7 @@ public class RobotContainer {
   // OI
   private final GenericHID driveController;
   public final GenericHID operatorController;
-  private final Command driveStickC;
+  public final Command driveStickC;
 
   // Climber
   private final ClimberManualC manualClimbC;
@@ -198,7 +198,7 @@ public class RobotContainer {
     JoystickButton intakeButton = new JoystickButton(operatorController, 3);
     intakeButton.whenPressed(intakeDeployCG);
     intakeButton.whenReleased(intakeRetractCG);
-    
+
     // Hopper
     new JoystickButton(operatorController, 4).whileHeld(hopperLiftBallsC);
     new JoystickButton(operatorController, 2).whileHeld(hopperIdleBallsC);

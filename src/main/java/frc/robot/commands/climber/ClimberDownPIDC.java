@@ -47,7 +47,8 @@ public class ClimberDownPIDC extends CommandBase {
   public boolean isFinished() {
     if (this.endAtTarget) {
       return this.climber.isAtSetPoint(climberLevel.Pullup);
-    } else {
+    }
+    else {
       return false;
     }
   }

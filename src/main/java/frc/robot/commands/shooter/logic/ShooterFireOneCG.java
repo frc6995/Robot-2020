@@ -1,4 +1,4 @@
-package frc.robot.commands.commandgroups;
+package frc.robot.commands.shooter.logic;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;

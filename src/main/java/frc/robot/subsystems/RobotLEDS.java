@@ -1,14 +1,12 @@
 package frc.robot.subsystems;
 
-import java.sql.Time;
-
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class RobotLEDS extends SubsystemBase {
+public class RobotLEDS extends SubsystemBase implements Loggable{
   
   /**
    * A singleton of this subsystem so that the state
@@ -25,33 +23,33 @@ public class RobotLEDS extends SubsystemBase {
     Disabled,
     Default,
     Shooting
-}
-
-/**
- * Enum of colors which includes the correct motor speed for ease of use
- */
-public enum ledColors {
-  Green_Solid(0.77),
-  Gold(0.67),
-  Party(-0.97),
-  Red_Pulse(-0.25),
-  Blue(0.87),
-  Green_Pattern(-0.91),
-  Orange(0.65), //Green chase is not possible from the docs I saw, so doing orange instead
-  Purple(0.91);
-
-  public double value;
-
-  private ledColors(double sparkValue){
-    value = sparkValue;
   }
-}
+
+  /**
+   * Enum of colors which includes the correct motor speed for ease of use
+   */
+  public enum ledColors {
+    Green_Solid(0.77),
+    Gold(0.67),
+    Party(-0.97),
+    Red_Pulse(-0.25),
+    Blue(0.87),
+    Green_Pattern(-0.91),
+    Orange(0.65), //Green chase is not possible from the docs I saw, so doing orange instead
+    Purple(0.91);
+
+    public double value;
+
+    private ledColors(double sparkValue){
+      value = sparkValue;
+    }
+  }
 
     public ledStates currentState; 
 
-    private Spark ledStrip = new Spark(2); //TODO - change this to the actual ID
+    private Spark ledStrip = new Spark(0); //TODO - change this to the actual ID
   
-//  public static LEDStates ledStates = new LEDStates();
+    //  public static LEDStates ledStates = new LEDStates();
 
   /**
    * Creates a new RobotLEDS.
@@ -71,23 +69,23 @@ public enum ledColors {
 
     switch (currentState){
       case Hopper_On :
-        ledStrip.setSpeed(ledColors.Gold.value);
+        ledStrip.setSpeed(ledColors.Gold.value); break;
       case Climbing :
-        ledStrip.setSpeed(ledColors.Party.value);
+        ledStrip.setSpeed(ledColors.Party.value); break;
       case Climb_Time :
-        ledStrip.setSpeed(ledColors.Red_Pulse.value);
+        ledStrip.setSpeed(ledColors.Red_Pulse.value); break;
       case Intake :
-        ledStrip.setSpeed(ledColors.Blue.value);
+        ledStrip.setSpeed(ledColors.Blue.value); break;
       case Auto :
-        ledStrip.setSpeed(ledColors.Green_Pattern.value);
+        ledStrip.setSpeed(ledColors.Green_Pattern.value); break;
       case Disabled : 
-        ledStrip.setSpeed(ledColors.Orange.value);//can't find green chase, so doing orange instead
+        ledStrip.setSpeed(ledColors.Orange.value); break;//can't find green chase, so doing orange instead
       case Default :
-        ledStrip.setSpeed(ledColors.Green_Solid.value);
+        ledStrip.setSpeed(ledColors.Green_Solid.value); break;
       case Shooting :
-        ledStrip.setSpeed(ledColors.Purple.value);
+        ledStrip.setSpeed(ledColors.Purple.value); break;
       default :      //default is disabled color (green chase/ orange)
-        ledStrip.setSpeed(ledColors.Orange.value);
+        ledStrip.setSpeed(ledColors.Orange.value); break;
     }
 
   }
@@ -99,6 +97,11 @@ public enum ledColors {
     if (Timer.getMatchTime() == 0) currentState = ledStates.Climb_Time; 
     // get match appears to return the time left in auto or teleop, but not end game, so if it is 0, it should be endgame
     else currentState = ledStates.Default;
+  }
+
+  @Log
+  public String getState() {
+    return currentState.toString();
   }
 
 }

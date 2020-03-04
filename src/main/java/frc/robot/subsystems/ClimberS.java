@@ -14,7 +14,6 @@ import frc.wrappers.MotorControllers.NomadTalonSRX;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Climber Subsystem

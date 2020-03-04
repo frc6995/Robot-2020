@@ -21,6 +21,7 @@ import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
 import frc.robot.commands.climber.ClimberPullupCG;
 import frc.robot.commands.climber.ClimberUpPIDC;
+import frc.robot.commands.commandgroups.ClassicAutoCG;
 import frc.robot.commands.commandgroups.MultipleAutoShootCG;
 import frc.robot.commands.drivebase.DrivebaseVisionC;
 import frc.robot.commands.drivebase.EmptyAutoCG;
@@ -72,13 +73,16 @@ public class RobotContainer {
   
   
   private final CameraServer server = CameraServer.getInstance();
-  //@Log.CameraStream(name="Driver Cam", rowIndex = 0, columnIndex = 10, width = 6, height = 5)
+
+  @Log.CameraStream(name="Driver Cam", rowIndex = 0, columnIndex = 10, width = 6, height = 5)
   private final UsbCamera camera = new UsbCamera("cam0", 0);
   
+  @Log(width = 3)
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
+  private final SequentialCommandGroup shootAndMoveCG = new ClassicAutoCG(drivebaseS, shooterS, hopperS);
   
   private final Command driveStickC;
   private final XBoxDriveC xboxDriveC;
@@ -131,8 +135,8 @@ public class RobotContainer {
     
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
-    autoChooser.addOption("Baller Auto", shooterS.buildMultipleShootSequence(hopperS, shooterS,
-     3));
+    autoChooser.addOption("3 Ball Auto", shooterS.buildMultipleShootSequence(hopperS, shooterS, 3));
+    autoChooser.addOption("LL 3 Ball Move Forward", shootAndMoveCG);
     
     server.startAutomaticCapture(camera);
 

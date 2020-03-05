@@ -18,7 +18,7 @@ import frc.robot.subsystems.DrivebaseS;
  * VisionAlignC
  * 
  * Processes data from Network tables using a Proportional controller in order
- * to Aim the shooter at the top power port from the starting line
+ * to Aim the shooter at the top power port
  * 
  * @author Ari Shashivkopanazak, Shuja
  */

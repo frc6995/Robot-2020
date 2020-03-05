@@ -20,20 +20,19 @@ import frc.robot.subsystems.DrivebaseS;
  * Processes data from Network tables using a Proportional controller in order
  * to Aim the shooter at the top power port
  * 
- * @author Ari Shashivkopanazak
+ * @author Ari Shashivkopanazak, Shuja
  */
 public class DrivebaseVisionC extends CommandBase {
   DrivebaseS drivebase;
-  private DifferentialDriveWheelSpeeds wheelSpeeds;
-  //private DoubleSupplier fwdBack;
+  private DifferentialDriveWheelSpeeds wheelSpeeds; 
   /**
    * PIDController for turning. should input degrees and output rad/sec.
    */
-  PIDController turnPid = new PIDController(RobotPreferences.VISION_KP_HORIZONTAL.getValue(), 0, 0);
+  PIDController turnPid = new PIDController(RobotPreferences.visionKpHorizontal.getValue(), 0, 0);
   /**
    * PIDController for distance. should input degrees and output m/sec.
    */
-  PIDController distPid = new PIDController(RobotPreferences.VISION_KP_VERTICAL.getValue(), 0, 0);
+  PIDController distPid = new PIDController(RobotPreferences.visionKpVertical.getValue(), 0, 0);
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -146,8 +145,8 @@ public class DrivebaseVisionC extends CommandBase {
       rampTimer.start();
       firstLoop = false;
     }
-    turnPid.setP(RobotPreferences.VISION_KP_HORIZONTAL.getValue());
-    distPid.setP(RobotPreferences.VISION_KP_VERTICAL.getValue());
+    turnPid.setP(RobotPreferences.visionKpHorizontal.getValue());
+    distPid.setP(RobotPreferences.visionKpVertical.getValue());
 
     pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
     ledModeEntry.setDouble(3);
@@ -189,10 +188,14 @@ public class DrivebaseVisionC extends CommandBase {
    */
   @Override
   public boolean isFinished() {
-    if (turnPid.atSetpoint() && distPid.atSetpoint()) sumInRange++;
-    else sumInRange = 0;
+    if (turnPid.atSetpoint() && distPid.atSetpoint())
+      sumInRange++;
+    else
+      sumInRange = 0;
 
-    if (sumInRange >= waitInRange) return true;
-     else return false;
+    if (sumInRange >= waitInRange)
+      return true;
+    else
+      return false;
   }
 }

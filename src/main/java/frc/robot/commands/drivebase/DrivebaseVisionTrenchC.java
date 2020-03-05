@@ -18,11 +18,11 @@ import frc.robot.subsystems.DrivebaseS;
  * VisionAlignC
  * 
  * Processes data from Network tables using a Proportional controller in order
- * to Aim the shooter at the top power port from the starting line
+ * to Aim the shooter at the top power port from the trench
  * 
  * @author Ari Shashivkopanazak, Shuja
  */
-public class DrivebaseVisionC extends CommandBase {
+public class DrivebaseVisionTrenchC extends CommandBase {
   DrivebaseS drivebase;
   private DifferentialDriveWheelSpeeds wheelSpeeds; 
   /**
@@ -107,7 +107,7 @@ public class DrivebaseVisionC extends CommandBase {
    * 
    * @param drivebaseS The DrivebaseS object to use.
    */
-  public DrivebaseVisionC(DrivebaseS drivebaseS) {
+  public DrivebaseVisionTrenchC(DrivebaseS drivebaseS) {
     pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE_OFF);
     ledModeEntry.setDouble(0);
     addRequirements(drivebaseS);
@@ -148,7 +148,7 @@ public class DrivebaseVisionC extends CommandBase {
     turnPid.setP(RobotPreferences.visionKpHorizontal.getValue());
     distPid.setP(RobotPreferences.visionKpVertical.getValue());
 
-    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE_LINE);
+    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE_TRENCH);
     ledModeEntry.setDouble(0);
 
     horizontalTarget = txEntry.getDouble(0);

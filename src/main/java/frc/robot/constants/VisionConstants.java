@@ -1,12 +1,16 @@
 package frc.robot.constants;
 
 /**
- * Add your docs here.
+ * Vision Constants
+ * 
+ * @author AriShashivkopanazak
  */
 public class VisionConstants {
     /** the time per increment in seconds */
     public static final double VISION_RAMP_TIME = 0.25;
 
-    /** Vision Pipeline Preset, should be in this state at all times */
-    public static final double VISION_PIPELINE = 0;
+    /** Vision Pipelines */
+    public static final double VISION_PIPELINE_OFF = 0;
+    public static final double VISION_PIPELINE_LINE = 1;
+    public static final double VISION_PIPELINE_TRENCH = 2;
 }

@@ -10,7 +10,7 @@ public class VisionConstants {
     public static final double VISION_RAMP_TIME = 0.25;
 
     /** Vision Pipelines */
-    public static final double VISION_PIPELINE_OFF = 0;
-    public static final double VISION_PIPELINE_LINE = 1;
-    public static final double VISION_PIPELINE_TRENCH = 2;
+    public static final int VISION_PIPELINE_OFF = 0;
+    public static final int VISION_PIPELINE_LINE = 1;
+    public static final int VISION_PIPELINE_TRENCH = 2;
 }

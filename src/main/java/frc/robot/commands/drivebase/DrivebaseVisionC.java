@@ -24,6 +24,10 @@ import frc.robot.subsystems.DrivebaseS;
  */
 public class DrivebaseVisionC extends CommandBase {
   DrivebaseS drivebase;
+  /**
+   * selects our pipline as an argument
+   */
+  private int selector;
   private DifferentialDriveWheelSpeeds wheelSpeeds; 
   /**
    * PIDController for turning. should input degrees and output rad/sec.
@@ -107,13 +111,14 @@ public class DrivebaseVisionC extends CommandBase {
    * 
    * @param drivebaseS The DrivebaseS object to use.
    */
-  public DrivebaseVisionC(DrivebaseS drivebaseS) {
+  public DrivebaseVisionC(DrivebaseS drivebaseS, int pipeline) {
     pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE_OFF);
     ledModeEntry.setDouble(0);
     addRequirements(drivebaseS);
     drivebase = drivebaseS;
     turnPid.setTolerance(horizontalRange);
     distPid.setTolerance(verticalRange);
+    selector = pipeline;
   }
 
   /**
@@ -148,7 +153,7 @@ public class DrivebaseVisionC extends CommandBase {
     turnPid.setP(RobotPreferences.visionKpHorizontal.getValue());
     distPid.setP(RobotPreferences.visionKpVertical.getValue());
 
-    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE_LINE);
+    pipelineEntry.setDouble(selector);
     ledModeEntry.setDouble(0);
 
     horizontalTarget = txEntry.getDouble(0);

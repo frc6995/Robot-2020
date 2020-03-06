@@ -44,7 +44,7 @@ public enum ledColors {
 
     public ledStates currentState; 
 
-    private Spark ledStrip = new Spark(2); //TODO - change this to the actual ID
+    private Spark ledStrip = new Spark(0);
   
 //  public static LEDStates ledStates = new LEDStates();
 

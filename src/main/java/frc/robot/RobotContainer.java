@@ -195,9 +195,7 @@ public class RobotContainer {
 
     // Drivebase
     new JoystickButton(driveController, 1).whileHeld(visionAlignLineC);
-    new JoystickButton(driveController, 2).whileHeld(visionAlignLineC);
-    new JoystickButton(driveController, 7).whileHeld(visionAlignTrenchC);
-    new JoystickButton(driveController, 8).whileHeld(visionAlignTrenchC);
+    new JoystickButton(driveController, 2).whileHeld(visionAlignTrenchC);
 
     // Intake
     JoystickButton intakeButton = new JoystickButton(operatorController, 3);

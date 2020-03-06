@@ -71,23 +71,23 @@ public enum ledColors {
 
     switch (currentState){
       case Hopper_On :
-        ledStrip.setSpeed(ledColors.Gold.value);
+        ledStrip.setSpeed(ledColors.Gold.value); break;
       case Climbing :
-        ledStrip.setSpeed(ledColors.Party.value);
+        ledStrip.setSpeed(ledColors.Party.value); break;
       case Climb_Time :
-        ledStrip.setSpeed(ledColors.Red_Pulse.value);
+        ledStrip.setSpeed(ledColors.Red_Pulse.value); break;
       case Intake :
-        ledStrip.setSpeed(ledColors.Blue.value);
+        ledStrip.setSpeed(ledColors.Blue.value); break;
       case Auto :
-        ledStrip.setSpeed(ledColors.Green_Pattern.value);
+        ledStrip.setSpeed(ledColors.Green_Pattern.value); break;
       case Disabled : 
-        ledStrip.setSpeed(ledColors.Orange.value);//can't find green chase, so doing orange instead
+        ledStrip.setSpeed(ledColors.Orange.value); break;//can't find green chase, so doing orange instead
       case Default :
-        ledStrip.setSpeed(ledColors.Green_Solid.value);
+        ledStrip.setSpeed(ledColors.Green_Solid.value); break;
       case Shooting :
-        ledStrip.setSpeed(ledColors.Purple.value);
+        ledStrip.setSpeed(ledColors.Purple.value); break;
       default :      //default is disabled color (green chase/ orange)
-        ledStrip.setSpeed(ledColors.Orange.value);
+        ledStrip.setSpeed(ledColors.Orange.value); break;
     }
 
   }

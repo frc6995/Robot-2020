@@ -32,7 +32,7 @@ public class IntakeS extends SubsystemBase implements Loggable  {
    * </ul>
    */
   public IntakeS() {
-    intakeMotor.setInverted(false);
+    intakeMotor.setInverted(true);
   }
 
   /**

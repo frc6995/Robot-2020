@@ -32,6 +32,7 @@ import frc.robot.commands.slider.ManualTranslateC;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.OIConstants;
 import frc.robot.constants.Trajectories;
+import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.DrivebaseS;
 import frc.robot.subsystems.HopperS;
@@ -77,7 +78,8 @@ public class RobotContainer {
 
   // Drivebase
   private final XBoxDriveC xboxDriveC;
-  private final DrivebaseVisionC visionAlignC;
+  private final DrivebaseVisionC visionAlignLineC;
+  private final DrivebaseVisionC visionAlignTrenchC;
 
   // Hopper
   private final HopperLowerBallsC hopperLowerBallsC;
@@ -144,7 +146,8 @@ public class RobotContainer {
             driveController.getRawAxis(DriveConstants.AXIS_DRIVE_TURN)),
         drivebaseS);
     xboxDriveC = new XBoxDriveC(driveController);
-    visionAlignC = new DrivebaseVisionC(drivebaseS);
+    visionAlignLineC = new DrivebaseVisionC(drivebaseS, VisionConstants.VISION_PIPELINE_LINE);
+    visionAlignTrenchC = new DrivebaseVisionC(drivebaseS, VisionConstants.VISION_PIPELINE_TRENCH);
 
     // Hopper
     hopperLowerBallsC = new HopperLowerBallsC(hopperS);
@@ -191,8 +194,8 @@ public class RobotContainer {
     new JoystickButton(driveController, 5).whenPressed(climberPullupCG);
 
     // Drivebase
-    new JoystickButton(driveController, 1).whileHeld(visionAlignC);
-    new JoystickButton(driveController, 2).whileHeld(visionAlignC);
+    new JoystickButton(driveController, 1).whileHeld(visionAlignLineC);
+    new JoystickButton(driveController, 2).whileHeld(visionAlignTrenchC);
 
     // Intake
     JoystickButton intakeButton = new JoystickButton(operatorController, 3);

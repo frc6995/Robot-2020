@@ -26,5 +26,5 @@ public class ShooterConstants {
      * The SimpleMotorFeedForward for the shooter
      */
     public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD 
-    = new SimpleMotorFeedforward(0, 0.192/90, 0.0417/90);
+    = new SimpleMotorFeedforward(0.161, 0.189/90, 0.0434/90);
 }

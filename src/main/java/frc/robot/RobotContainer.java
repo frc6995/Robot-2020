@@ -193,6 +193,8 @@ public class RobotContainer {
     // test w/ toggle when pressed
     new JoystickButton(driveController, 5).whenPressed(climberPullupCG);
 
+    new JoystickButton(driveController, 8).whenPressed(climberHomeC);
+
     // Drivebase
     new JoystickButton(driveController, 1).whileHeld(visionAlignLineC);
     new JoystickButton(driveController, 2).whileHeld(visionAlignTrenchC);

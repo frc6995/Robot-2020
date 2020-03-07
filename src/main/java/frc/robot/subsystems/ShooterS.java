@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -85,7 +84,7 @@ public class ShooterS extends SubsystemBase implements Loggable {
     pidController.setIZone(kIz);
     pidController.setFF(kFF);
     pidController.setOutputRange(kMinOutput, kMaxOutput);
-    
+
   }
 
   @Override
@@ -194,15 +193,15 @@ public class ShooterS extends SubsystemBase implements Loggable {
     return ballsFired;
   }
 
-  public SequentialCommandGroup buildSingleShootSequence(ShooterS shooterS, HopperS hopperS){
-    return new InstantCommand(()->shooterS.spinUp(), shooterS)
-    .andThen(new WaitCommand(5).withInterrupt(()->shooterS.isReady()))
-    .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooterS, 1), new HopperLiftBallsC(hopperS)));
+  public SequentialCommandGroup buildSingleShootSequence(ShooterS shooterS, HopperS hopperS) {
+    return new InstantCommand(() -> shooterS.spinUp(), shooterS)
+        .andThen(new WaitCommand(5).withInterrupt(() -> shooterS.isReady()))
+        .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooterS, 1), new HopperLiftBallsC(hopperS)));
   }
 
-  public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, int ammo){
+  public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, int ammo) {
     SequentialCommandGroup sequence = buildSingleShootSequence(shooterS, hopperS);
-    for (int i = 1; i < ammo-1; i++){
+    for (int i = 1; i < ammo - 1; i++) {
       sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS));
     }
     sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS).withTimeout(2));

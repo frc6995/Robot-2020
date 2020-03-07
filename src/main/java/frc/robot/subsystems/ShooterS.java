@@ -167,14 +167,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
         state = ShooterState.STOPPED;
       } // if motor has stopped moving,
         // go to STOPPED
-<<<<<<< HEAD
-        break;
-      case STOPPED:
-        pidController.setReference(0.0, ControlType.kVoltage);
-        //do nothing until further command.
-        break;   
-      }    
-=======
       RobotLEDS.robotLEDS.revertLEDS();
       RobotLEDS.robotLEDS.isShooting = false;
       break;
@@ -183,7 +175,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
       // do nothing until further command.
       break;
     }
->>>>>>> ba52bf9fcfcd992c964babb6f4cc9391711e7667
   }
 
   public void spinDown() {

@@ -128,7 +128,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
       }
       break;
     case READY:
-
       if (currentRpm < armThreshold) { // if velocity drops below "we might be shooting" threshold
         state = ShooterState.ARMED;
       }
@@ -136,7 +135,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
         ballsFired++;
         state = ShooterState.RECOVERY;
       }
-
       break;
     case ARMED:
       if (currentRpm < fireThreshold) {
@@ -151,7 +149,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
       // if it goes back above the armed threshold go back to ready.
       break;
     case RECOVERY:
-
       // if we are back up to setpt speed,
       // go to READY
       if (currentRpm > armThreshold) {

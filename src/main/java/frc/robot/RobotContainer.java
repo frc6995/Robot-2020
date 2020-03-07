@@ -64,8 +64,7 @@ public class RobotContainer {
   @Log(name = "SliderS")
   public static final SliderS sliderS = new SliderS();
   
-  private final CameraServer server = CameraServer.getInstance();
-  private final UsbCamera camera = new UsbCamera("cam0", 0);
+  
   @Log
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
@@ -120,6 +119,12 @@ public class RobotContainer {
   // Slider
   private final ManualTranslateC manualTranslateC;
 
+  // Camera Server
+  private final CameraServer cam0 = CameraServer.getInstance();
+  //private final CameraServer cam1 = CameraServer.getInstance();
+  private final UsbCamera camera0 = new UsbCamera("cam0", OIConstants.OI_CAMERA_ZERO);
+  private final UsbCamera camera1 = new UsbCamera("cam1", OIConstants.OI_CAMERA_ONE);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -136,7 +141,9 @@ public class RobotContainer {
     autoChooser.addOption("VisionShoot3LeaveLine", visionShoot3LeaveLineAutoCG);
 
     // Start Camera Server
-    server.startAutomaticCapture(camera);
+    cam0.startAutomaticCapture(camera0);
+    cam0.startAutomaticCapture(camera1);
+
 
     // Configures Commands for use in Buttons
     // Climber

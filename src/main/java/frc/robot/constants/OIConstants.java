@@ -10,6 +10,7 @@ public final class OIConstants {
     public static final int OI_DRIVE_CONTROLLER = 0;
     /** The USB device ID for the operator controller. */
     public static final int OI_OPERATOR_CONTROLLER = 1;
-    /** USB Camera Server */
-    public static final int OI_CAMERA = 0;
+    /** USB Camera Servers */
+    public static final int OI_CAMERA_ZERO = 0;
+    public static final int OI_CAMERA_ONE = 1;
 }

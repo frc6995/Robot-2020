@@ -198,9 +198,10 @@ public class ShooterS extends SubsystemBase implements Loggable {
 
   public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, int ammo){
     SequentialCommandGroup sequence = buildSingleShootSequence(shooterS, hopperS);
-    for (int i = 1; i < ammo; i++){
+    for (int i = 1; i < ammo-1; i++){
       sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS));
     }
+    sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS).withTimeout(2));
     return sequence;
   }
 }

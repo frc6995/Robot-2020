@@ -40,7 +40,7 @@ public class ClimberDownPIDC extends CommandBase {
   @Override
   public void execute() {
     this.climber.runDownPID();
-    if (firstLoop){
+    if (firstLoop) {
       RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
       firstLoop = false;
     }

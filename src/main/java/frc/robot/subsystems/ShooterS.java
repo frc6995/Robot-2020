@@ -3,15 +3,14 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.RobotLEDS.ledColors;
 import frc.robot.subsystems.RobotLEDS.ledStates;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
@@ -108,44 +107,44 @@ public class ShooterS extends SubsystemBase implements Loggable {
   }
 
   private void updateState() {
-    switch (state){
-      case SPINUP:
-        runVelocityPidRpm(ShooterConstants.SHOOTER_RPM);
-        if(Math.abs(ShooterConstants.SHOOTER_RPM - currentRpm) < maxError) { //if we are less than maxError over out target
-          cyclesInRange++; // increment the counter
-        }
-        if(cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { //if the counter is high enough
-          state = ShooterState.READY; //set state to READY
-          RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
-          RobotLEDS.robotLEDS.isShooting = true;
-          cyclesInRange = 0;
-        }
-        break;
-      case READY:
-        
-        if(currentRpm < armThreshold){ //if velocity drops below "we might be shooting" threshold
-          state = ShooterState.ARMED;
-        } 
-        if(currentRpm < fireThreshold){ //if velocity drops below "we might be shooting" threshold
+    switch (state) {
+    case SPINUP:
+      runVelocityPidRpm(ShooterConstants.SHOOTER_RPM);
+      if (Math.abs(ShooterConstants.SHOOTER_RPM - currentRpm) < maxError) { // if we are less than maxError over out
+                                                                            // target
+        cyclesInRange++; // increment the counter
+      }
+      if (cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { // if the counter is high enough
+        state = ShooterState.READY; // set state to READY
+        RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
+        RobotLEDS.robotLEDS.isShooting = true;
+        cyclesInRange = 0;
+      }
+      break;
+    case READY:
+
+      if (currentRpm < armThreshold) { // if velocity drops below "we might be shooting" threshold
+        state = ShooterState.ARMED;
+      }
+      if (currentRpm < fireThreshold) { // if velocity drops below "we might be shooting" threshold
         ballsFired++;
         state = ShooterState.RECOVERY;
-      }  
-        
-        break;
-      case ARMED:
-        if (currentRpm < fireThreshold) {
-          ballsFired++;
-          state = ShooterState.RECOVERY;
-        }
-        else if (currentRpm > armThreshold){
-          state = ShooterState.READY;
-        }
-        // if it has dropped below "ball has definitely gone through" threshold
-        //  increment balls fired.
-        //  go straight to RECOVERY
-        // if it goes back above the armed threshold go back to ready.
-        break;
-      case RECOVERY:
+      }
+
+      break;
+    case ARMED:
+      if (currentRpm < fireThreshold) {
+        ballsFired++;
+        state = ShooterState.RECOVERY;
+      } else if (currentRpm > armThreshold) {
+        state = ShooterState.READY;
+      }
+      // if it has dropped below "ball has definitely gone through" threshold
+      // increment balls fired.
+      // go straight to RECOVERY
+      // if it goes back above the armed threshold go back to ready.
+      break;
+    case RECOVERY:
 
       // if we are back up to setpt speed,
       // go to READY
@@ -161,14 +160,14 @@ public class ShooterS extends SubsystemBase implements Loggable {
         state = ShooterState.STOPPED;
       } // if motor has stopped moving,
         // go to STOPPED
-        RobotLEDS.robotLEDS.revertLEDS();
-        RobotLEDS.robotLEDS.isShooting = false;
-        break;
-      case STOPPED:
-        pidController.setReference(0.0, ControlType.kVoltage);
-        //do nothing until further command.
-        break;  
-      }    
+      RobotLEDS.robotLEDS.revertLEDS();
+      RobotLEDS.robotLEDS.isShooting = false;
+      break;
+    case STOPPED:
+      pidController.setReference(0.0, ControlType.kVoltage);
+      // do nothing until further command.
+      break;
+    }
   }
 
   public void spinDown() {

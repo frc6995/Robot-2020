@@ -30,7 +30,7 @@ public class ShooterWaitUntilFireC extends CommandBase {
 
   @Override
   public void execute() {
-    if (firstLoop){
+    if (firstLoop) {
       RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
       firstLoop = false;
     }

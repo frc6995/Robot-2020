@@ -35,20 +35,18 @@ public class ClimberUpPIDC extends CommandBase {
   @Override
   public void execute() {
     this.climber.runUpPID();
-    if (firstLoop){
+    if (firstLoop) {
       RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
       firstLoop = false;
     }
   }
   
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     this.climber.setClimberPowerFeedForward(0);
     RobotLEDS.robotLEDS.revertLEDS();
   }
   
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return this.endAtTarget && this.climber.isAtSetPoint(climberLevel.AboveBar);

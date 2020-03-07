@@ -3,8 +3,6 @@ package frc.robot.commands.hopper;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotPreferences;
 import frc.robot.subsystems.HopperS;
-import frc.robot.subsystems.RobotLEDS;
-import frc.robot.subsystems.RobotLEDS.ledStates;
 
 /**
  * The command that lifts balls through the hopper
@@ -29,7 +27,6 @@ public class HopperLiftBallsC extends CommandBase {
   @Override
   public void execute() {
     this.hopper.spinTubes(RobotPreferences.hopperInvert.getValue());
-
   }
 
   /**

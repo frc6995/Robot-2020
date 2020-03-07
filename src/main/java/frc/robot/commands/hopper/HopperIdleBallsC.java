@@ -7,13 +7,12 @@ import frc.robot.subsystems.RobotLEDS.ledStates;
 
 /**
  * Command that keeps balls idling inside the hopper.
+ * 
+ * @author JoeyFabel
  */
 public class HopperIdleBallsC extends CommandBase {
   private HopperS hopper;
 
-  /**
-   * Creates a new HopperIdleBallsC.
-   */
   public HopperIdleBallsC(HopperS hopperS) {
     this.hopper = hopperS;
     addRequirements(this.hopper);

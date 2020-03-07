@@ -27,7 +27,7 @@ public class ClimberManualC extends CommandBase {
   public void initialize() {
     this.climber.setClimberPower(0);
   }
-
+ 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {

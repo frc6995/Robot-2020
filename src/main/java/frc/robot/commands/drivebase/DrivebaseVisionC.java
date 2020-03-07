@@ -20,20 +20,23 @@ import frc.robot.subsystems.DrivebaseS;
  * Processes data from Network tables using a Proportional controller in order
  * to Aim the shooter at the top power port
  * 
- * @author Ari Shashivkopanazak
+ * @author Ari Shashivkopanazak, Shuja
  */
 public class DrivebaseVisionC extends CommandBase {
   DrivebaseS drivebase;
-  private DifferentialDriveWheelSpeeds wheelSpeeds;
-  //private DoubleSupplier fwdBack;
+  /**
+   * selects our pipline as an argument
+   */
+  private int selector;
+  private DifferentialDriveWheelSpeeds wheelSpeeds; 
   /**
    * PIDController for turning. should input degrees and output rad/sec.
    */
-  PIDController turnPid = new PIDController(RobotPreferences.VISION_KP_HORIZONTAL.getValue(), 0, 0);
+  PIDController turnPid = new PIDController(RobotPreferences.visionKpHorizontal.getValue(), 0, 0);
   /**
    * PIDController for distance. should input degrees and output m/sec.
    */
-  PIDController distPid = new PIDController(RobotPreferences.VISION_KP_VERTICAL.getValue(), 0, 0);
+  PIDController distPid = new PIDController(RobotPreferences.visionKpVertical.getValue(), 0, 0);
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -108,13 +111,14 @@ public class DrivebaseVisionC extends CommandBase {
    * 
    * @param drivebaseS The DrivebaseS object to use.
    */
-  public DrivebaseVisionC(DrivebaseS drivebaseS) {
-    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
+  public DrivebaseVisionC(DrivebaseS drivebaseS, int pipeline) {
+    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE_OFF);
     ledModeEntry.setDouble(0);
     addRequirements(drivebaseS);
     drivebase = drivebaseS;
     turnPid.setTolerance(horizontalRange);
     distPid.setTolerance(verticalRange);
+    selector = pipeline;
   }
 
   /**
@@ -146,11 +150,11 @@ public class DrivebaseVisionC extends CommandBase {
       rampTimer.start();
       firstLoop = false;
     }
-    turnPid.setP(RobotPreferences.VISION_KP_HORIZONTAL.getValue());
-    distPid.setP(RobotPreferences.VISION_KP_VERTICAL.getValue());
+    turnPid.setP(RobotPreferences.visionKpHorizontal.getValue());
+    distPid.setP(RobotPreferences.visionKpVertical.getValue());
 
-    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE);
-    ledModeEntry.setDouble(2);
+    pipelineEntry.setDouble(selector);
+    ledModeEntry.setDouble(0);
 
     horizontalTarget = txEntry.getDouble(0);
     verticalTarget = tyEntry.getDouble(0);
@@ -168,7 +172,7 @@ public class DrivebaseVisionC extends CommandBase {
 
     wheelSpeeds = DriveConstants.kDriveKinematics
         .toWheelSpeeds(new ChassisSpeeds(verticalAdjust, 0, Math.toRadians(horizontalAdjust)));
-    drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond, wheelSpeeds.rightMetersPerSecond);
+    drivebase.trajectoryDrive(wheelSpeeds.leftMetersPerSecond - horizontalAdjust, wheelSpeeds.rightMetersPerSecond + horizontalAdjust);
   }
 
   /**
@@ -179,6 +183,7 @@ public class DrivebaseVisionC extends CommandBase {
     rampTimer.stop();
     rampTimer.reset();
     firstLoop = true;
+    pipelineEntry.setDouble(VisionConstants.VISION_PIPELINE_OFF);
     ledModeEntry.setDouble(0);
   }
 
@@ -189,10 +194,14 @@ public class DrivebaseVisionC extends CommandBase {
    */
   @Override
   public boolean isFinished() {
-    if (turnPid.atSetpoint() && distPid.atSetpoint()) sumInRange++;
-    else sumInRange = 0;
+    if (turnPid.atSetpoint() && distPid.atSetpoint())
+      sumInRange++;
+    else
+      sumInRange = 0;
 
-    if (sumInRange >= waitInRange) return true;
-     else return false;
+    if (sumInRange >= waitInRange)
+      return true;
+    else
+      return false;
   }
 }

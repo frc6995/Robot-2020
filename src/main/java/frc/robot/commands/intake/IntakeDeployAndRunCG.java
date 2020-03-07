@@ -7,18 +7,18 @@ import frc.robot.subsystems.IntakeS;
 import frc.robot.subsystems.RobotLEDS;
 import frc.robot.subsystems.RobotLEDS.ledStates;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+/**
+ * Open Intake and Run motors
+ * 
+ * @author Shuja
+ */
 public class IntakeDeployAndRunCG extends SequentialCommandGroup {
-  /**
-   * Creates a new IntakeDeployAndRunCG.
-   */
   public IntakeDeployAndRunCG(IntakeS intake) {
-
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
     super(new InstantCommand(() -> intake.intakeDeploy(), intake),
+<<<<<<< HEAD
     new RunCommand(() -> intake.intakeMotor(0.8), intake));
+=======
+        new RunCommand(() -> intake.intakeMotor(0.8), intake));
+>>>>>>> ff6ec93459b3f9964a5c7ba484e53ab80350c62b
   }
 }

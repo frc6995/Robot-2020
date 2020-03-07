@@ -1,16 +1,11 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.constants;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 
 /**
- * Add your docs here.
+ * Constants for Shooter Constants
+ * 
+ * @author Shuja
  */
 public class ShooterConstants {
     /**
@@ -31,5 +26,5 @@ public class ShooterConstants {
      * The SimpleMotorFeedForward for the shooter
      */
     public static final SimpleMotorFeedforward SHOOTER_FEEDFORWARD 
-    = new SimpleMotorFeedforward(0, 0.192/90, 0.0417/90);
+    = new SimpleMotorFeedforward(0.161, 0.189/90, 0.0434/90);
 }

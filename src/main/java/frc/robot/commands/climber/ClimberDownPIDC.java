@@ -7,6 +7,11 @@ import frc.robot.subsystems.RobotLEDS;
 import frc.robot.subsystems.ClimberS.climberLevel;
 import frc.robot.subsystems.RobotLEDS.ledStates;
 
+/**
+ * Runs Climber down using PID
+ * 
+ * @author Sammcdo
+ */
 public class ClimberDownPIDC extends CommandBase {
   private ClimberS climber;
   private boolean endAtTarget;
@@ -14,8 +19,9 @@ public class ClimberDownPIDC extends CommandBase {
   
   /**
    * Creates a new ClimberDownPIDC.
-   * @param finishAtSetPoint if true, it ends the command 
-   * at the set point, if false it runs until interrupted
+   * 
+   * @param finishAtSetPoint if true, it ends the command at the set point, if
+   *                         false it runs until interrupted
    */
   public ClimberDownPIDC(ClimberS climberS, boolean finishAtSetPoint) {
     this.climber = climberS;
@@ -23,16 +29,14 @@ public class ClimberDownPIDC extends CommandBase {
     addRequirements(this.climber);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     this.climber.isAtSetPoint(climberLevel.reset);
-    if (this.climber.getPosition() < (RobotPreferences.liftHeight.getValue()-500)) {
-      end(false); //this does actually unschedule the command right?
+    if (this.climber.getPosition() < (RobotPreferences.liftHeight.getValue() - 500)) {
+      end(false); // this does actually unschedule the command right?
     }
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     this.climber.runDownPID();
@@ -42,13 +46,11 @@ public class ClimberDownPIDC extends CommandBase {
     }
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotLEDS.robotLEDS.revertLEDS();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if (this.endAtTarget) {

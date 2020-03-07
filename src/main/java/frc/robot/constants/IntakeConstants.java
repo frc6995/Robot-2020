@@ -6,11 +6,10 @@ package frc.robot.constants;
  * @author Ari Shashivkopanazak
  */
 public class IntakeConstants {
-        
     /**
-     * Intake Talon: Talon
+     * Intake Talon: NEO
      */
-    public final static int CAN_ID_TALON_INTAKE_MOTOR = 30;
+    public final static int CAN_ID_SPARK_MAX_MOTOR = 30;
 
     /**
      * Intake Double Solenoid extended position

@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.slider;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -8,6 +8,8 @@ import java.util.function.DoubleSupplier;
 /**
  * The command that allows the robot to manually translate on the switch in
  * response to user input.
+ * 
+ * @author JoeyFabel
  */
 public class ManualTranslateC extends CommandBase {
 

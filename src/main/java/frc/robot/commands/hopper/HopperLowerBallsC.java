@@ -8,13 +8,13 @@ import frc.robot.subsystems.RobotLEDS.ledStates;
 
 /**
  * The command that lowers balls in the hopper.
+ * 
+ * @author JoeyFabel
  */
+
 public class HopperLowerBallsC extends CommandBase {
   private HopperS hopper;
 
-  /**
-   * Creates a new HopperLowerBallsC.
-   */
   public HopperLowerBallsC(HopperS hopperS) {
     this.hopper = hopperS;
     addRequirements(this.hopper);

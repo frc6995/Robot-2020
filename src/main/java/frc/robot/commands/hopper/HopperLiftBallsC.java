@@ -8,13 +8,12 @@ import frc.robot.subsystems.RobotLEDS.ledStates;
 
 /**
  * The command that lifts balls through the hopper
+ * 
+ * @author JoeyFabel
  */
 public class HopperLiftBallsC extends CommandBase {
   private HopperS hopper;
 
-  /**
-   * Creates a new HopperLiftBallsC.
-   */
   public HopperLiftBallsC(HopperS hopperS) {
     this.hopper = hopperS;
     addRequirements(this.hopper);

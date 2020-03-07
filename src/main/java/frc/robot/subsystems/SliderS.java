@@ -10,10 +10,12 @@ import io.github.oblarg.oblog.annotations.Log;
 
 /**
  * The Slider subsystem that enables the robot to translate on the switch.
+ * 
+ * @author JoeyFabel
  */
 public class SliderS extends SubsystemBase implements Loggable {
   private NomadVictorSPX sliderVictor = new NomadVictorSPX(SliderConstants.CAN_ID_SLIDER_CONTROLLER);
-  @Log(name="Slider Gyro", width = 3, height = 3, columnIndex = 0, rowIndex = 0)
+  @Log(name = "Slider Gyro", width = 3, height = 3, columnIndex = 0, rowIndex = 0)
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 
   public SliderS() {
@@ -25,8 +27,10 @@ public class SliderS extends SubsystemBase implements Loggable {
    * @param speed how fast the robot should translate
    */
   public void translate(double speed) {
-    if (speed == 0) sliderVictor.stopMotor();
-    else sliderVictor.set(speed);
+    if (speed == 0)
+      sliderVictor.stopMotor();
+    else
+      sliderVictor.set(speed);
   }
 
   /**
@@ -34,7 +38,7 @@ public class SliderS extends SubsystemBase implements Loggable {
    * 
    * @return returns the angle of the gyro.
    */
-  
+
   public double getGyroAngle() {
     return gyro.getAngle();
   }

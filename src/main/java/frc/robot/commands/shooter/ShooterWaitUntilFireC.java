@@ -1,7 +1,9 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.RobotLEDS;
 import frc.robot.subsystems.ShooterS;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 
 /**
  * Wait until Shooter is ready to shoot a power cell
@@ -12,7 +14,10 @@ public class ShooterWaitUntilFireC extends CommandBase {
   private ShooterS shooter;
   private int initBallsFired;
   private int ballsToFire;
-
+  private boolean firstLoop = true;
+  /**
+   * Creates a new ShooterWaitUntilReadyC.
+   */
   public ShooterWaitUntilFireC(ShooterS shooterS, int ammo) {
     shooter = shooterS;
     ballsToFire = ammo;
@@ -25,10 +30,15 @@ public class ShooterWaitUntilFireC extends CommandBase {
 
   @Override
   public void execute() {
+    if (firstLoop) {
+      RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
+      firstLoop = false;
+    }
   }
 
   @Override
   public void end(boolean interrupted) {
+    RobotLEDS.robotLEDS.revertLEDS();
   }
 
   @Override

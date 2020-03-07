@@ -3,14 +3,15 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 import io.github.oblarg.oblog.annotations.Log.ToString;
@@ -115,6 +116,8 @@ public class ShooterS extends SubsystemBase implements Loggable {
       }
       if (cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { // if the counter is high enough
         state = ShooterState.READY; // set state to READY
+        RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
+        RobotLEDS.robotLEDS.isShooting = true;
         cyclesInRange = 0;
       }
       break;
@@ -126,7 +129,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
       if (currentRpm < fireThreshold) { // if velocity drops below "we might be shooting" threshold
         ballsFired++;
         state = ShooterState.RECOVERY;
-
       }
 
       break;
@@ -158,6 +160,8 @@ public class ShooterS extends SubsystemBase implements Loggable {
         state = ShooterState.STOPPED;
       } // if motor has stopped moving,
         // go to STOPPED
+      RobotLEDS.robotLEDS.revertLEDS();
+      RobotLEDS.robotLEDS.isShooting = false;
       break;
     case STOPPED:
       pidController.setReference(0.0, ControlType.kVoltage);

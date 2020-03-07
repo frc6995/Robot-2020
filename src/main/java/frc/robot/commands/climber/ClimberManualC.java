@@ -5,6 +5,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberS;
+import frc.robot.subsystems.RobotLEDS;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 
 /**
  * Manually move Climber
@@ -25,13 +27,17 @@ public class ClimberManualC extends CommandBase {
   public void initialize() {
     this.climber.setClimberPower(0);
   }
-
+ 
   @Override
   public void execute() {
 
+    
     double speed = this.power.getAsDouble();
     if (Math.abs(speed) < 0.1) {
       speed = 0;
+    }
+    else {
+      RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
     }
 
     /*
@@ -39,11 +45,13 @@ public class ClimberManualC extends CommandBase {
      */
     SmartDashboard.putNumber("ClimberSpeed", speed);
     this.climber.setClimberPower(speed * 0.5);
+
   }
 
   @Override
   public void end(boolean interrupted) {
     this.climber.setClimberPower(0);
+    RobotLEDS.robotLEDS.revertLEDS();
   }
 
   @Override

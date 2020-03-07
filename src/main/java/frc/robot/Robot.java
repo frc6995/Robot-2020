@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.RobotLEDS;
+import frc.robot.subsystems.RobotLEDS.ledStates;
 import io.github.oblarg.oblog.Logger;
 
 /**
@@ -35,6 +37,8 @@ public class Robot extends TimedRobot {
     // Rumble Operator Controller
     robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0.25);
     robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0.25);
+
+    if (RobotLEDS.robotLEDS == null) RobotLEDS.robotLEDS = new RobotLEDS();
   }
 
   /**
@@ -53,6 +57,7 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     RobotContainer.shooterS.stop();
     robotContainer.climberBrakeOnC.initialize();
+    RobotLEDS.robotLEDS.currentState = ledStates.Disabled;
   }
 
   /**
@@ -74,6 +79,8 @@ public class Robot extends TimedRobot {
     robotContainer.operatorController.setRumble(RumbleType.kLeftRumble, 0);
     robotContainer.operatorController.setRumble(RumbleType.kRightRumble, 0);
     autonomousCommand = robotContainer.getAutonomousCommand();
+
+    RobotLEDS.robotLEDS.currentState = ledStates.Auto;
 
     robotContainer.climberBrakeOffC.initialize();
 
@@ -101,6 +108,8 @@ public class Robot extends TimedRobot {
 
     robotContainer.climberBrakeOffC.initialize();
 
+    RobotLEDS.robotLEDS.currentState = ledStates.Default;
+    
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }

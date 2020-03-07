@@ -102,8 +102,11 @@ public class RobotContainer {
   private final ManualTranslateC manualTranslateC;
 
   // Camera Server
-  private final CameraServer server = CameraServer.getInstance();
-  private final UsbCamera camera = new UsbCamera("cam0", OIConstants.OI_CAMERA);
+  private final CameraServer cam0 = CameraServer.getInstance();
+  private final CameraServer cam1 = CameraServer.getInstance();
+  private final UsbCamera camera0 = new UsbCamera("cam0", OIConstants.OI_CAMERA_ZERO);
+  private final UsbCamera camera1 = new UsbCamera("cam1", OIConstants.OI_CAMERA_ONE);
+
 
   // Autonomous Path Call Declarations
   @Log
@@ -126,7 +129,9 @@ public class RobotContainer {
     autoChooser.addOption("Baller Auto", new MultipleAutoShootCG(shooterS, hopperS, 3));
 
     // Start Camera Server
-    server.startAutomaticCapture(camera);
+    cam0.startAutomaticCapture(camera0);
+    cam1.startAutomaticCapture(camera1);
+
 
     // Configures Commands for use in Buttons
     // Climber

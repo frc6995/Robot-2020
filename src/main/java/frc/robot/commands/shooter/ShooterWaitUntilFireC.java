@@ -14,14 +14,10 @@ public class ShooterWaitUntilFireC extends CommandBase {
   private ShooterS shooter;
   private int initBallsFired;
   private int ballsToFire;
-<<<<<<< HEAD
   private boolean firstLoop = true;
   /**
    * Creates a new ShooterWaitUntilReadyC.
    */
-=======
-
->>>>>>> ff6ec93459b3f9964a5c7ba484e53ab80350c62b
   public ShooterWaitUntilFireC(ShooterS shooterS, int ammo) {
     shooter = shooterS;
     ballsToFire = ammo;

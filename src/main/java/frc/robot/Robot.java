@@ -108,11 +108,8 @@ public class Robot extends TimedRobot {
 
     robotContainer.climberBrakeOffC.initialize();
 
-<<<<<<< HEAD
     RobotLEDS.robotLEDS.currentState = ledStates.Default;
     
-=======
->>>>>>> ff6ec93459b3f9964a5c7ba484e53ab80350c62b
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }

@@ -15,7 +15,6 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
   public static RobotLEDS robotLEDS;
 
   public enum ledStates{
-    Hopper_On,
     Climbing,
     Climb_Time,
     Intake,
@@ -37,17 +36,19 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
     Green_Pattern(-0.91),
     Orange(0.65), //Green chase is not possible from the docs I saw, so doing orange instead
     Purple(0.91);
-
+    
     public double value;
-
+    
     private ledColors(double sparkValue){
       value = sparkValue;
     }
   }
+  
+  public boolean isShooting = false;
 
     public ledStates currentState; 
 
-    private Spark ledStrip = new Spark(0); //TODO - change this to the actual ID
+    private Spark ledStrip = new Spark(0);
   
     //  public static LEDStates ledStates = new LEDStates();
 
@@ -71,8 +72,6 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
     if (Timer.getMatchTime() == 0 && currentState != ledStates.Climbing) currentState = ledStates.Climb_Time;
 
     switch (currentState){
-      case Hopper_On :
-        ledStrip.setSpeed(ledColors.Purple.value); break;
       case Climbing :
         ledStrip.setSpeed(ledColors.Party.value); break;
       case Climb_Time :
@@ -99,6 +98,7 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
   public void revertLEDS(){
     if (Timer.getMatchTime() == 0) currentState = ledStates.Climb_Time; 
     // get match appears to return the time left in auto or teleop, but not end game, so if it is 0, it should be endgame
+    else if (isShooting) currentState = ledStates.Shooting;
     else currentState = ledStates.Default;
   }
 

@@ -117,6 +117,7 @@ public class ShooterS extends SubsystemBase implements Loggable {
         if(cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { //if the counter is high enough
           state = ShooterState.READY; //set state to READY
           RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
+          RobotLEDS.robotLEDS.isShooting = true;
           cyclesInRange = 0;
         }
         break;
@@ -161,6 +162,7 @@ public class ShooterS extends SubsystemBase implements Loggable {
       } // if motor has stopped moving,
         // go to STOPPED
         RobotLEDS.robotLEDS.revertLEDS();
+        RobotLEDS.robotLEDS.isShooting = false;
         break;
       case STOPPED:
         pidController.setReference(0.0, ControlType.kVoltage);

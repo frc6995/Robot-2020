@@ -33,7 +33,6 @@ public class HopperLowerBallsC extends CommandBase {
     // Spins it opposite direction from lift balls command, based on preference to
     // make sure the invert value is correct.
     this.hopper.spinTubes(!RobotPreferences.hopperInvert.getValue());
-    if (RobotLEDS.robotLEDS.currentState != ledStates.Climb_Time) RobotLEDS.robotLEDS.currentState = ledStates.Hopper_On;
 
   }
 
@@ -42,7 +41,6 @@ public class HopperLowerBallsC extends CommandBase {
    */
   @Override
   public void end(boolean interrupted) {
-    RobotLEDS.robotLEDS.revertLEDS();
     this.hopper.stopTubes();
 
   }

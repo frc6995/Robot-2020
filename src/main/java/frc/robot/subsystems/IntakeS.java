@@ -7,12 +7,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IntakeConstants;
-<<<<<<< HEAD
 import frc.robot.subsystems.RobotLEDS.ledStates;
 import frc.wrappers.MotorControllers.NomadVictorSPX;
-=======
 import io.github.oblarg.oblog.Loggable;
->>>>>>> ff6ec93459b3f9964a5c7ba484e53ab80350c62b
 
 /**
  * The system we use to grab power cells from the floor and transfer them to the

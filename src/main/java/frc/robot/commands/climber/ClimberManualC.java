@@ -32,16 +32,12 @@ public class ClimberManualC extends CommandBase {
   @Override
   public void execute() {
 
-    if (firstLoop){
-      RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
-      firstLoop = false;
-    }
-
+    
     double speed = this.power.getAsDouble();
     if (Math.abs(speed) < 0.1) {
       speed = 0;
     }
-
+    else RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
     /*
      * if (Math.abs(speed) < 0.1) { speed = 0; }
      */

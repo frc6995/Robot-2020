@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
@@ -64,12 +65,15 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putString("LED State", currentState.toString());
+
+    System.out.print(currentState.toString());
 
     if (Timer.getMatchTime() == 0 && currentState != ledStates.Climbing) currentState = ledStates.Climb_Time;
 
     switch (currentState){
       case Hopper_On :
-        ledStrip.setSpeed(ledColors.Gold.value); break;
+        ledStrip.setSpeed(ledColors.Purple.value); break;
       case Climbing :
         ledStrip.setSpeed(ledColors.Party.value); break;
       case Climb_Time :
@@ -83,7 +87,7 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
       case Default :
         ledStrip.setSpeed(ledColors.Green_Solid.value); break;
       case Shooting :
-        ledStrip.setSpeed(ledColors.Purple.value); break;
+        ledStrip.setSpeed(ledColors.Gold.value); break;
       default :      //default is disabled color (green chase/ orange)
         ledStrip.setSpeed(ledColors.Orange.value); break;
     }

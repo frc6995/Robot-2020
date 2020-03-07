@@ -103,7 +103,7 @@ public class RobotContainer {
 
   // Camera Server
   private final CameraServer cam0 = CameraServer.getInstance();
-  private final CameraServer cam1 = CameraServer.getInstance();
+  //private final CameraServer cam1 = CameraServer.getInstance();
   private final UsbCamera camera0 = new UsbCamera("cam0", OIConstants.OI_CAMERA_ZERO);
   private final UsbCamera camera1 = new UsbCamera("cam1", OIConstants.OI_CAMERA_ONE);
 
@@ -130,7 +130,7 @@ public class RobotContainer {
 
     // Start Camera Server
     cam0.startAutomaticCapture(camera0);
-    cam1.startAutomaticCapture(camera1);
+    cam0.startAutomaticCapture(camera1);
 
 
     // Configures Commands for use in Buttons

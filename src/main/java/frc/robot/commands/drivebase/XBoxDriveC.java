@@ -32,7 +32,7 @@ public class XBoxDriveC extends CommandBase {
     double rightTrigger = controller.getRawAxis(3);
     double leftTrigger = controller.getRawAxis(2);
 
-    driveSpeed = leftTrigger - rightTrigger;
+    driveSpeed = rightTrigger-leftTrigger;
     turnSpeed = controller.getRawAxis(0);
 
     drivebase.arcadeDrive(driveSpeed, turnSpeed);

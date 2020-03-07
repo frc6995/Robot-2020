@@ -75,15 +75,15 @@ public class RobotContainer {
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-  private final Command shoot3AutoCG = new MultipleAutoShootCG(shooterS, hopperS, 3);
-  private final Command shoot3LeaveLineAutoCG = new MultipleAutoShootCG(shooterS, hopperS, 3)
-  .andThen(new StartEndCommand(() -> drivebaseS.arcadeDrive(0.5, 0),
-   () -> drivebaseS.arcadeDrive(0, 0), 
-   drivebaseS).withTimeout(1.5));
-  private final Command visionShoot3LeaveLineAutoCG = new DrivebaseVisionC(drivebaseS).withTimeout(4)
-  .andThen(new MultipleAutoShootCG(shooterS, hopperS, 3)
-  .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(0.5, 0), drivebaseS).withTimeout(1.5)
-  .andThen(new InstantCommand(() -> drivebaseS.arcadeDrive(0, 0), drivebaseS)))); 
+  private final Command shoot3AutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, 3);
+  private final Command shoot3LeaveLineAutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, 3).withTimeout(10)
+  .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(-0.5, 0), 
+   drivebaseS).withTimeout(1))
+   .andThen(new InstantCommand(()->drivebaseS.arcadeDrive(0, 0), drivebaseS));
+  private final Command visionShoot3LeaveLineAutoCG = new InstantCommand(()->shooterS.spinUp(), shooterS).andThen(new DrivebaseVisionC(drivebaseS).withTimeout(4)
+  .andThen(shooterS.buildMultipleShootSequence(shooterS, hopperS, 3)
+  .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(-0.5, 0), drivebaseS).withTimeout(0.5)
+  .andThen(new InstantCommand(() -> drivebaseS.arcadeDrive(0, 0), drivebaseS))))); 
 
   private final Command driveStickC;
   private final XBoxDriveC xboxDriveC;
@@ -202,4 +202,6 @@ public class RobotContainer {
     //return autoChooser.getSelected();
     return autoChooser.getSelected()/*new ballerAutoShootCG()*/;
   }
+
+
 }

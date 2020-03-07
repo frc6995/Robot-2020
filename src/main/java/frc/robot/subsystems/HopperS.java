@@ -12,7 +12,7 @@ public class HopperS extends SubsystemBase {
   /**
    * The victors that controls the hopper tubes
    */
-  private NomadTalonSRX hopperTalon = new NomadTalonSRX(HopperConstants.CAN_ID_HOPPER_TALON);
+  private NomadTalonSRX hopperTalon = new NomadTalonSRX(HopperConstants.CAN_ID_HOPPER_TALON, true);
   private NomadVictorSPX hopperVictor = new NomadVictorSPX(HopperConstants.CAN_ID_HOPPER_VICTOR);
   /**
    * The solenoid that controls the hopper pistons

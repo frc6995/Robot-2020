@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.shooter.ShooterWaitUntilFireC;
+import frc.robot.commands.shooter.logic.ShooterFireOneCG;
 import frc.robot.subsystems.HopperS;
 import frc.robot.subsystems.ShooterS;
 

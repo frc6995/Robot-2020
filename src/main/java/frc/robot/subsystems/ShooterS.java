@@ -8,8 +8,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.commands.hopper.HopperLiftBallsC;
+import frc.robot.commands.shooter.ShooterWaitUntilFireC;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.RobotLEDS.ledStates;
 import io.github.oblarg.oblog.Loggable;
@@ -51,6 +57,7 @@ public class ShooterS extends SubsystemBase implements Loggable {
     spark.setInverted(true);
     spark.setSmartCurrentLimit(30);
     spark.setIdleMode(IdleMode.kCoast);
+
     spark.burnFlash();
     pidController = spark.getPIDController();
 
@@ -78,7 +85,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
     pidController.setFF(kFF);
     pidController.setOutputRange(kMinOutput, kMaxOutput);
 
-    SmartDashboard.putNumber("SetPoint", 0);
   }
 
   @Override
@@ -122,7 +128,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
       }
       break;
     case READY:
-
       if (currentRpm < armThreshold) { // if velocity drops below "we might be shooting" threshold
         state = ShooterState.ARMED;
       }
@@ -130,7 +135,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
         ballsFired++;
         state = ShooterState.RECOVERY;
       }
-
       break;
     case ARMED:
       if (currentRpm < fireThreshold) {
@@ -145,7 +149,6 @@ public class ShooterS extends SubsystemBase implements Loggable {
       // if it goes back above the armed threshold go back to ready.
       break;
     case RECOVERY:
-
       // if we are back up to setpt speed,
       // go to READY
       if (currentRpm > armThreshold) {
@@ -185,5 +188,20 @@ public class ShooterS extends SubsystemBase implements Loggable {
 
   public int getBallsFired() {
     return ballsFired;
+  }
+
+  public SequentialCommandGroup buildSingleShootSequence(ShooterS shooterS, HopperS hopperS) {
+    return new InstantCommand(() -> shooterS.spinUp(), shooterS)
+        .andThen(new WaitCommand(5).withInterrupt(() -> shooterS.isReady()))
+        .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooterS, 1), new HopperLiftBallsC(hopperS)));
+  }
+
+  public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, int ammo) {
+    SequentialCommandGroup sequence = buildSingleShootSequence(shooterS, hopperS);
+    for (int i = 1; i < ammo - 1; i++) {
+      sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS));
+    }
+    sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS).withTimeout(2));
+    return sequence;
   }
 }

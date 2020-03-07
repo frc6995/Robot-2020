@@ -27,7 +27,6 @@ import frc.robot.commands.hopper.HopperLiftBallsC;
 import frc.robot.commands.hopper.HopperLowerBallsC;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
-import frc.robot.commands.shooter.logic.MultipleAutoShootCG;
 import frc.robot.commands.slider.ManualTranslateC;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.OIConstants;
@@ -61,12 +60,27 @@ public class RobotContainer {
   public static final ShooterS shooterS = new ShooterS();
   @Log(name = "SliderS")
   public static final SliderS sliderS = new SliderS();
+  
+  
+  @Log
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+  private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
+  private final SequentialCommandGroup sCurveRightAutoCG 
+    = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
+  private final Command shoot3AutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, 3);
+  private final Command shoot3LeaveLineAutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, 3).withTimeout(10)
+  .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(-0.5, 0), 
+   drivebaseS).withTimeout(1))
+   .andThen(new InstantCommand(()->drivebaseS.arcadeDrive(0, 0), drivebaseS));
+  private final Command visionShoot3LeaveLineAutoCG = new InstantCommand(()->shooterS.spinUp(), shooterS).andThen(new DrivebaseVisionC(drivebaseS, VisionConstants.VISION_PIPELINE_LINE).withTimeout(4)
+  .andThen(shooterS.buildMultipleShootSequence(shooterS, hopperS, 3)
+  .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(-0.5, 0), drivebaseS).withTimeout(0.5)
+  .andThen(new InstantCommand(() -> drivebaseS.arcadeDrive(0, 0), drivebaseS))))); 
 
   // Command Instances
   // OI
   private final GenericHID driveController;
   public final GenericHID operatorController;
-  public final Command driveStickC;
 
   // Climber
   private final ClimberManualC manualClimbC;
@@ -78,6 +92,7 @@ public class RobotContainer {
 
   // Drivebase
   private final XBoxDriveC xboxDriveC;
+  private final Command driveStickC;
   private final DrivebaseVisionC visionAlignLineC;
   private final DrivebaseVisionC visionAlignTrenchC;
 
@@ -107,14 +122,6 @@ public class RobotContainer {
   private final UsbCamera camera0 = new UsbCamera("cam0", OIConstants.OI_CAMERA_ZERO);
   private final UsbCamera camera1 = new UsbCamera("cam1", OIConstants.OI_CAMERA_ONE);
 
-
-  // Autonomous Path Call Declarations
-  @Log
-  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-  private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
-  private final SequentialCommandGroup sCurveRightAutoCG = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight,
-      drivebaseS).buildPathFollowerCommandGroup();
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -126,7 +133,9 @@ public class RobotContainer {
     // Autonomous Calls
     autoChooser.setDefaultOption("Do Nothing", basicAutoCG);
     autoChooser.addOption("S Curve Right", sCurveRightAutoCG);
-    autoChooser.addOption("Baller Auto", new MultipleAutoShootCG(shooterS, hopperS, 3));
+    autoChooser.addOption("Shoot 3", shoot3AutoCG);
+    autoChooser.addOption("Shoot 3 Leave Line", shoot3LeaveLineAutoCG);
+    autoChooser.addOption("VisionShoot3LeaveLine", visionShoot3LeaveLineAutoCG);
 
     // Start Camera Server
     cam0.startAutomaticCapture(camera0);
@@ -229,4 +238,6 @@ public class RobotContainer {
     // return autoChooser.getSelected();
     return autoChooser.getSelected()/* new ballerAutoShootCG() */;
   }
+
+
 }

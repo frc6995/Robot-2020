@@ -15,6 +15,11 @@ import frc.wrappers.MotorControllers.NomadVictorSPX;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
+/**
+ * Climber Subsystem
+ * 
+ * @author Sammcdo
+ */
 public class ClimberS extends SubsystemBase implements Loggable {
   private NomadTalonSRX climbMaster = new NomadTalonSRX(ClimberConstants.CAN_ID_CLIMB_TALON);
   private NomadVictorSPX climbSlave = new NomadVictorSPX(ClimberConstants.CAN_ID_CLIMB_VICTOR, false, climbMaster);
@@ -31,15 +36,15 @@ public class ClimberS extends SubsystemBase implements Loggable {
   public static enum climberLevel {
     AboveBar, Pullup, Home, reset;
   }
+
   public static enum brakePosition {
     Brake, Unbrake;
   }
 
   /**
    * Creates a new ClimberS. This is the elevator on our robot uses for climbing
-   * in endgame.
-   * This subsystem uses PID to lift the elevator and then do a pullup on the bar,
-   * giving us 25 points.
+   * in endgame. This subsystem uses PID to lift the elevator and then do a pullup
+   * on the bar, giving us 25 points.
    */
   public ClimberS() {
     climbMaster.configVoltageCompSaturation(12);
@@ -61,28 +66,27 @@ public class ClimberS extends SubsystemBase implements Loggable {
     climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
-    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKf.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKfUp.getValue());
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
     climbMaster.configClosedloopRamp(0.7);
-    climbMaster.configClosedLoopPeakOutput(ClimberConstants.CLIMBER_PID_UP_SLOT, 0.5); // tune me pls
+    climbMaster.configClosedLoopPeakOutput(ClimberConstants.CLIMBER_PID_UP_SLOT, 0.75); // tune me pls
     dynamicFeedForward = new SimpleMotorFeedforward(ClimberConstants.CLIMBER_KS, ClimberConstants.CLIMBER_KV,
         ClimberConstants.CLIMBER_KA);
 
   }
 
   /**
-   * Start braking the elevator.
-   * NOTE: This method sets the solenoid output to false.
+   * Start braking the elevator. NOTE: This method sets the solenoid output to
+   * false.
    */
   public void brake() {
     brakeSolenoid.set(false); // false because no output should be braking
   }
 
   /**
-   * Unbrake the elevator.
-   * NOTE: This sets the solenoid output to true.
+   * Unbrake the elevator. NOTE: This sets the solenoid output to true.
    */
   public void unbrake() {
     brakeSolenoid.set(true);
@@ -120,11 +124,13 @@ public class ClimberS extends SubsystemBase implements Loggable {
     climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpUp.getValue());
     climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiUp.getValue());
     climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdUp.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKfUp.getValue());
     // climbMaster.config_kF(Constants.CLIMBER_PID_UP_SLOT,
     // dynamicFeedForward.calculate(getVelocity())); //does this work?
 
     climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneUp.getValue());
 
+    //climbMaster.selectProfileSlot(ClimberConstants.CLIMBER_PID_UP_SLOT, 0);
     climbMaster.set(ControlMode.Position, RobotPreferences.liftHeight.getValue());
   }
 
@@ -134,22 +140,23 @@ public class ClimberS extends SubsystemBase implements Loggable {
    * in preferences, but uses different values from runUpPID.
    */
   public void runDownPID() {
-    climbMaster.config_kP(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKpDown.getValue());
-    climbMaster.config_kI(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKiDown.getValue());
-    climbMaster.config_kD(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKdDown.getValue());
-    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberKf.getValue());
+    climbMaster.config_kP(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKpDown.getValue());
+    climbMaster.config_kI(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKiDown.getValue());
+    climbMaster.config_kD(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKdDown.getValue());
+    climbMaster.config_kF(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberKfDown.getValue());
 
-    climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_DOWN_SLOT, RobotPreferences.climberIZoneDown.getValue());
+    climbMaster.config_IntegralZone(ClimberConstants.CLIMBER_PID_UP_SLOT, RobotPreferences.climberIZoneDown.getValue());
 
+    //climbMaster.selectProfileSlot(ClimberConstants.CLIMBER_PID_DOWN_SLOT, 0);
     climbMaster.set(ControlMode.Position, RobotPreferences.pullHeight.getValue());
   }
 
   /**
    * Checks whether the climber is at a given set point. This must be called
    * continuously to check accurately, as it measures whether it has been in
-   * roughly the same spot for 15 loops.
-   * Note: Don't forget to call isAtSetPoint({@link climberLevel}.reset) before
-   * checking to make sure the loop count is at 0. (this returns false)
+   * roughly the same spot for 15 loops. Note: Don't forget to call
+   * isAtSetPoint({@link climberLevel}.reset) before checking to make sure the
+   * loop count is at 0. (this returns false)
    * 
    * @param setPoint what {@link climberLevel} to check.
    * @return whether the climber is at the given set point
@@ -176,19 +183,18 @@ public class ClimberS extends SubsystemBase implements Loggable {
 
     if (target != 0.6995) { // target of 0.6995 tells it to automatically return false
       // increment countWithinSetPoint if its within allowable error.
-      if (Math.abs(getError()) < RobotPreferences.climberAllowableError.getValue()) countWithinSetPoint++;
+      if (Math.abs(getError()) < RobotPreferences.climberAllowableError.getValue())
+        countWithinSetPoint++;
 
       // check if countWithinSetPoint is greater than 15, meaning it is at the set
       // point.
       if (countWithinSetPoint > 15) {
         countWithinSetPoint = 0;
         return true;
-      }
-      else {
+      } else {
         return false;
       }
-    }
-    else {
+    } else {
       return false;
     }
   }

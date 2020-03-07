@@ -39,7 +39,6 @@ public class HopperLowerBallsC extends CommandBase {
    */
   @Override
   public void end(boolean interrupted) {
-
     this.hopper.stopTubes();
 
   }

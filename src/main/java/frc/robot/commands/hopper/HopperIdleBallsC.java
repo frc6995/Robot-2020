@@ -25,7 +25,6 @@ public class HopperIdleBallsC extends CommandBase {
    */
   @Override
   public void execute() {
-
     this.hopper.spinTube(true, 1);
     this.hopper.spinTube(false, 2);
 
@@ -36,7 +35,6 @@ public class HopperIdleBallsC extends CommandBase {
    */
   @Override
   public void end(boolean interrupted) {
-
     this.hopper.stopTubes();
 
   }

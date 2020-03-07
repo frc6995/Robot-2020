@@ -13,6 +13,6 @@ import frc.robot.subsystems.IntakeS;
 public class IntakeDeployAndRunCG extends SequentialCommandGroup {
   public IntakeDeployAndRunCG(IntakeS intake) {
     super(new InstantCommand(() -> intake.intakeDeploy(), intake),
-        new RunCommand(() -> intake.intakeMotor(0.8), intake));
+    new RunCommand(() -> intake.intakeMotor(0.8), intake));
   }
 }

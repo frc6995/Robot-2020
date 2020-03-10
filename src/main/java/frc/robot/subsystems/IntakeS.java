@@ -50,6 +50,15 @@ public class IntakeS extends SubsystemBase implements Loggable  {
     intakeSolenoid.set(Value.kReverse);
   }
 
+  public void intakeToggle() {
+    if (intakeSolenoid.get() == Value.kReverse) {
+      intakeSolenoid.set(Value.kForward);
+    }
+    else {
+      intakeSolenoid.set(Value.kReverse);
+    }
+  }
+
   /**
    * Motor speed
    * 

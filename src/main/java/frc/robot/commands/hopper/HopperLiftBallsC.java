@@ -11,10 +11,18 @@ import frc.robot.subsystems.HopperS;
  */
 public class HopperLiftBallsC extends CommandBase {
   private HopperS hopper;
+  private double speed;
 
   public HopperLiftBallsC(HopperS hopperS) {
     this.hopper = hopperS;
     addRequirements(this.hopper);
+    this.speed = 6995;
+  }
+
+  public HopperLiftBallsC(HopperS hopperS, double spinSpeed) {
+    this.hopper = hopperS;
+    addRequirements(this.hopper);
+    this.speed = spinSpeed;
   }
 
   @Override
@@ -26,7 +34,12 @@ public class HopperLiftBallsC extends CommandBase {
    */
   @Override
   public void execute() {
-    this.hopper.spinTubes(RobotPreferences.hopperInvert.getValue());
+    if (this.speed == 6995) {
+      this.hopper.spinTubes(RobotPreferences.hopperInvert.getValue());
+    }
+    else {
+      this.hopper.spinTubes(RobotPreferences.hopperInvert.getValue(), this.speed);
+    }
   }
 
   /**

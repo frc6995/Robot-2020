@@ -1,6 +1,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberS;
 import frc.robot.subsystems.RobotLEDS;
 import frc.robot.subsystems.ClimberS.climberLevel;
@@ -45,6 +46,7 @@ public class ClimberUpPIDC extends CommandBase {
   public void end(boolean interrupted) {
     this.climber.setClimberPowerFeedForward(0);
     RobotLEDS.robotLEDS.revertLEDS();
+    RobotContainer.drivebaseS.setMaxOutput(0.25);
   }
   
   @Override

@@ -10,10 +10,12 @@ import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.RobotContainer;
 import frc.robot.commands.hopper.HopperLiftBallsC;
 import frc.robot.commands.shooter.ShooterWaitUntilFireC;
 import frc.robot.constants.ShooterConstants;
@@ -193,7 +195,8 @@ public class ShooterS extends SubsystemBase implements Loggable {
   public SequentialCommandGroup buildSingleShootSequence(ShooterS shooterS, HopperS hopperS) {
     return new InstantCommand(() -> shooterS.spinUp(), shooterS)
         .andThen(new WaitCommand(5).withInterrupt(() -> shooterS.isReady()))
-        .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooterS, 1), new HopperLiftBallsC(hopperS)));
+        .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooterS, 1), new HopperLiftBallsC(hopperS, 0.75),
+                  new RunCommand(() -> RobotContainer.intakeS.intakeMotor(0.8), RobotContainer.intakeS)));
   }
 
   public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, int ammo) {

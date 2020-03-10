@@ -72,7 +72,7 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
     // This method will be called once per scheduler run
     SmartDashboard.putString("LED State", currentState.toString());
 
-    System.out.print(currentState.toString());
+    //System.out.print(currentState.toString());
 
     if (Timer.getMatchTime() == 0 && currentState != ledStates.Climbing) currentState = ledStates.Climb_Time;
 
@@ -101,7 +101,8 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
    * Reverts leds to default unless in endgame
    */
   public void revertLEDS(){
-    if (Timer.getMatchTime() == 0) currentState = ledStates.Climb_Time; 
+    if (Timer.getMatchTime() <= 30) currentState = ledStates.Climb_Time;
+    if (Timer.getMatchTime() <= 150 && Timer.getMatchTime() >= 135) currentState = ledStates.Auto;
     // get match appears to return the time left in auto or teleop, but not end game, so if it is 0, it should be endgame
     else if (isShooting) currentState = ledStates.Shooting;
     else currentState = ledStates.Default;

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 /**
  * Constants for Shooter Constants
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class ShooterConstants {
     /**

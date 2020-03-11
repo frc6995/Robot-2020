@@ -249,6 +249,4 @@ public class RobotContainer {
     // return autoChooser.getSelected();
     return autoChooser.getSelected()/* new ballerAutoShootCG() */;
   }
-
-
 }

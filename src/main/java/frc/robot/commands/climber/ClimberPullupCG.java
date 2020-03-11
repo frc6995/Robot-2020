@@ -13,6 +13,6 @@ import frc.robot.subsystems.ClimberS.brakePosition;
 public class ClimberPullupCG extends SequentialCommandGroup {
   public ClimberPullupCG(ClimberS climber) {
     addCommands(new ClimberDownPIDC(climber, true),
-        new ParallelDeadlineGroup(new SetBrakeC(climber, brakePosition.Brake), new ClimberDownPIDC(climber, false)));
+      new ParallelDeadlineGroup(new SetBrakeC(climber, brakePosition.Brake), new ClimberDownPIDC(climber, false)));
   }
 }

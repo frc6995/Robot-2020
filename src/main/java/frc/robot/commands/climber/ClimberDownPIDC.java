@@ -32,9 +32,7 @@ public class ClimberDownPIDC extends CommandBase {
   @Override
   public void initialize() {
     this.climber.isAtSetPoint(climberLevel.reset);
-    if (this.climber.getPosition() < (RobotPreferences.liftHeight.getValue() - 500)) {
-      end(false); // this does actually unschedule the command right?
-    }
+    if (this.climber.getPosition() < (RobotPreferences.liftHeight.getValue() - 500)) end(false);
   }
 
   @Override

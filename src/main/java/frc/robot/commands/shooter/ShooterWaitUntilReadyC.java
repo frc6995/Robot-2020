@@ -6,7 +6,7 @@ import frc.robot.subsystems.ShooterS;
 /**
  * Wait until Ready to Fire
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class ShooterWaitUntilReadyC extends CommandBase {
   private ShooterS shooter;

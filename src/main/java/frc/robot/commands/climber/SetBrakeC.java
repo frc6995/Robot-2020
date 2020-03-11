@@ -27,7 +27,8 @@ public class SetBrakeC extends CommandBase {
   public void initialize() {
     if (this.Position == brakePosition.Brake) {
       this.climber.brake();
-    } else {
+    }
+    else {
       this.climber.unbrake();
     }
   }

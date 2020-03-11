@@ -100,8 +100,7 @@ public class ClimberS extends SubsystemBase implements Loggable {
    */
   public void setClimberPower(double power) {
     double pwr = MathUtil.clamp(power, -1, 1);
-    if (isHomed())
-      pwr = MathUtil.clamp(pwr, 0, 1);
+    if (isHomed()) pwr = MathUtil.clamp(pwr, 0, 1);
     climbMaster.set(ControlMode.PercentOutput, pwr);
   }
 
@@ -183,18 +182,18 @@ public class ClimberS extends SubsystemBase implements Loggable {
 
     if (target != 0.6995) { // target of 0.6995 tells it to automatically return false
       // increment countWithinSetPoint if its within allowable error.
-      if (Math.abs(getError()) < RobotPreferences.climberAllowableError.getValue())
-        countWithinSetPoint++;
-
+      if (Math.abs(getError()) < RobotPreferences.climberAllowableError.getValue()) countWithinSetPoint++;
       // check if countWithinSetPoint is greater than 15, meaning it is at the set
       // point.
       if (countWithinSetPoint > 15) {
         countWithinSetPoint = 0;
         return true;
-      } else {
+      }
+      else {
         return false;
       }
-    } else {
+    }
+    else {
       return false;
     }
   }
@@ -248,6 +247,5 @@ public class ClimberS extends SubsystemBase implements Loggable {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

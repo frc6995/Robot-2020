@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpiutil.math.MathUtil;
-import frc.robot.RobotContainer;
 import frc.robot.commands.hopper.HopperLiftBallsC;
 import frc.robot.commands.shooter.ShooterWaitUntilFireC;
 import frc.robot.constants.ShooterConstants;
@@ -192,19 +191,19 @@ public class ShooterS extends SubsystemBase implements Loggable {
     return ballsFired;
   }
 
-  public SequentialCommandGroup buildSingleShootSequence(ShooterS shooterS, HopperS hopperS) {
+  public SequentialCommandGroup buildSingleShootSequence(ShooterS shooterS, HopperS hopperS, IntakeS intakeS) {
     return new InstantCommand(() -> shooterS.spinUp(), shooterS)
         .andThen(new WaitCommand(5).withInterrupt(() -> shooterS.isReady()))
         .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooterS, 1), new HopperLiftBallsC(hopperS, 0.75),
-                  new RunCommand(() -> RobotContainer.intakeS.intakeMotor(0.8), RobotContainer.intakeS)));
+                  new RunCommand(() -> intakeS.intakeMotor(0.8), intakeS)));
   }
 
-  public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, int ammo) {
-    SequentialCommandGroup sequence = buildSingleShootSequence(shooterS, hopperS);
+  public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, IntakeS intakeS, int ammo) {
+    SequentialCommandGroup sequence = buildSingleShootSequence(shooterS, hopperS, intakeS);
     for (int i = 1; i < ammo - 1; i++) {
-      sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS));
+      sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS, intakeS));
     }
-    sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS).withTimeout(2));
+    sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS, intakeS).withTimeout(2));
     return sequence;
   }
 }

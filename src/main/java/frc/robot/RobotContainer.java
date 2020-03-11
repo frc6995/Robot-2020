@@ -69,13 +69,13 @@ public class RobotContainer {
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-  private final Command shoot3AutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, 3).withTimeout(6);
-  private final Command shoot3LeaveLineAutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, 3).withTimeout(10)
+  private final Command shoot3AutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, intakeS, 3).withTimeout(6);
+  private final Command shoot3LeaveLineAutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, intakeS, 3).withTimeout(10)
   .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(-0.5, 0), 
    drivebaseS).withTimeout(1))
    .andThen(new InstantCommand(()->drivebaseS.arcadeDrive(0, 0), drivebaseS));
   private final Command visionShoot3LeaveLineAutoCG = new InstantCommand(()->shooterS.spinUp(), shooterS).andThen(new DrivebaseVisionC(drivebaseS, VisionConstants.VISION_PIPELINE_LINE).withTimeout(4)
-  .andThen(shooterS.buildMultipleShootSequence(shooterS, hopperS, 3)
+  .andThen(shooterS.buildMultipleShootSequence(shooterS, hopperS, intakeS, 3)
   .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(-0.5, 0), drivebaseS).withTimeout(0.5)
   .andThen(new InstantCommand(() -> drivebaseS.arcadeDrive(0, 0), drivebaseS))))); 
 
@@ -175,7 +175,7 @@ public class RobotContainer {
     hopperIdleBallsC = new HopperIdleBallsC(hopperS);
 
     // Intake
-    intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
+    intakeDeployCG = new IntakeDeployAndRunCG(intakeS, hopperS);
     intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
 
     // Shooter

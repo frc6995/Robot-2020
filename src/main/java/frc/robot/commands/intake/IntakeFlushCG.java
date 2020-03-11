@@ -11,7 +11,10 @@ import frc.robot.subsystems.ShooterS;
 
 public class IntakeFlushCG extends SequentialCommandGroup {
   /**
-   * Creates a new IntakeFlushCG.
+   * This command group runs everything in reverse
+   * to get all the power cells out of the robot.
+   * 
+   * @author Sammcdo
    */
   public IntakeFlushCG(IntakeS intakeS, HopperS hopperS, ShooterS shooterS) {
     super(new InstantCommand(() -> intakeS.intakeDeploy(), intakeS),

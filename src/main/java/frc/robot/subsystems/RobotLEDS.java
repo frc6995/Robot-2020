@@ -72,8 +72,6 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
     // This method will be called once per scheduler run
     SmartDashboard.putString("LED State", currentState.toString());
 
-    //System.out.print(currentState.toString());
-
     if (Timer.getMatchTime() == 0 && currentState != ledStates.Climbing) currentState = ledStates.Climb_Time;
 
     switch (currentState){

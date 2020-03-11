@@ -7,7 +7,7 @@ import frc.robot.subsystems.IntakeS;
 /**
  * Open Intake and Run motors
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class IntakeRetractAndStopCG extends SequentialCommandGroup {
   public IntakeRetractAndStopCG(IntakeS intake) {

@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 /**
  * A do-nothing placeholder
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class EmptyAutoCG extends SequentialCommandGroup {
   public EmptyAutoCG() {

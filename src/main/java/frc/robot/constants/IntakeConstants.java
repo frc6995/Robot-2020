@@ -15,7 +15,7 @@ public class IntakeConstants {
      * Intake Double Solenoid extended position
      */
     public final static int DBL_SOLENOID_INTAKE_EXTEND = 2;
-    
+
     /**
      * Intake Double Solenoid retract position
      */

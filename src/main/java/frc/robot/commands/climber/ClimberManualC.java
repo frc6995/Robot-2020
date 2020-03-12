@@ -40,9 +40,6 @@ public class ClimberManualC extends CommandBase {
       RobotLEDS.robotLEDS.currentState = ledStates.Climbing;
     }
 
-    /*
-     * if (Math.abs(speed) < 0.1) { speed = 0; }
-     */
     SmartDashboard.putNumber("ClimberSpeed", speed);
     this.climber.setClimberPower(speed * 0.5);
 

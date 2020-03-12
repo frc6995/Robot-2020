@@ -27,7 +27,6 @@ public class HopperS extends SubsystemBase implements Loggable {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
   }
 
   /**
@@ -39,19 +38,42 @@ public class HopperS extends SubsystemBase implements Loggable {
     if (reversed) {
       hopperTalon.set(-RobotPreferences.hopperSpeed.getValue());
       hopperVictor.set(-RobotPreferences.hopperSpeed.getValue());
-    } else {
+    }
+    else {
       hopperTalon.set(RobotPreferences.hopperSpeed.getValue());
       hopperVictor.set(RobotPreferences.hopperSpeed.getValue());
     }
   }
 
+  public void spinTubes(Boolean reversed, double speed) {
+    if (reversed) {
+      hopperTalon.set(-speed);
+      hopperVictor.set(-speed);
+    }
+    else {
+      hopperTalon.set(speed);
+      hopperVictor.set(speed);
+    }
+  }
+
   public void spinTube(Boolean reversed, int tube) {
     double speed = reversed ? -RobotPreferences.hopperSpeed.getValue() : RobotPreferences.hopperSpeed.getValue();
-    if (tube == 1)
+    if (tube == 1) {
       hopperTalon.set(speed);
-    else if (tube == 2)
+    }
+    else if (tube == 2) {
       hopperVictor.set(speed);
+    }
+  }
 
+  public void spinTube(Boolean reversed, int tube, double spinSpeed) {
+    double speed = reversed ? -spinSpeed : spinSpeed;
+    if (tube == 1) {
+      hopperTalon.set(speed);
+    }
+    else if (tube == 2) {
+      hopperVictor.set(speed);
+    }
   }
 
   /**
@@ -61,5 +83,4 @@ public class HopperS extends SubsystemBase implements Loggable {
     hopperTalon.stopMotor();
     hopperVictor.stopMotor();
   }
-
 }

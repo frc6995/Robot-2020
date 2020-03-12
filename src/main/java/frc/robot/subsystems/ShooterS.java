@@ -10,6 +10,7 @@ import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -25,7 +26,7 @@ import io.github.oblarg.oblog.annotations.Log.ToString;
 /**
  * Shooter Subsystem
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class ShooterS extends SubsystemBase implements Loggable {
   CANSparkMax spark = new CANSparkMax(ShooterConstants.CAN_ID_SHOOTER_SPARK_MAX, MotorType.kBrushless);
@@ -34,10 +35,10 @@ public class ShooterS extends SubsystemBase implements Loggable {
 
   private CANEncoder encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, rpm, maxError, armThreshold, fireThreshold,
-      stopThreshold;
+      stopThreshold, armThresholdTrench, fireThresholdTrench;
 
   private enum ShooterState {
-    SPINUP, READY, ARMED, RECOVERY, SPINDOWN, STOPPED
+    SPINUP, SPINUPTRENCH, READY, READYTRENCH, ARMED, ARMEDTRENCH, RECOVERY, RECOVERYTRENCH, SPINDOWN, STOPPED
   };
 
   private int cyclesInRange;
@@ -74,8 +75,10 @@ public class ShooterS extends SubsystemBase implements Loggable {
     maxError = 500;
     // @Config(name= "ShooterPrefs/ArmingRPM")
     armThreshold = ShooterConstants.SHOOTER_RPM - 25;
+    armThresholdTrench = ShooterConstants.SHOOTER_RPM_TRENCH - 25;
     // @Config(name = "ShooterPrefs/PostShotRPM")
     fireThreshold = ShooterConstants.SHOOTER_RPM - 50;
+    fireThresholdTrench = ShooterConstants.SHOOTER_RPM_TRENCH - 50;
     stopThreshold = 60;
     // set PID coefficients
     pidController.setP(kP);
@@ -112,21 +115,40 @@ public class ShooterS extends SubsystemBase implements Loggable {
     }
   }
 
+  public void spinUpTrench() {
+    if (state == ShooterState.STOPPED || state == ShooterState.SPINDOWN) {
+      state = ShooterState.SPINUPTRENCH;
+    }
+  }
+
   private void updateState() {
     switch (state) {
     case SPINUP:
       runVelocityPidRpm(ShooterConstants.SHOOTER_RPM);
-      if (Math.abs(ShooterConstants.SHOOTER_RPM - currentRpm) < maxError) { // if we are less than maxError over out
-                                                                            // target
-        cyclesInRange++; // increment the counter
+      // If we are less than maxError over our target, increment the counter
+      if (Math.abs(ShooterConstants.SHOOTER_RPM - currentRpm) < maxError) { 
+        cyclesInRange++;
       }
-      if (cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { // if the counter is high enough
-        state = ShooterState.READY; // set state to READY
+      // If the counter is high enough, set state to ready
+      if (cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) {
+        state = ShooterState.READY;
         RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
         RobotLEDS.robotLEDS.isShooting = true;
         cyclesInRange = 0;
       }
       break;
+    case SPINUPTRENCH:
+      runVelocityPidRpm(ShooterConstants.SHOOTER_RPM_TRENCH);
+      if (Math.abs(ShooterConstants.SHOOTER_RPM_TRENCH - currentRpm) < maxError) { // if we are less than maxError over out
+                                                                            // target
+        cyclesInRange++; // increment the counter
+      }
+      if (cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { // if the counter is high enough
+        state = ShooterState.READYTRENCH; // set state to READY
+        RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
+        RobotLEDS.robotLEDS.isShooting = true;
+        cyclesInRange = 0;
+    }
     case READY:
       if (currentRpm < armThreshold) { // if velocity drops below "we might be shooting" threshold
         state = ShooterState.ARMED;
@@ -136,11 +158,21 @@ public class ShooterS extends SubsystemBase implements Loggable {
         state = ShooterState.RECOVERY;
       }
       break;
+    case READYTRENCH:
+      if (currentRpm < armThresholdTrench) { // if velocity drops below "we might be shooting" threshold
+        state = ShooterState.ARMEDTRENCH;
+      }
+      if (currentRpm < fireThresholdTrench) { // if velocity drops below "we might be shooting" threshold
+        ballsFired++;
+        state = ShooterState.RECOVERYTRENCH;
+      }
+      break;
     case ARMED:
       if (currentRpm < fireThreshold) {
         ballsFired++;
         state = ShooterState.RECOVERY;
-      } else if (currentRpm > armThreshold) {
+      }
+      else if (currentRpm > armThreshold) {
         state = ShooterState.READY;
       }
       // if it has dropped below "ball has definitely gone through" threshold
@@ -148,11 +180,26 @@ public class ShooterS extends SubsystemBase implements Loggable {
       // go straight to RECOVERY
       // if it goes back above the armed threshold go back to ready.
       break;
+    case ARMEDTRENCH:
+      if (currentRpm < fireThresholdTrench) {
+        ballsFired++;
+        state = ShooterState.RECOVERYTRENCH;
+      } else if (currentRpm > armThresholdTrench) {
+        state = ShooterState.READYTRENCH;
+      }
+      break;
     case RECOVERY:
       // if we are back up to setpt speed,
       // go to READY
       if (currentRpm > armThreshold) {
         state = ShooterState.READY;
+      }
+      break;
+    case RECOVERYTRENCH:
+      // if we are back up to setpt speed,
+      // go to READY
+      if (currentRpm > armThresholdTrench) {
+        state = ShooterState.READYTRENCH;
       }
       break;
     case SPINDOWN:
@@ -190,18 +237,19 @@ public class ShooterS extends SubsystemBase implements Loggable {
     return ballsFired;
   }
 
-  public SequentialCommandGroup buildSingleShootSequence(ShooterS shooterS, HopperS hopperS) {
+  public SequentialCommandGroup buildSingleShootSequence(ShooterS shooterS, HopperS hopperS, IntakeS intakeS) {
     return new InstantCommand(() -> shooterS.spinUp(), shooterS)
         .andThen(new WaitCommand(5).withInterrupt(() -> shooterS.isReady()))
-        .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooterS, 1), new HopperLiftBallsC(hopperS)));
+        .andThen(new ParallelDeadlineGroup(new ShooterWaitUntilFireC(shooterS, 1), new HopperLiftBallsC(hopperS, 0.75),
+                  new RunCommand(() -> intakeS.intakeMotor(0.8), intakeS)));
   }
 
-  public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, int ammo) {
-    SequentialCommandGroup sequence = buildSingleShootSequence(shooterS, hopperS);
+  public SequentialCommandGroup buildMultipleShootSequence(ShooterS shooterS, HopperS hopperS, IntakeS intakeS, int ammo) {
+    SequentialCommandGroup sequence = buildSingleShootSequence(shooterS, hopperS, intakeS);
     for (int i = 1; i < ammo - 1; i++) {
-      sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS));
+      sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS, intakeS));
     }
-    sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS).withTimeout(2));
+    sequence = sequence.andThen(buildSingleShootSequence(shooterS, hopperS, intakeS).withTimeout(2));
     return sequence;
   }
 }

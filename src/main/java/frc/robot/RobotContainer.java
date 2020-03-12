@@ -3,6 +3,7 @@ package frc.robot;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
@@ -26,6 +28,7 @@ import frc.robot.commands.hopper.HopperIdleBallsC;
 import frc.robot.commands.hopper.HopperLiftBallsC;
 import frc.robot.commands.hopper.HopperLowerBallsC;
 import frc.robot.commands.intake.IntakeDeployAndRunCG;
+import frc.robot.commands.intake.IntakeFlushCG;
 import frc.robot.commands.intake.IntakeRetractAndStopCG;
 import frc.robot.commands.slider.ManualTranslateC;
 import frc.robot.constants.DriveConstants;
@@ -67,13 +70,13 @@ public class RobotContainer {
   private final EmptyAutoCG basicAutoCG = new EmptyAutoCG();
   private final SequentialCommandGroup sCurveRightAutoCG 
     = new NomadPathFollowerCommandBuilder(Trajectories.sCurveRight, drivebaseS).buildPathFollowerCommandGroup();
-  private final Command shoot3AutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, 3);
-  private final Command shoot3LeaveLineAutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, 3).withTimeout(10)
+  private final Command shoot3AutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, intakeS, 3).withTimeout(6);
+  private final Command shoot3LeaveLineAutoCG = shooterS.buildMultipleShootSequence(shooterS, hopperS, intakeS, 3).withTimeout(10)
   .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(-0.5, 0), 
    drivebaseS).withTimeout(1))
    .andThen(new InstantCommand(()->drivebaseS.arcadeDrive(0, 0), drivebaseS));
   private final Command visionShoot3LeaveLineAutoCG = new InstantCommand(()->shooterS.spinUp(), shooterS).andThen(new DrivebaseVisionC(drivebaseS, VisionConstants.VISION_PIPELINE_LINE).withTimeout(4)
-  .andThen(shooterS.buildMultipleShootSequence(shooterS, hopperS, 3)
+  .andThen(shooterS.buildMultipleShootSequence(shooterS, hopperS, intakeS, 3)
   .andThen(new RunCommand(() -> drivebaseS.arcadeDrive(-0.5, 0), drivebaseS).withTimeout(0.5)
   .andThen(new InstantCommand(() -> drivebaseS.arcadeDrive(0, 0), drivebaseS))))); 
 
@@ -86,6 +89,7 @@ public class RobotContainer {
   private final ClimberManualC manualClimbC;
   public final ClimberHomeC climberHomeC;
   public final Command climberBrakeOnC;
+  public final Command climberBrakeOnAltC;
   public final Command climberBrakeOffC;
   private final ClimberUpPIDC climberUpPIDC;
   private final ClimberPullupCG climberPullupCG;
@@ -108,6 +112,8 @@ public class RobotContainer {
   // Shooter
   @Log(tabName = "ShooterS")
   private final InstantCommand shooterSpinUpC;
+  @Log(tabName = "ShooterS")
+  private final InstantCommand shooterSpinUpTrenchC;
   @Log(tabName = "ShooterS")
   private final InstantCommand shooterSpinDownC;
   @Log(tabName = "ShooterS")
@@ -138,6 +144,8 @@ public class RobotContainer {
     autoChooser.addOption("VisionShoot3LeaveLine", visionShoot3LeaveLineAutoCG);
 
     // Start Camera Server
+    camera0.setVideoMode(PixelFormat.kMJPEG, 180, 120, 20);
+    camera1.setVideoMode(PixelFormat.kMJPEG, 300, 200, 20);
     cam0.startAutomaticCapture(camera0);
     cam0.startAutomaticCapture(camera1);
 
@@ -147,6 +155,7 @@ public class RobotContainer {
     final DoubleSupplier manualClimbPower = () -> -driveController.getRawAxis(5);
     manualClimbC = new ClimberManualC(climberS, manualClimbPower);
     climberBrakeOnC = new InstantCommand(() -> climberS.brake(), climberS);
+    climberBrakeOnAltC = new InstantCommand(() -> climberS.brake(), climberS);
     climberBrakeOffC = new InstantCommand(() -> climberS.unbrake(), climberS);
     climberHomeC = new ClimberHomeC(climberS);
     climberUpPIDC = new ClimberUpPIDC(climberS, true);
@@ -169,11 +178,12 @@ public class RobotContainer {
     hopperIdleBallsC = new HopperIdleBallsC(hopperS);
 
     // Intake
-    intakeDeployCG = new IntakeDeployAndRunCG(intakeS);
+    intakeDeployCG = new IntakeDeployAndRunCG(intakeS, hopperS);
     intakeRetractCG = new IntakeRetractAndStopCG(intakeS);
 
     // Shooter
     shooterSpinUpC = new InstantCommand(() -> shooterS.spinUp(), shooterS);
+    shooterSpinUpTrenchC = new InstantCommand(() -> shooterS.spinUpTrench(), shooterS);
     shooterSpinDownC = new InstantCommand(() -> shooterS.spinDown(), shooterS);
     shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
 
@@ -203,9 +213,9 @@ public class RobotContainer {
     new JoystickButton(driveController, 3).whenPressed(climberBrakeOffC);
     new JoystickButton(driveController, 4).whenPressed(climberBrakeOnC);
     // test w/ toggle when pressed
-    new JoystickButton(driveController, 6).whenPressed(climberUpPIDC);
+    new JoystickButton(driveController, 6).whenPressed(climberUpPIDC.withTimeout(1.5));
     // test w/ toggle when pressed
-    new JoystickButton(driveController, 5).whenPressed(climberPullupCG);
+    new JoystickButton(driveController, 5).whenPressed(climberPullupCG.withTimeout(5).andThen(climberBrakeOnAltC));
 
     new JoystickButton(driveController, 8).whenPressed(climberHomeC);
 
@@ -218,6 +228,11 @@ public class RobotContainer {
     intakeButton.whenPressed(intakeDeployCG);
     intakeButton.whenReleased(intakeRetractCG);
 
+    new JoystickButton(operatorController, 7).whenPressed(new InstantCommand(() -> intakeS.intakeToggle(), intakeS), true);
+    JoystickButton intakeFlushButton = new JoystickButton(operatorController, 8);
+    intakeFlushButton.whenPressed(new IntakeFlushCG(intakeS, hopperS, shooterS));
+    intakeFlushButton.whenReleased(new IntakeRetractAndStopCG(intakeS), true);
+
     // Hopper
     new JoystickButton(operatorController, 4).whileHeld(hopperLiftBallsC);
     new JoystickButton(operatorController, 2).whileHeld(hopperIdleBallsC);
@@ -226,6 +241,8 @@ public class RobotContainer {
     // Shooter
     new JoystickButton(operatorController, 6).whenPressed(shooterSpinUpC);
     new JoystickButton(operatorController, 5).whenPressed(shooterSpinDownC);
+    new POVButton(operatorController, 0).whenPressed(shooterSpinUpTrenchC, true);
+    new POVButton(operatorController, 180).whenPressed(shooterSpinDownC, true);
   }
 
   /**
@@ -238,6 +255,4 @@ public class RobotContainer {
     // return autoChooser.getSelected();
     return autoChooser.getSelected()/* new ballerAutoShootCG() */;
   }
-
-
 }

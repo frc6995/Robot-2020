@@ -18,8 +18,6 @@ import io.github.oblarg.oblog.Loggable;
  */
 public class IntakeS extends SubsystemBase implements Loggable  {
 
-  // private NomadTalonSRX intakeMotor = new
-  // NomadTalonSRX(IntakeConstants.CAN_ID_TALON_INTAKE_MOTOR);
   private CANSparkMax intakeMotor = new CANSparkMax(IntakeConstants.CAN_ID_SPARK_MAX_MOTOR, MotorType.kBrushless);
   private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, IntakeConstants.DBL_SOLENOID_INTAKE_EXTEND,
       IntakeConstants.DBL_SOLENOID_INTAKE_RETRACT);
@@ -50,6 +48,15 @@ public class IntakeS extends SubsystemBase implements Loggable  {
     intakeSolenoid.set(Value.kReverse);
   }
 
+  public void intakeToggle() {
+    if (intakeSolenoid.get() == Value.kReverse) {
+      intakeSolenoid.set(Value.kForward);
+    }
+    else {
+      intakeSolenoid.set(Value.kReverse);
+    }
+  }
+
   /**
    * Motor speed
    * 
@@ -57,8 +64,12 @@ public class IntakeS extends SubsystemBase implements Loggable  {
    */
   public void intakeMotor(double speed) {
     intakeMotor.set(speed);
-    if (speed != 0) RobotLEDS.robotLEDS.currentState = ledStates.Intake;
-    else RobotLEDS.robotLEDS.revertLEDS();
+    if (speed != 0) {
+      RobotLEDS.robotLEDS.currentState = ledStates.Intake;
+    }
+    else {
+      RobotLEDS.robotLEDS.revertLEDS();
+    }
   }
 
   @Override

@@ -5,13 +5,15 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 /**
  * Constants for Shooter Constants
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class ShooterConstants {
     /**
      * The target RPM for the shooter wheel.
      */
     public static final double SHOOTER_RPM = 4500;
+
+    public static final double SHOOTER_RPM_TRENCH = 5000;
 
     public static final double SHOOTER_MAX_RPM = 5600;
     /**

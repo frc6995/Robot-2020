@@ -8,7 +8,7 @@ import frc.robot.subsystems.RobotLEDS.ledStates;
 /**
  * Wait until Shooter is ready to shoot a power cell
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class ShooterWaitUntilFireC extends CommandBase {
   private ShooterS shooter;

@@ -26,7 +26,7 @@ import io.github.oblarg.oblog.Loggable;
 /**
  * and two sets of Victors, each on a side of the drivetrain.
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class DrivebaseS extends SubsystemBase implements Loggable {
   /**

@@ -9,6 +9,11 @@ import frc.robot.subsystems.HopperS;
 import frc.robot.subsystems.IntakeS;
 import frc.robot.subsystems.ShooterS;
 
+/**
+ * Releases Power Cells
+ * 
+ * @author Sammcdo
+ */
 public class IntakeFlushCG extends SequentialCommandGroup {
   /**
    * This command group runs everything in reverse
@@ -18,8 +23,8 @@ public class IntakeFlushCG extends SequentialCommandGroup {
    */
   public IntakeFlushCG(IntakeS intakeS, HopperS hopperS, ShooterS shooterS) {
     super(new InstantCommand(() -> intakeS.intakeDeploy(), intakeS),
-    new ParallelCommandGroup(new RunCommand(() -> intakeS.intakeMotor(-0.5), intakeS),
-                              new HopperLiftBallsC(hopperS, -0.4)),
-                              new RunCommand(() -> shooterS.setSpeed(-0.8), shooterS));
+      new ParallelCommandGroup(new RunCommand(() -> intakeS.intakeMotor(-0.5), intakeS),
+      new HopperLiftBallsC(hopperS, -0.4)),
+      new RunCommand(() -> shooterS.setSpeed(-0.8), shooterS));
   }
 }

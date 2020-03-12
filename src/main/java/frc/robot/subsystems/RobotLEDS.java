@@ -18,6 +18,9 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
    * can be changed without a command.
    */
   public static RobotLEDS robotLEDS;
+  public boolean isShooting = false;
+  public ledStates currentState; 
+  private Spark ledStrip = new Spark(0);
 
   public enum ledStates{
     Climbing,
@@ -48,14 +51,6 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
       value = sparkValue;
     }
   }
-  
-  public boolean isShooting = false;
-
-    public ledStates currentState; 
-
-    private Spark ledStrip = new Spark(0);
-  
-    //  public static LEDStates ledStates = new LEDStates();
 
   /**
    * Creates a new RobotLEDS.
@@ -69,7 +64,6 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
    */
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
     SmartDashboard.putString("LED State", currentState.toString());
 
     if (Timer.getMatchTime() == 0 && currentState != ledStates.Climbing) currentState = ledStates.Climb_Time;
@@ -92,7 +86,6 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
       default :      //default is disabled color (green chase/ orange)
         ledStrip.setSpeed(ledColors.Orange.value); break;
     }
-
   }
 
   /**
@@ -110,5 +103,4 @@ public class RobotLEDS extends SubsystemBase implements Loggable{
   public String getState() {
     return currentState.toString();
   }
-
 }

@@ -26,7 +26,7 @@ import io.github.oblarg.oblog.annotations.Log.ToString;
 /**
  * Shooter Subsystem
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class ShooterS extends SubsystemBase implements Loggable {
   CANSparkMax spark = new CANSparkMax(ShooterConstants.CAN_ID_SHOOTER_SPARK_MAX, MotorType.kBrushless);
@@ -125,12 +125,13 @@ public class ShooterS extends SubsystemBase implements Loggable {
     switch (state) {
     case SPINUP:
       runVelocityPidRpm(ShooterConstants.SHOOTER_RPM);
-      if (Math.abs(ShooterConstants.SHOOTER_RPM - currentRpm) < maxError) { // if we are less than maxError over out
-                                                                            // target
-        cyclesInRange++; // increment the counter
+      // If we are less than maxError over our target, increment the counter
+      if (Math.abs(ShooterConstants.SHOOTER_RPM - currentRpm) < maxError) { 
+        cyclesInRange++;
       }
-      if (cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { // if the counter is high enough
-        state = ShooterState.READY; // set state to READY
+      // If the counter is high enough, set state to ready
+      if (cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) {
+        state = ShooterState.READY;
         RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
         RobotLEDS.robotLEDS.isShooting = true;
         cyclesInRange = 0;
@@ -170,7 +171,8 @@ public class ShooterS extends SubsystemBase implements Loggable {
       if (currentRpm < fireThreshold) {
         ballsFired++;
         state = ShooterState.RECOVERY;
-      } else if (currentRpm > armThreshold) {
+      }
+      else if (currentRpm > armThreshold) {
         state = ShooterState.READY;
       }
       // if it has dropped below "ball has definitely gone through" threshold

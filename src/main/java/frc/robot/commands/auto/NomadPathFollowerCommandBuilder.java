@@ -19,7 +19,7 @@ import frc.robot.subsystems.DrivebaseS;
 /**
  * Path Follower
  * 
- * @author Shuja
+ * @author Shueja
  */
 public class NomadPathFollowerCommandBuilder {
   /**
@@ -56,29 +56,28 @@ public class NomadPathFollowerCommandBuilder {
         if (RobotBase.isReal()) {
           trajectory = TrajectoryUtil
               .fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + filename + ".wpilib.json"));
-        } else {
+        }
+        else {
           trajectory = TrajectoryUtil
               .fromPathweaverJson(Paths.get("src/main/deploy/output/" + filename + ".wpilib.json"));
         }
-      } catch (IOException e) {
+      }
+      catch (IOException e) {
         System.out.println("Cannot load trajectory file " + filename + ":" + e.getStackTrace());
         trajectory = TrajectoryGenerator.generateTrajectory(drivetrain.getPose(),
-            List.of(drivetrain.getPose().getTranslation()), drivetrain.getPose(), AutoConstants.trajectoryConfig); // trajectory
-                                                                                                                   // =
-                                                                                                                   // hold
-                                                                                                                   // still.
+            List.of(drivetrain.getPose().getTranslation()), drivetrain.getPose(), AutoConstants.trajectoryConfig);
       }
     }
-    RamseteCommand ramseteCommand = new RamseteCommand(trajectory, drivetrain::getPose, AutoConstants.ramseteController,
-
-        DriveConstants.kDriveKinematics, (BiConsumer<Double, Double>) (Double leftSpeed, Double rightSpeed) -> {
-          drivetrain.trajectoryDrive(leftSpeed, rightSpeed);
-          SmartDashboard.putNumber("leftSpeedSetpoint", leftSpeed);
-          SmartDashboard.putNumber("rightSpeedSetpoint", rightSpeed);
-        },
-        // RamseteCommand passes speed to the callback
-
-        drivetrain);
+    RamseteCommand ramseteCommand = new RamseteCommand(
+      trajectory, drivetrain::getPose,
+      AutoConstants.ramseteController,
+      DriveConstants.kDriveKinematics,
+      (BiConsumer<Double, Double>) (Double leftSpeed, Double rightSpeed) -> {
+        drivetrain.trajectoryDrive(leftSpeed, rightSpeed);
+        SmartDashboard.putNumber("leftSpeedSetpoint", leftSpeed);
+        SmartDashboard.putNumber("rightSpeedSetpoint", rightSpeed);
+      },
+      drivetrain);
 
     return (ramseteCommand.andThen(() -> drivetrain.trajectoryDrive(0, 0)));
   }
@@ -94,5 +93,4 @@ public class NomadPathFollowerCommandBuilder {
     this.trajectory = trajectory;
     // Create a voltage constraint to ensure we don't accelerate too fast
   }
-
 }

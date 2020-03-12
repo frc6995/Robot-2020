@@ -31,9 +31,11 @@ public class ClimberHomeC extends CommandBase {
     if (this.count < this.timeUp * 50) {
       this.count++;
       this.climber.setClimberPower(0.1);
-    } else if (!this.climber.isHomed()) {
+    }
+    else if (!this.climber.isHomed()) {
       this.climber.setClimberPower(-0.05);
-    } else {
+    }
+    else {
       this.finished = true;
     }
   }

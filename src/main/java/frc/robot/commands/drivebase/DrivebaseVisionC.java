@@ -20,7 +20,7 @@ import frc.robot.subsystems.DrivebaseS;
  * Processes data from Network tables using a Proportional controller in order
  * to Aim the shooter at the top power port
  * 
- * @author Ari Shashivkopanazak, Shuja
+ * @author Ari Shashivkopanazak, Shueja
  */
 public class DrivebaseVisionC extends CommandBase {
   DrivebaseS drivebase;
@@ -194,14 +194,17 @@ public class DrivebaseVisionC extends CommandBase {
    */
   @Override
   public boolean isFinished() {
-    if (turnPid.atSetpoint() && distPid.atSetpoint())
+    if (turnPid.atSetpoint() && distPid.atSetpoint()) {
       sumInRange++;
-    else
+    }
+    else {
       sumInRange = 0;
-
-    if (sumInRange >= waitInRange)
+    }
+    if (sumInRange >= waitInRange) {
       return true;
-    else
+    }
+    else {
       return false;
+    }
   }
 }

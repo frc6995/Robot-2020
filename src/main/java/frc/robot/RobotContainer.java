@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.auto.NomadPathFollowerCommandBuilder;
 import frc.robot.commands.climber.ClimberHomeC;
 import frc.robot.commands.climber.ClimberManualC;
@@ -112,6 +113,8 @@ public class RobotContainer {
   @Log(tabName = "ShooterS")
   private final InstantCommand shooterSpinUpC;
   @Log(tabName = "ShooterS")
+  private final InstantCommand shooterSpinUpTrenchC;
+  @Log(tabName = "ShooterS")
   private final InstantCommand shooterSpinDownC;
   @Log(tabName = "ShooterS")
   private final RunCommand shooterManualC;
@@ -180,6 +183,7 @@ public class RobotContainer {
 
     // Shooter
     shooterSpinUpC = new InstantCommand(() -> shooterS.spinUp(), shooterS);
+    shooterSpinUpTrenchC = new InstantCommand(() -> shooterS.spinUpTrench(), shooterS);
     shooterSpinDownC = new InstantCommand(() -> shooterS.spinDown(), shooterS);
     shooterManualC = new RunCommand(() -> shooterS.setSpeed(operatorController.getRawAxis(0)));
 
@@ -237,6 +241,8 @@ public class RobotContainer {
     // Shooter
     new JoystickButton(operatorController, 6).whenPressed(shooterSpinUpC);
     new JoystickButton(operatorController, 5).whenPressed(shooterSpinDownC);
+    new POVButton(operatorController, 0).whenPressed(shooterSpinUpTrenchC, true);
+    new POVButton(operatorController, 180).whenPressed(shooterSpinDownC, true);
   }
 
   /**

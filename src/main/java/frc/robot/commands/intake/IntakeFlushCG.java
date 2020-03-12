@@ -19,7 +19,7 @@ public class IntakeFlushCG extends SequentialCommandGroup {
   public IntakeFlushCG(IntakeS intakeS, HopperS hopperS, ShooterS shooterS) {
     super(new InstantCommand(() -> intakeS.intakeDeploy(), intakeS),
     new ParallelCommandGroup(new RunCommand(() -> intakeS.intakeMotor(-0.5), intakeS),
-                              new HopperLiftBallsC(hopperS, -0.2)),
+                              new HopperLiftBallsC(hopperS, -0.4)),
                               new RunCommand(() -> shooterS.setSpeed(-0.8), shooterS));
   }
 }

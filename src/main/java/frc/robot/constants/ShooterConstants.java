@@ -13,6 +13,8 @@ public class ShooterConstants {
      */
     public static final double SHOOTER_RPM = 4500;
 
+    public static final double SHOOTER_RPM_TRENCH = 5000;
+
     public static final double SHOOTER_MAX_RPM = 5600;
     /**
      * The CAN ID of the SPARK MAX running the shooter NEO.

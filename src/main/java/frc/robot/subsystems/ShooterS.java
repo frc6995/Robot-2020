@@ -35,10 +35,10 @@ public class ShooterS extends SubsystemBase implements Loggable {
 
   private CANEncoder encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, rpm, maxError, armThreshold, fireThreshold,
-      stopThreshold;
+      stopThreshold, armThresholdTrench, fireThresholdTrench;
 
   private enum ShooterState {
-    SPINUP, READY, ARMED, RECOVERY, SPINDOWN, STOPPED
+    SPINUP, SPINUPTRENCH, READY, READYTRENCH, ARMED, ARMEDTRENCH, RECOVERY, RECOVERYTRENCH, SPINDOWN, STOPPED
   };
 
   private int cyclesInRange;
@@ -75,8 +75,10 @@ public class ShooterS extends SubsystemBase implements Loggable {
     maxError = 500;
     // @Config(name= "ShooterPrefs/ArmingRPM")
     armThreshold = ShooterConstants.SHOOTER_RPM - 25;
+    armThresholdTrench = ShooterConstants.SHOOTER_RPM_TRENCH - 25;
     // @Config(name = "ShooterPrefs/PostShotRPM")
     fireThreshold = ShooterConstants.SHOOTER_RPM - 50;
+    fireThresholdTrench = ShooterConstants.SHOOTER_RPM_TRENCH - 50;
     stopThreshold = 60;
     // set PID coefficients
     pidController.setP(kP);
@@ -113,6 +115,12 @@ public class ShooterS extends SubsystemBase implements Loggable {
     }
   }
 
+  public void spinUpTrench() {
+    if (state == ShooterState.STOPPED || state == ShooterState.SPINDOWN) {
+      state = ShooterState.SPINUPTRENCH;
+    }
+  }
+
   private void updateState() {
     switch (state) {
     case SPINUP:
@@ -128,6 +136,18 @@ public class ShooterS extends SubsystemBase implements Loggable {
         cyclesInRange = 0;
       }
       break;
+    case SPINUPTRENCH:
+      runVelocityPidRpm(ShooterConstants.SHOOTER_RPM_TRENCH);
+      if (Math.abs(ShooterConstants.SHOOTER_RPM_TRENCH - currentRpm) < maxError) { // if we are less than maxError over out
+                                                                            // target
+        cyclesInRange++; // increment the counter
+      }
+      if (cyclesInRange > ShooterConstants.MIN_LOOPS_IN_RANGE) { // if the counter is high enough
+        state = ShooterState.READYTRENCH; // set state to READY
+        RobotLEDS.robotLEDS.currentState = ledStates.Shooting;
+        RobotLEDS.robotLEDS.isShooting = true;
+        cyclesInRange = 0;
+    }
     case READY:
       if (currentRpm < armThreshold) { // if velocity drops below "we might be shooting" threshold
         state = ShooterState.ARMED;
@@ -135,6 +155,15 @@ public class ShooterS extends SubsystemBase implements Loggable {
       if (currentRpm < fireThreshold) { // if velocity drops below "we might be shooting" threshold
         ballsFired++;
         state = ShooterState.RECOVERY;
+      }
+      break;
+    case READYTRENCH:
+      if (currentRpm < armThresholdTrench) { // if velocity drops below "we might be shooting" threshold
+        state = ShooterState.ARMEDTRENCH;
+      }
+      if (currentRpm < fireThresholdTrench) { // if velocity drops below "we might be shooting" threshold
+        ballsFired++;
+        state = ShooterState.RECOVERYTRENCH;
       }
       break;
     case ARMED:
@@ -149,11 +178,26 @@ public class ShooterS extends SubsystemBase implements Loggable {
       // go straight to RECOVERY
       // if it goes back above the armed threshold go back to ready.
       break;
+    case ARMEDTRENCH:
+      if (currentRpm < fireThresholdTrench) {
+        ballsFired++;
+        state = ShooterState.RECOVERYTRENCH;
+      } else if (currentRpm > armThresholdTrench) {
+        state = ShooterState.READYTRENCH;
+      }
+      break;
     case RECOVERY:
       // if we are back up to setpt speed,
       // go to READY
       if (currentRpm > armThreshold) {
         state = ShooterState.READY;
+      }
+      break;
+    case RECOVERYTRENCH:
+      // if we are back up to setpt speed,
+      // go to READY
+      if (currentRpm > armThresholdTrench) {
+        state = ShooterState.READYTRENCH;
       }
       break;
     case SPINDOWN:

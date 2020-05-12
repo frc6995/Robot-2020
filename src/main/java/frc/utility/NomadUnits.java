@@ -5,20 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.utility;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.DriveConstants;
 
-public class ExampleSubsystem extends SubsystemBase {
-  /**
-   * Creates a new ExampleSubsystem.
-   */
-  public ExampleSubsystem() {
+/**
+ * Add your docs here.
+ */
+public class NomadUnits {
 
-  }
+    public static double DBTicksToMeters (double ticks) {
+        return Math.PI * DriveConstants.kWheelDiameter * ticks / DriveConstants.ENCODER_CNTS_PER_WHEEL_REV;
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    public static double DBMetersToTicks (double meters) {
+        return (meters / (DriveConstants.kWheelDiameter * Math.PI) * DriveConstants.ENCODER_CNTS_PER_WHEEL_REV); 
+    }
 }

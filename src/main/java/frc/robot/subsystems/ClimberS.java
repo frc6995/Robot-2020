@@ -93,6 +93,11 @@ public class ClimberS extends SubsystemBase implements Loggable {
     brakeSolenoid.set(true);
   }
 
+  public void startMotionMagic()
+  {
+    climbMaster.set(ControlMode.MotionMagic, RobotPreferences.pullHeight.getValue());
+  }
+
   /**
    * Set the raw elevator power as a number from -1 to 1 inclusive.
    * 
